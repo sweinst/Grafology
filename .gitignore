@@ -1,4 +1,5 @@
 bin
+Testing
+vcpkg_installed
 .vscode
 .idea
-

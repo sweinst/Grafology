@@ -7,8 +7,9 @@ message(STATUS "Using compiler ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VER
 find_package(fmt CONFIG REQUIRED)
 find_package(catch2 CONFIG REQUIRED)
 
-add_library(Grafology Grafology.cpp)
+add_library(Grafology src/cpp/Grafology.cpp)
 target_link_libraries(Grafology PRIVATE fmt::fmt-header-only)
+target_include_directories(Grafology PUBLIC src/include)
 
 add_subdirectory(tests)
 
