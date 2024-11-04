@@ -1,0 +1,141 @@
+{
+  "version": 8,
+  "configurePresets": [
+    {
+      "name": "TopLevelIncludes",
+      "displayName": "Top Level Includes",
+      "description": "Specify top level includes to use.",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+      }
+    },
+    {
+      "name": "win-x64",
+      "displayName": "Windows x64",
+      "description": "Base target for x64 Windows Visual Studio.",
+      "inherits": "TopLevelIncludes",
+      "hidden": true,
+      "generator": "Ninja",
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      },
+      "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "hostOS": [ "Windows" ]
+        }
+      },
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "cl",
+        "CMAKE_CXX_COMPILER": "cl"
+      }
+    },
+    {
+      "name": "win-x64-Release",
+      "displayName": "Windows x64 Release",
+      "description": "Release target for x64 Windows Visual Studio.",
+      "inherits": "win-x64",
+      "binaryDir": "${sourceDir}/Windows/Release",
+      "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "hostOS": [ "Linux" ]
+        }
+      },
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_INSTALL_PREFIX": "${sourceDir}/dist/Windows/Install/Release"
+      }
+    },
+    {
+      "name": "win-x64-RelWithDebInfo",
+      "displayName": "Windows x64 RelWithDebInfo",
+      "description": "RelWithDebInfo target for x64 Windows Visual Studio.",
+      "inherits": "win-x64",
+      "binaryDir": "${sourceDir}/bin/Windows/RelWithDebInfo",
+      "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "hostOS": [ "Linux" ]
+        }
+      },
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "CMAKE_INSTALL_PREFIX": "${sourceDir}/dist/Windows/Install/RelWithDebInfo"
+      }
+    },
+    {
+      "name": "win-x64-Debug",
+      "displayName": "Windows x64 Debug",
+      "description": "Debug target for x64 Windows Visual Studio.",
+      "inherits": "win-x64",
+      "binaryDir": "${sourceDir}/bin/Windows/Debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_INSTALL_PREFIX": "${sourceDir}/dist/Windows/Install/Release"
+      }
+    },
+    {
+      "name": "Linux-x64",
+      "displayName": "Linux X64",
+      "description": "Base target for Linux x64 clang.",
+      "hidden": true,
+      "generator": "Ninja",
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      },
+      "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "hostOS": [ "Linux" ]
+        }
+      },
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "gcc",
+        "CMAKE_CXX_COMPILER": "g++"
+      }
+    },
+    {
+      "name": "Linux-x64-Release",
+      "displayName": "Linux X64 Release",
+      "description": "Release target for Linux x64 clang.",
+      "inherits": "Linux-x64",
+      "binaryDir": "${sourceDir}/bin/Linux/x64/Release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_INSTALL_PREFIX": "${sourceDir}/dist/Linux/x64/Install/Release"
+      }
+    },
+    {
+      "name": "Linux-x64-RelWithDebInfo",
+      "displayName": "Linux X64 RelWithDebInfo",
+      "description": "RelWithDebInfo target for Linux x64 clang.",
+      "inherits": "Linux-x64",
+      "binaryDir": "${sourceDir}/bin/Linux/x64/RelWithDebInfo",
+      "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "hostOS": [ "Linux" ]
+        }
+      },
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "CMAKE_INSTALL_PREFIX": "${sourceDir}/dist/Linux/x64/Install/RelWithDebInfo"
+      }
+    },
+    {
+      "name": "Linux-x64-Debug",
+      "displayName": "Linux X64 Debug",
+      "description": "Debug target for Linux x64 clang.",
+      "inherits": "Linux-x64",
+      "binaryDir": "${sourceDir}/bin/Linux/x64/Debug",
+      "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "hostOS": [ "Linux" ]
+        }
+      },
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_INSTALL_PREFIX": "${sourceDir}/dist/Linux/x64/Install/Debug"
+      }
+    }
+  ]
+}
