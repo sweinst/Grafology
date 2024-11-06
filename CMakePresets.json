@@ -39,7 +39,7 @@
       "displayName": "Windows x64 Release",
       "description": "Release target for x64 Windows Visual Studio.",
       "inherits": "win-x64",
-      "binaryDir": "${sourceDir}/Windows/Release",
+      "binaryDir": "${sourceDir}/bin/Windows/Release",
       "vendor": {
         "microsoft.com/VisualStudioSettings/CMake/1.0": {
           "hostOS": [
