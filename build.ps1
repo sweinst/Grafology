@@ -42,7 +42,7 @@ $BuildTypes | ForEach-Object {
     }
     $preset="win-x64-${build_type}"
     Write-Host "============> Building $preset"
-    & cmake --preset ${preset} $common_options
-    & cmake --build "${src_root}/bin/${os}/${build_type}"
-    & cmake --install "${src_root}/bin/${os}/${build_type}"
+    & cmake --preset ${preset} $common_options || exit 1
+    & cmake --build "${src_root}/bin/${os}/${build_type}" || exit 1
+    & cmake --install "${src_root}/bin/${os}/${build_type}" || exit 1
 }
