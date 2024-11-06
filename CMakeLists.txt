@@ -2,11 +2,6 @@ cmake_minimum_required(VERSION 3.26.0)
 project(grafology VERSION 0.1.0 LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 23)
 
-get_property(MULTI_CONFIG_GENERATOR GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
-if(MULTI_CONFIG_GENERATOR)
-	set(CMAKE_CONFIGURATION_TYPES Debug Release RelWithDebInfo)
-endif()
-
 message(STATUS "Using compiler ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")
 
 find_package(fmt CONFIG REQUIRED)
@@ -19,7 +14,7 @@ set(GRAFOLOGY_SRC src/cpp/Grafology.cpp)
 set(GRAFOLOGY_HDRS src/include/grafology/grafology.h)
 
 add_library(${PROJECT_NAME} ${GRAFOLOGY_SRC} ${GRAFOLOGY_HDRS})
-target_include_directories (${PROJECT_NAME} 
+target_include_directories (${PROJECT_NAME} INTERFACE
     PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include> 
     PUBLIC $<INSTALL_INTERFACE:include>
 )
@@ -65,13 +60,13 @@ install(
 
 export(
     EXPORT ${PROJECT_NAME}Targets 
-    FILE ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Targets.cmake
+    FILE ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Targets.${CMAKE_BUILD_TYPE}.cmake
     )
 
 install(
     FILES
         ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
         ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
-        ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Targets.cmake
-    DESTINATION include/${PROJECT_NAME}/cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Targets.${CMAKE_BUILD_TYPE}.cmake
+    DESTINATION include/cmake
 )

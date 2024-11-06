@@ -5,8 +5,9 @@ try {
     # run cmake
     $nd = mkdir ${PSScriptRoot}/tmp
     Set-Location $nd
-    cmake -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=Debug  "-DCMAKE_TOOLCHAIN_FILE=${env:VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" -S .. -B . && `
-        cmake --build .
+    # "-DCMAKE_TOOLCHAIN_FILE=${env:VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+    cmake -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=Debug   -S .. -B . `
+    && cmake --build .
     # cleaning
     Set-location $wd
     Remove-Item -force -recurse ${PSScriptRoot}/tmp -ErrorAction Ignore
