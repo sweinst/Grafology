@@ -71,7 +71,7 @@
       "binaryDir": "${sourceDir}/bin/Windows/Debug",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
-        "CMAKE_INSTALL_PREFIX": "${sourceDir}/dist/Windows/Install/Release"
+        "CMAKE_INSTALL_PREFIX": "${sourceDir}/dist/Windows/Install/Debug"
       }
     },
     {
