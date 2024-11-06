@@ -9,13 +9,16 @@
 
 param(  
     [ValidateNotNull()]
-    [ValidateSet('', 'Debug', 'Release', 'RelWithDebInfo', 'MinSizeRel')]
+    [ValidateSet('', 'Debug', 'Release', 'RelWithDebInfo', 'MinSizeRel', 'All')]
     [string[]] $BuildTypes,
 
     [ValidateNotNullOrEmpty()]
     [switch] $Clean
 )
 
+if ($BuildTypes -eq 'All') {
+    $BuildTypes = @('Debug', 'Release', 'RelWithDebInfo', 'MinSizeRel')
+}
 Write-Host "Build Types: $BuildTypes"
 
 $src_root=${PSScriptRoot}

@@ -69,6 +69,23 @@
       }
     },
     {
+      "name": "win-x64-MinSizeRel",
+      "displayName": "Windows x64 MinSizeRel",
+      "description": "MinSizeRel target for x64 Windows Visual Studio.",
+      "inherits": "win-x64",
+      "binaryDir": "${sourceDir}/bin/Windows/MinSizeRel",
+      "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "hostOS": [
+            "Linux"
+          ]
+        }
+      },
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "MinSizeRel"
+      }
+    },
+    {
       "name": "win-x64-Debug",
       "displayName": "Windows x64 Debug",
       "description": "Debug target for x64 Windows Visual Studio.",
@@ -126,6 +143,23 @@
       },
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+      }
+    },
+    {
+      "name": "Linux-x64-MinSizeRFel",
+      "displayName": "Linux X64 MinSizeRFel",
+      "description": "MinSizeRFel target for Linux x64 clang.",
+      "inherits": "Linux-x64",
+      "binaryDir": "${sourceDir}/bin/Linux/x64/MinSizeRFel",
+      "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "hostOS": [
+            "Linux"
+          ]
+        }
+      },
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "MinSizeRFel"
       }
     },
     {
