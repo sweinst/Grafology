@@ -23,12 +23,15 @@
       },
       "vendor": {
         "microsoft.com/VisualStudioSettings/CMake/1.0": {
-          "hostOS": [ "Windows" ]
+          "hostOS": [
+            "Windows"
+          ]
         }
       },
       "cacheVariables": {
         "CMAKE_C_COMPILER": "cl",
-        "CMAKE_CXX_COMPILER": "cl"
+        "CMAKE_CXX_COMPILER": "cl",
+        "CMAKE_INSTALL_PREFIX": "${sourceDir}/dist/Windows"
       }
     },
     {
@@ -39,12 +42,13 @@
       "binaryDir": "${sourceDir}/Windows/Release",
       "vendor": {
         "microsoft.com/VisualStudioSettings/CMake/1.0": {
-          "hostOS": [ "Linux" ]
+          "hostOS": [
+            "Linux"
+          ]
         }
       },
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release",
-        "CMAKE_INSTALL_PREFIX": "${sourceDir}/dist/Windows/Install/Release"
+        "CMAKE_BUILD_TYPE": "Release"
       }
     },
     {
@@ -55,12 +59,13 @@
       "binaryDir": "${sourceDir}/bin/Windows/RelWithDebInfo",
       "vendor": {
         "microsoft.com/VisualStudioSettings/CMake/1.0": {
-          "hostOS": [ "Linux" ]
+          "hostOS": [
+            "Linux"
+          ]
         }
       },
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
-        "CMAKE_INSTALL_PREFIX": "${sourceDir}/dist/Windows/Install/RelWithDebInfo"
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
       }
     },
     {
@@ -70,8 +75,7 @@
       "inherits": "win-x64",
       "binaryDir": "${sourceDir}/bin/Windows/Debug",
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug",
-        "CMAKE_INSTALL_PREFIX": "${sourceDir}/dist/Windows/Install/Debug"
+        "CMAKE_BUILD_TYPE": "Debug"
       }
     },
     {
@@ -86,12 +90,15 @@
       },
       "vendor": {
         "microsoft.com/VisualStudioSettings/CMake/1.0": {
-          "hostOS": [ "Linux" ]
+          "hostOS": [
+            "Linux"
+          ]
         }
       },
       "cacheVariables": {
         "CMAKE_C_COMPILER": "gcc",
-        "CMAKE_CXX_COMPILER": "g++"
+        "CMAKE_CXX_COMPILER": "g++",
+        "CMAKE_INSTALL_PREFIX": "${sourceDir}/dist/Linux"
       }
     },
     {
@@ -101,8 +108,7 @@
       "inherits": "Linux-x64",
       "binaryDir": "${sourceDir}/bin/Linux/x64/Release",
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release",
-        "CMAKE_INSTALL_PREFIX": "${sourceDir}/dist/Linux/x64/Install/Release"
+        "CMAKE_BUILD_TYPE": "Release"
       }
     },
     {
@@ -113,12 +119,13 @@
       "binaryDir": "${sourceDir}/bin/Linux/x64/RelWithDebInfo",
       "vendor": {
         "microsoft.com/VisualStudioSettings/CMake/1.0": {
-          "hostOS": [ "Linux" ]
+          "hostOS": [
+            "Linux"
+          ]
         }
       },
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
-        "CMAKE_INSTALL_PREFIX": "${sourceDir}/dist/Linux/x64/Install/RelWithDebInfo"
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
       }
     },
     {
@@ -129,12 +136,13 @@
       "binaryDir": "${sourceDir}/bin/Linux/x64/Debug",
       "vendor": {
         "microsoft.com/VisualStudioSettings/CMake/1.0": {
-          "hostOS": [ "Linux" ]
+          "hostOS": [
+            "Linux"
+          ]
         }
       },
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug",
-        "CMAKE_INSTALL_PREFIX": "${sourceDir}/dist/Linux/x64/Install/Debug"
+        "CMAKE_BUILD_TYPE": "Debug"
       }
     }
   ]

@@ -1,7 +1,9 @@
 #include <fmt/core.h>
+#include <grafology/grafology.h>
 
-int main()
-{
-    fmt::print("Hello World!\n");
-    return 0;
+namespace grafology {
+    void test()
+    {
+        fmt::print("Hello World!\n");
+    }
 }
