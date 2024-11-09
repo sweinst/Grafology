@@ -2,6 +2,10 @@ cmake_minimum_required(VERSION 3.26.0)
 project(grafology VERSION 0.1.0 LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 23)
 
+if (NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE "RelWithDebInfo" CACHE STRING "Choose the type of build, options are: None (CMAKE_CXX_FLAGS or CMAKE_C_FLAGS used) Debug Release RelWithDebInfo MinSizeRel." FORCE)
+endif ()
+
 message(STATUS "Using compiler ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")
 
 find_package(fmt CONFIG REQUIRED)
@@ -16,10 +20,12 @@ set(GRAFOLOGY_HDRS src/include/grafology/grafology.h)
 add_library(${PROJECT_NAME} ${GRAFOLOGY_SRC} ${GRAFOLOGY_HDRS})
 target_include_directories (${PROJECT_NAME} INTERFACE
     PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include> 
-    PUBLIC $<INSTALL_INTERFACE:include>
+    PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/include>
 )
-set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_VERSION})
-set_target_properties(${PROJECT_NAME} PROPERTIES PUBLIC_HEADER ${GRAFOLOGY_HDRS})
+set_target_properties(${PROJECT_NAME} PROPERTIES 
+    VERSION ${PROJECT_VERSION}
+    PUBLIC_HEADER ${GRAFOLOGY_HDRS}
+)
 
 # as we don't want fmt to be a dependency of the library, we can't use target_link_libraries
 # i.e.: target_link_libraries(${PROJECT_NAME} PRIVATE fmt::fmt-header-only)
@@ -38,6 +44,15 @@ add_subdirectory(tests)
 ##################################################
 # Installation
 ##################################################
+#set_target_properties(${PROJECT_NAME} PROPERTIES
+#    INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
+#    IMPORTED_LOCATION_DEBUG "${_IMPORT_PREFIX}/lib/${CMAKE_BUILD_TYPE}"
+#    IMPORTED_LOCATION_RELEASE "${_IMPORT_PREFIX}/lib/${CMAKE_BUILD_TYPE}"
+#    IMPORTED_LOCATION_RELWITHDEBINFO "${_IMPORT_PREFIX}/lib/${CMAKE_BUILD_TYPE}"
+#    IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/lib/${CMAKE_BUILD_TYPE}"
+#)
+
+include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
 configure_package_config_file (
   ${CMAKE_CURRENT_SOURCE_DIR}/grafologyConfig.cmake.in  
@@ -68,5 +83,5 @@ install(
         ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
         ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
         ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Targets.${CMAKE_BUILD_TYPE}.cmake
-    DESTINATION include/cmake
+    DESTINATION cmake
 )
