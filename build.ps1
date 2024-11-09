@@ -8,6 +8,7 @@
 #>
 
 param(  
+    [Parameter(Mandatory=$true, Position=0)]
     [ValidateNotNull()]
     [ValidateSet('', 'Debug', 'Release', 'RelWithDebInfo', 'MinSizeRel', 'All')]
     [string[]] $BuildTypes,

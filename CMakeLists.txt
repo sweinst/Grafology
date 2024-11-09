@@ -20,7 +20,7 @@ set(GRAFOLOGY_HDRS src/include/grafology/grafology.h)
 add_library(${PROJECT_NAME} ${GRAFOLOGY_SRC} ${GRAFOLOGY_HDRS})
 target_include_directories (${PROJECT_NAME} INTERFACE
     PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include> 
-    PUBLIC $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/include>
+    PUBLIC $<INSTALL_INTERFACE:include>
 )
 set_target_properties(${PROJECT_NAME} PROPERTIES 
     VERSION ${PROJECT_VERSION}
@@ -44,27 +44,8 @@ add_subdirectory(tests)
 ##################################################
 # Installation
 ##################################################
-#set_target_properties(${PROJECT_NAME} PROPERTIES
-#    INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
-#    IMPORTED_LOCATION_DEBUG "${_IMPORT_PREFIX}/lib/${CMAKE_BUILD_TYPE}"
-#    IMPORTED_LOCATION_RELEASE "${_IMPORT_PREFIX}/lib/${CMAKE_BUILD_TYPE}"
-#    IMPORTED_LOCATION_RELWITHDEBINFO "${_IMPORT_PREFIX}/lib/${CMAKE_BUILD_TYPE}"
-#    IMPORTED_LOCATION_MINSIZEREL "${_IMPORT_PREFIX}/lib/${CMAKE_BUILD_TYPE}"
-#)
-
-include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
-configure_package_config_file (
-  ${CMAKE_CURRENT_SOURCE_DIR}/grafologyConfig.cmake.in  
-  ${CMAKE_CURRENT_BINARY_DIR}/grafologyConfig.cmake
-  INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/grafology
-)
-
-write_basic_package_version_file(
-    ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
-    VERSION ${PROJECT_VERSION}
-    COMPATIBILITY AnyNewerVersion
-)
+include(GNUInstallDirs)
 
 install(
     TARGETS ${PROJECT_NAME}
@@ -73,15 +54,20 @@ install(
     PUBLIC_HEADER DESTINATION include/${PROJECT_NAME}
 )
 
-export(
-    EXPORT ${PROJECT_NAME}Targets 
-    FILE ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Targets.${CMAKE_BUILD_TYPE}.cmake
-    )
+install(
+    EXPORT ${PROJECT_NAME}Targets
+    FILE ${PROJECT_NAME}-config.cmake
+    DESTINATION cmake
+)
+
+write_basic_package_version_file(
+    ${PROJECT_NAME}-config-version.cmake
+    VERSION ${PROJECT_VERSION}
+    COMPATIBILITY AnyNewerVersion
+)
 
 install(
     FILES
-        ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
-        ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake
-        ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Targets.${CMAKE_BUILD_TYPE}.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake
     DESTINATION cmake
 )
