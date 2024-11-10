@@ -1,19 +1,18 @@
 <#
 .SYNOPSIS
-  Launch a full build/install for one or more build types
+  Launch a build/install for one or more build types
 .PARAMETER BuildTypes
-  Which build type to generate: Debug, Release, RelWithDebInfo or a combination?
+  Which build types to generate: Debug, Release, RelWithDebInfo or a combination? Use 'All' to build all types.
 .PARAMETER Clean
   Remove build folder first?
 #>
 
 param(  
     [Parameter(Mandatory=$true, Position=0)]
-    [ValidateNotNull()]
+    [ValidateNotNullorEmpty()]
     [ValidateSet('', 'Debug', 'Release', 'RelWithDebInfo', 'MinSizeRel', 'All')]
     [string[]] $BuildTypes,
 
-    [ValidateNotNullOrEmpty()]
     [switch] $Clean
 )
 

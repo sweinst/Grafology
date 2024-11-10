@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.26.0)
+cmake_minimum_required(VERSION 3.26)
 project(grafology VERSION 0.1.0 LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 23)
 
@@ -12,7 +12,7 @@ find_package(fmt CONFIG REQUIRED)
 find_package(catch2 CONFIG REQUIRED)
 
 ##################################################
-# Libary
+# Library
 ##################################################
 set(GRAFOLOGY_SRC src/cpp/Grafology.cpp)
 set(GRAFOLOGY_HDRS src/include/grafology/grafology.h)
@@ -45,7 +45,6 @@ add_subdirectory(tests)
 # Installation
 ##################################################
 include(CMakePackageConfigHelpers)
-include(GNUInstallDirs)
 
 install(
     TARGETS ${PROJECT_NAME}
