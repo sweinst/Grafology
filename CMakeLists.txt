@@ -14,17 +14,26 @@ find_package(catch2 CONFIG REQUIRED)
 ##################################################
 # Library
 ##################################################
-set(GRAFOLOGY_SRC src/cpp/Grafology.cpp)
-set(GRAFOLOGY_HDRS src/include/grafology/grafology.h)
+set(GRAFOLOGY_SRC 
+    src/cpp/Grafology.cpp
+)
+set(GRAFOLOGY_HDRS 
+    src/include/grafology/grafology.h
+    src/include/grafology/node.h 
+    src/include/grafology/graph.h 
+    src/include/grafology/graphimpl.h
+)
 
 add_library(${PROJECT_NAME} ${GRAFOLOGY_SRC} ${GRAFOLOGY_HDRS})
 target_include_directories (${PROJECT_NAME} INTERFACE
     PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include> 
     PUBLIC $<INSTALL_INTERFACE:include>
 )
-set_target_properties(${PROJECT_NAME} PROPERTIES 
+
+set_target_properties(
+    ${PROJECT_NAME} PROPERTIES 
     VERSION ${PROJECT_VERSION}
-    PUBLIC_HEADER ${GRAFOLOGY_HDRS}
+    PUBLIC_HEADER "${GRAFOLOGY_HDRS}"
 )
 
 # as we don't want fmt to be a dependency of the library, we can't use target_link_libraries
