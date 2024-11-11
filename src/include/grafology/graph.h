@@ -1,10 +1,10 @@
 #pragma once
 
-#include "node.h"
-#include "graphimpl.h"
+#include "vertex.h"
+#include "graph_impl.h"
 
 namespace grafology {
-    template<GraphImpl Impl, Node Node>
+    template<GraphImpl Impl, Vertex Vertex>
     class Graph {
 
     };

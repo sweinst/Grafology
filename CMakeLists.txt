@@ -16,12 +16,17 @@ find_package(catch2 CONFIG REQUIRED)
 ##################################################
 set(GRAFOLOGY_SRC 
     src/cpp/Grafology.cpp
+    src/cpp/sparse_graph_impl.cpp
+    src/cpp/dense_graph_impl.cpp
 )
+
 set(GRAFOLOGY_HDRS 
     src/include/grafology/grafology.h
-    src/include/grafology/node.h 
+    src/include/grafology/vertex.h 
     src/include/grafology/graph.h 
-    src/include/grafology/graphimpl.h
+    src/include/grafology/graph_impl.h
+    src/include/grafology/sparse_graph_impl.h
+    src/include/grafology/dense_graph_impl.h
 )
 
 add_library(${PROJECT_NAME} ${GRAFOLOGY_SRC} ${GRAFOLOGY_HDRS})

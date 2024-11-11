@@ -1,4 +1,6 @@
 #pragma once
+#include <concepts>
+#include <string>
 
 namespace grafology {
 
@@ -29,7 +31,8 @@ struct edge_t {
 template<typename G>
 concept GraphImpl = requires(G g) {
     // { G::Node } -> Node;
-    { g.add_node(node_t) } -> std::convertible_to<bool>;
+   { g.label() }  -> std::convertible_to<std::string>;
+    // { g.add_node(node_t) } -> std::convertible_to<bool>;
     // { g.add_edge(Impl::Node{}, Impl::Node{}) } -> std::convertible_to<bool>;
     // { g.remove_node(Impl::Node{}) } -> std::convertible_to<bool>;
     // { g.remove_edge(Impl::Node{}, Impl::Node{}) } -> std::convertible_to<bool>;

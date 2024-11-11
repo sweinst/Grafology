@@ -13,7 +13,7 @@ namespace grafology {
  * - must be printable using std::format
  */
 template <typename T>
-concept Node = requires(T n) {
+concept Vertex = requires(T n) {
     // must be "hashable"
     std::hash<T>{};
     // must be "comparable" without having to deal with exceptions
