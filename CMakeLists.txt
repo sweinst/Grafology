@@ -40,15 +40,6 @@ set_target_properties(
     PUBLIC_HEADER "${GRAFOLOGY_HDRS}"
 )
 
-# as we don't want fmt to be a dependency of the library, we can't use target_link_libraries
-# i.e.: target_link_libraries(${PROJECT_NAME} PRIVATE fmt::fmt-header-only)
-# so let's use our own version
-set_target_properties(${PROJECT_NAME} PROPERTIES
-  COMPILE_OPTIONS "\$<\$<AND:\$<COMPILE_LANGUAGE:CXX>,\$<CXX_COMPILER_ID:MSVC>>:/utf-8;/EHsc>"
-  COMPILE_DEFINITIONS "FMT_HEADER_ONLY=1"
-)
-target_include_directories(${PROJECT_NAME} PRIVATE $<TARGET_PROPERTY:fmt::fmt-header-only,INTERFACE_INCLUDE_DIRECTORIES>)
-
 ##################################################
 # Tests
 ##################################################

@@ -115,7 +115,7 @@
       "cacheVariables": {
         "CMAKE_C_COMPILER": "gcc",
         "CMAKE_CXX_COMPILER": "g++",
-        "CMAKE_INSTALL_PREFIX": "${sourceDir}/dist/Linux"
+        "CMAKE_INSTALL_PREFIX": "${sourceDir}/dist/linux"
       }
     },
     {
@@ -123,7 +123,7 @@
       "displayName": "Linux X64 Release",
       "description": "Release target for Linux x64 clang.",
       "inherits": "linux-x64",
-      "binaryDir": "${sourceDir}/bin/Linux/x64/Release",
+      "binaryDir": "${sourceDir}/bin/linux/x64/Release",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release"
       }
@@ -133,7 +133,7 @@
       "displayName": "Linux X64 RelWithDebInfo",
       "description": "RelWithDebInfo target for Linux x64 clang.",
       "inherits": "linux-x64",
-      "binaryDir": "${sourceDir}/bin/Linux/x64/RelWithDebInfo",
+      "binaryDir": "${sourceDir}/bin/linux/x64/RelWithDebInfo",
       "vendor": {
         "microsoft.com/VisualStudioSettings/CMake/1.0": {
           "hostOS": [
@@ -150,7 +150,7 @@
       "displayName": "Linux X64 MinSizeRFel",
       "description": "MinSizeRFel target for Linux x64 clang.",
       "inherits": "linux-x64",
-      "binaryDir": "${sourceDir}/bin/Linux/x64/MinSizeRFel",
+      "binaryDir": "${sourceDir}/bin/linux/x64/MinSizeRFel",
       "vendor": {
         "microsoft.com/VisualStudioSettings/CMake/1.0": {
           "hostOS": [
@@ -167,7 +167,7 @@
       "displayName": "Linux X64 Debug",
       "description": "Debug target for Linux x64 clang.",
       "inherits": "linux-x64",
-      "binaryDir": "${sourceDir}/bin/Linux/x64/Debug",
+      "binaryDir": "${sourceDir}/bin/linux/x64/Debug",
       "vendor": {
         "microsoft.com/VisualStudioSettings/CMake/1.0": {
           "hostOS": [
