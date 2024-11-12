@@ -8,8 +8,7 @@ endif ()
 
 message(STATUS "Using compiler ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")
 
-find_package(fmt CONFIG REQUIRED)
-find_package(catch2 CONFIG REQUIRED)
+find_package(Catch2 CONFIG REQUIRED)
 
 ##################################################
 # Library

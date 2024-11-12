@@ -30,6 +30,7 @@ $common_options = @(
     "-DX_VCPKG_APPLOCAL_DEPS_INSTALL=ON",
     "-DVCPKG_TARGET_TRIPLET=x64-${os}",
     "-DVCPKG_MANIFEST_MODE=ON",
+    "-DCMAKE_TOOLCHAIN_FILE=${env:VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
     "-S${src_root}",
     "-G Ninja"
 )
