@@ -22,7 +22,7 @@ if ($BuildTypes -eq 'All') {
 Write-Host "Build Types: $BuildTypes"
 
 $src_root=${PSScriptRoot}
-$os = $IsWindows ? "windows" : ($IsLinux ? "Linux" : "osx")
+$os = $IsWindows ? "windows" : ($IsLinux ? "linux" : "osx")
 
 $common_options = @(
     "-DCMAKE_INSTALL_PREFIX=${src_root}/dist/${os}",
@@ -40,7 +40,7 @@ $BuildTypes | ForEach-Object {
         Write-Host "============> Cleaning $build_type"
         Remove-Item -Force -Recurse "${src_root}/bin/${os}/${build_type}"
     }
-    $preset="win-x64-${build_type}"
+    $preset="${os}-x64-${build_type}"
     Write-Host "============> Building $preset"
     & cmake --preset ${preset} $common_options || exit 1
     & cmake --build "${src_root}/bin/${os}/${build_type}" || exit 1
