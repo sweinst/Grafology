@@ -96,7 +96,7 @@
       }
     },
     {
-      "name": "Linux-x64",
+      "name": "linux-x64",
       "displayName": "Linux X64",
       "description": "Base target for Linux x64 clang.",
       "hidden": true,
@@ -119,20 +119,20 @@
       }
     },
     {
-      "name": "Linux-x64-Release",
+      "name": "linux-x64-Release",
       "displayName": "Linux X64 Release",
       "description": "Release target for Linux x64 clang.",
-      "inherits": "Linux-x64",
+      "inherits": "linux-x64",
       "binaryDir": "${sourceDir}/bin/Linux/x64/Release",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release"
       }
     },
     {
-      "name": "Linux-x64-RelWithDebInfo",
+      "name": "linux-x64-RelWithDebInfo",
       "displayName": "Linux X64 RelWithDebInfo",
       "description": "RelWithDebInfo target for Linux x64 clang.",
-      "inherits": "Linux-x64",
+      "inherits": "linux-x64",
       "binaryDir": "${sourceDir}/bin/Linux/x64/RelWithDebInfo",
       "vendor": {
         "microsoft.com/VisualStudioSettings/CMake/1.0": {
@@ -146,10 +146,10 @@
       }
     },
     {
-      "name": "Linux-x64-MinSizeRFel",
+      "name": "linux-x64-MinSizeRFel",
       "displayName": "Linux X64 MinSizeRFel",
       "description": "MinSizeRFel target for Linux x64 clang.",
-      "inherits": "Linux-x64",
+      "inherits": "linux-x64",
       "binaryDir": "${sourceDir}/bin/Linux/x64/MinSizeRFel",
       "vendor": {
         "microsoft.com/VisualStudioSettings/CMake/1.0": {
@@ -163,10 +163,10 @@
       }
     },
     {
-      "name": "Linux-x64-Debug",
+      "name": "linux-x64-Debug",
       "displayName": "Linux X64 Debug",
       "description": "Debug target for Linux x64 clang.",
-      "inherits": "Linux-x64",
+      "inherits": "linux-x64",
       "binaryDir": "${sourceDir}/bin/Linux/x64/Debug",
       "vendor": {
         "microsoft.com/VisualStudioSettings/CMake/1.0": {
