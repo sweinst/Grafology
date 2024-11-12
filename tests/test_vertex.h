@@ -1,22 +1,15 @@
-#include <catch2/catch_test_macros.hpp>
 #include <grafology/grafology.h>
-
-#include <grafology/grafology.h>
-//#include <fmt/core.h>
 
 namespace g = grafology;
 
-namespace{
-    struct TestVertex{
+struct TestVertex{
+    int _id;
+    std::string _label;
 
-        int _id;
-        std::string _label;
-
-        bool operator == (const TestVertex& v) const noexcept {
-            return _id == v._id;
-        }
-    };
-}
+    bool operator == (const TestVertex& v) const noexcept {
+        return _id == v._id;
+    }
+};
 
 namespace std {
     template <>
@@ -43,7 +36,3 @@ namespace std {
 // check if the concept is satisfied
 static_assert(g::Vertex<TestVertex>);
 
-TEST_CASE("Hello World", "[hello]")
-{
-    REQUIRE(1 == 1);
-}
