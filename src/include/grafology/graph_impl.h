@@ -6,6 +6,8 @@ namespace grafology {
 
 //** the internal node type
 using node_t = int;
+//** the type for the edge weights
+using weight_t = int;
 
 //** the edge type */
 struct edge_t {
