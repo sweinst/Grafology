@@ -1,5 +1,6 @@
 #pragma once
 #include <concepts>
+#include <ranges>
 #include <string>
 
 namespace grafology {
@@ -16,9 +17,31 @@ struct edge_t {
     int weight;
 };
 
+/** @brief The requirements for an iterator handling edge_t 
+ * @details The requirements are:
+ * - must be an input iterator
+ * - must be able to dereference the iterator to an edge_t
+ */
+template <typename I>
+concept input_iterator_edge = 
+    std::input_iterator<I> &&
+    std::convertible_to<std::iter_value_t<I>, edge_t>
+;
+
+/** @brief The requirements for an iterator handling edge_t 
+ * @details The requirements are:
+ * - must be an input range
+ * - must be able to dereference the iterator to an edge_t
+ */
+template <typename R>
+concept input_range_edge = 
+    std::ranges::input_range<R> &&
+    std::convertible_to<std::iter_value_t<R>, edge_t>
+;
+
 /**
 * @brief the requirements for a graph implementation
-* 
+* @details
 * In an implementation:
 * - node are represented by integers. These integers are private to the implementation.
 * - edges are represented by (node start, node end, weight). For bidrected graph, each edge is represented by two edges.
