@@ -1,6 +1,13 @@
 #pragma once
 #include "graph_impl.h"
 #include <vector>
+#if defined(_MSC_VER)
+    // don't know when generator will be available in MSVC ?
+    #include <experimental/generator>
+    namespace experimental = std;
+#else
+    #include <generator>
+#endif 
 
 namespace grafology {
     /**
@@ -63,6 +70,6 @@ namespace grafology {
         std::vector<weight_t> _matrix;
     };
 
-//  static_assert(GraphImpl<DenseGraphImpl>);
+static_assert(GraphImpl<DenseGraphImpl>);
 
 } // namespace grafology

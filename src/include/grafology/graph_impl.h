@@ -54,13 +54,18 @@ concept input_range_edge =
 * - must be able to remove an edge
 */
 template<typename G>
-concept GraphImpl = requires(G g) {
+concept GraphImpl = requires(G g, unsigned i, unsigned j, weight_t w) {
     // { G::Node } -> Node;
-   { g.label() }  -> std::convertible_to<std::string>;
+    {g.operator()(i, j)} -> std::convertible_to<weight_t&>;
+     g.set_edge(i, j, w);
     // { g.add_node(node_t) } -> std::convertible_to<bool>;
     // { g.add_edge(Impl::Node{}, Impl::Node{}) } -> std::convertible_to<bool>;
     // { g.remove_node(Impl::Node{}) } -> std::convertible_to<bool>;
     // { g.remove_edge(Impl::Node{}, Impl::Node{}) } -> std::convertible_to<bool>;
-};
+    }
+    && requires(const G g, unsigned i, unsigned j) {
+    {g.operator()(i, j)} -> std::convertible_to<weight_t>;
+    }
+    ;
 
 } // namespace grafology
