@@ -2,6 +2,13 @@
 #include <concepts>
 #include <ranges>
 #include <string>
+#if defined(_MSC_VER)
+    // don't know when generator will be available in MSVC ?
+    #include <experimental/generator>
+    namespace experimental = std;
+#else
+    #include <generator>
+#endif 
 
 namespace grafology {
 
@@ -52,12 +59,17 @@ concept input_range_edge =
 * - must be able to add an edge
 * - must be able to remove a node
 * - must be able to remove an edge
+* @remarks It is not possible to set the constraints on templated functions without explicitly defining the template type.
+* So they should be put in separated concepts and should be checked only in the instantiations or specializations.
+* So I've left them aside.
 */
 template<typename G>
 concept GraphImpl = requires(G g, unsigned i, unsigned j, weight_t w) {
     // { G::Node } -> Node;
     {g.operator()(i, j)} -> std::convertible_to<weight_t&>;
-     g.set_edge(i, j, w);
+    {g.set_edge(i, j, w)};
+    // g.set_edges(std::declval<input_iterator_edge>(), std::declval<std::sentinel_for<input_iterator_edge>>());
+    // g.set_edges(std::declval<input_range_edge>());
     // { g.add_node(node_t) } -> std::convertible_to<bool>;
     // { g.add_edge(Impl::Node{}, Impl::Node{}) } -> std::convertible_to<bool>;
     // { g.remove_node(Impl::Node{}) } -> std::convertible_to<bool>;
@@ -66,6 +78,9 @@ concept GraphImpl = requires(G g, unsigned i, unsigned j, weight_t w) {
     && requires(const G g, unsigned i, unsigned j) {
     {g.operator()(i, j)} -> std::convertible_to<weight_t>;
     }
-    ;
+;
+
+// } // namespace grafology
+// concept GraphImpl = requires(G g, unsigned i, unsigned j, weight_t w) {
 
 } // namespace grafology
