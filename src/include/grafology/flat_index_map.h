@@ -9,7 +9,9 @@ namespace grafology {
      * @details This is simple a sorted vector .
      */
     class FlatIndexMap {
-        public:
+        // TODO: batch initialization
+        // TODO: batch insertion (using Tim or Smooth Sort (as data are almost sorted) ?)
+        public: 
             FlatIndexMap() = default;
             FlatIndexMap(const FlatIndexMap&) = default;
             FlatIndexMap(FlatIndexMap&&) = default;

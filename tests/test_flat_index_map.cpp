@@ -26,9 +26,13 @@ TEST_CASE("Test FlatIndexMap", "[flatindexmap]")
     REQUIRE(map.get(5) == -1);
     REQUIRE(map.get(100) == -1);
     
+    map.set(1, 10);
     map.set(1, 1);
     map.set(5, 5);
+    map.set(100, 10);
     map.set(100, 100);
+
+    REQUIRE(map.size() == expected.size() + 3);
 
     REQUIRE(map.get(1) == 1);
     REQUIRE(map.get(5) == 5);
@@ -37,6 +41,8 @@ TEST_CASE("Test FlatIndexMap", "[flatindexmap]")
     map.remove(1);
     map.remove(5);
     map.remove(100);
+
+    REQUIRE(map.size() == expected.size());
 
     REQUIRE(map.get(1) == -1);
     REQUIRE(map.get(5) == -1);
