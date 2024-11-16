@@ -72,6 +72,25 @@ namespace grafology {
         void set_edges(R &&r) {
             set_edges(std::begin(r), std::end(r));
         }
+
+        std::size_t degree(node_t node) const {
+            int degree = 0;
+            for (node_t i = 0; i < _n_vertices; i++) {
+                if (_adjacency_matrix[node*_n_max_vertices+i] != 0) {
+                    ++degree;
+                }
+            }
+            return degree;
+        }
+
+        generator<edge_t> get_neighbors(node_t node) const {
+            for (node_t i = 0; i < _n_vertices; i++) {
+                auto weight = _adjacency_matrix[node*_n_max_vertices+i];
+                if (weight != 0) {
+                    co_yield {.start = node, .end = i, .weight = weight};
+                }
+            }
+        }
     private:
         const bool _is_directed;
         const unsigned _n_max_vertices;

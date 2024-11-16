@@ -42,6 +42,10 @@ namespace grafology {
         }
 
         void set_edge(const edge_t& edge) {
+            if (edge.weight == 0 && _adjacency_list[edge.start].get(edge.end) != 0) {
+                _adjacency_list[edge.start].remove(edge.end);
+                return;
+            }
             _adjacency_list[edge.start].set(edge.start, edge.weight);
             if (!_is_directed) {
                 _adjacency_list[edge.start].set(edge.start, edge.weight);
@@ -62,7 +66,19 @@ namespace grafology {
         void set_edges(R &&r) {
             set_edges(std::begin(r), std::end(r));
         }
-    private:
+
+        std::size_t degree(node_t node) const {
+            return _adjacency_list[node].size();
+        }
+
+         generator<edge_t> get_neighbors(node_t node) const {
+            for (const auto& edge : _adjacency_list[node])
+            {
+                co_yield {.start = node, .end = edge.node, .weight = edge.weight};
+            }
+        }
+
+   private:
         const bool _is_directed;
         const unsigned _n_max_vertices;
         unsigned _n_vertices;

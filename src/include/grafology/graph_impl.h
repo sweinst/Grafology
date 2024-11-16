@@ -66,16 +66,18 @@ concept input_range_value =
 * So I've left them aside.
 */
 template<typename G>
-concept GraphImpl = requires(G g, unsigned i, unsigned j, weight_t w) {
+concept GraphImpl = requires(G g, node_t i, node_t j, weight_t w) {
         // TODO: vertex removal
         {g.add_vertex()} -> std::convertible_to<node_t>;
         {g.add_vertices(i)} -> std::convertible_to<generator<node_t>>;
         {g.set_edge(i, j, w)};
-        // g.set_edges(std::declval<input_iterator<edge_t>>(), std::declval<std::sentinel_for<input_iterator_edge>>());
-        // g.set_edges(std::declval<input_range<edge_t>>());
+        // g.set_edges(std::declval<input_iterator_value<edge_t>>(), std::declval<std::sentinel_for<input_iterator_edge>>());
+        // g.set_edges(std::declval<input_range_value<edge_t>>());
     }
-    && requires(const G g, unsigned i, unsigned j) {
+    && requires(const G g, node_t i, node_t j) {
+        {g.degree(i)} -> std::convertible_to<std::size_t>;
         {g.operator()(i, j)} -> std::convertible_to<weight_t>;
+        {g.get_neighbors(i)} -> std::convertible_to<generator<edge_t>>; 
     }
 ;
 
