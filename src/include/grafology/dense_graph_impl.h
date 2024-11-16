@@ -20,34 +20,30 @@ namespace grafology {
           _matrix(_n_max_vertices * _n_max_vertices, 0) {
         }
         // NB: VS2022 does not support the C++23 multidimensional subscript operator (i.e. a[i,j])
-        weight_t& operator()(unsigned i, unsigned j) {
-            return _matrix[i*_n_max_vertices+j];
-        }
-
         weight_t operator()(unsigned i, unsigned j) const { 
             return _matrix[i*_n_max_vertices+j];
         }
 
         void set_edge(unsigned i, unsigned j, weight_t weight) {
-            (*this)(i, j) = weight;
+            _matrix[i*_n_max_vertices+j] = weight;
             if (!_is_directed) {
-                (*this)(j, i) = weight;
+                _matrix[j*_n_max_vertices+i] = weight;
             }
         }
 
-        void set_edge(const edge_t* edge) {
-            (*this)(edge->start, edge->end) = edge->weight;
+        void set_edge(const edge_t& edge) {
+            _matrix[edge.start*_n_max_vertices+edge.end] = edge.weight;
             if (!_is_directed) {
-                (*this)(edge->end, edge->start) = edge->weight;
+                _matrix[edge.end*_n_max_vertices+edge.start] = edge.weight;
             }
         }
 
         template<input_iterator_edge I, std::sentinel_for<I> S>
         void set_edges(I first, S last) {
             for (auto it = first; it != last; ++it) {
-                (*this)(it->start, it->end) = it->weight;
+                set_edge(it->start, it->end, it->weight);
                 if (!_is_directed) {
-                    (*this)(it->end, it->start) = it->weight;
+                    set_edge(it->end, it->start, it->weight);
                 }                
             }
         }

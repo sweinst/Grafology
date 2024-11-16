@@ -66,7 +66,6 @@ concept input_range_edge =
 template<typename G>
 concept GraphImpl = requires(G g, unsigned i, unsigned j, weight_t w) {
     // { G::Node } -> Node;
-    {g.operator()(i, j)} -> std::convertible_to<weight_t&>;
     {g.set_edge(i, j, w)};
     // g.set_edges(std::declval<input_iterator_edge>(), std::declval<std::sentinel_for<input_iterator_edge>>());
     // g.set_edges(std::declval<input_range_edge>());

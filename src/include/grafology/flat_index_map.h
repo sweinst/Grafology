@@ -49,7 +49,7 @@ namespace grafology {
                 if (it != _flat_map.end() && it->node == node) {
                     return it->weight;
                 }
-                return -1;
+                return 0;
             }
 
             void remove(node_t node) {
