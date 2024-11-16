@@ -27,48 +27,26 @@ struct edge_t {
     int weight;
 };
 
-/** @brief The requirements for an iterator handling node_t 
+/** @brief The requirements for an iterator handling values of type V 
  * @details The requirements are:
  * - must be an input iterator
- * - must be able to dereference the iterator to an node_t
+ * - must be able to dereference the iterator to a V
  */
-template <typename I>
-concept input_iterator_vertex = 
+template <typename I, typename V>
+concept input_iterator_value = 
     std::input_iterator<I> &&
-    std::convertible_to<std::iter_value_t<I>, node_t>
+    std::convertible_to<std::iter_value_t<I>, V>
 ;
 
-/** @brief The requirements for a range handling node_t 
+/** @brief The requirements for a range handling values of type V
  * @details The requirements are:
  * - must be an input range
- * - must be able to dereference the iterator to an node_t
+ * - must be able to dereference the iterator to a V
  */
-template <typename R>
-concept input_range_vertex = 
+template <typename R, typename V>
+concept input_range_value = 
     std::ranges::input_range<R> &&
-    std::convertible_to<std::iter_value_t<R>, node_t>
-;
-
-/** @brief The requirements for an iterator handling edge_t 
- * @details The requirements are:
- * - must be an input iterator
- * - must be able to dereference the iterator to an edge_t
- */
-template <typename I>
-concept input_iterator_edge = 
-    std::input_iterator<I> &&
-    std::convertible_to<std::iter_value_t<I>, edge_t>
-;
-
-/** @brief The requirements for a range handling edge_t 
- * @details The requirements are:
- * - must be an input range
- * - must be able to dereference the iterator to an edge_t
- */
-template <typename R>
-concept input_range_edge = 
-    std::ranges::input_range<R> &&
-    std::convertible_to<std::iter_value_t<R>, edge_t>
+    std::convertible_to<std::iter_value_t<R>, V>
 ;
 
 /**
@@ -93,8 +71,8 @@ concept GraphImpl = requires(G g, unsigned i, unsigned j, weight_t w) {
         {g.add_vertex()} -> std::convertible_to<node_t>;
         {g.add_vertices(i)} -> std::convertible_to<generator<node_t>>;
         {g.set_edge(i, j, w)};
-        // g.set_edges(std::declval<input_iterator_edge>(), std::declval<std::sentinel_for<input_iterator_edge>>());
-        // g.set_edges(std::declval<input_range_edge>());
+        // g.set_edges(std::declval<input_iterator<edge_t>>(), std::declval<std::sentinel_for<input_iterator_edge>>());
+        // g.set_edges(std::declval<input_range<edge_t>>());
     }
     && requires(const G g, unsigned i, unsigned j) {
         {g.operator()(i, j)} -> std::convertible_to<weight_t>;

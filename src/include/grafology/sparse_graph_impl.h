@@ -48,7 +48,7 @@ namespace grafology {
             }
         }
         
-        template<input_iterator_edge I, std::sentinel_for<I> S>
+        template<input_iterator_value<edge_t> I, std::sentinel_for<I> S>
         void set_edges(I first, S last) {
             for (auto it = first; it != last; ++it) {
                 set_edge(it->start, it->end, it->weight);
@@ -58,7 +58,7 @@ namespace grafology {
             }
         }
 
-        template<input_range_edge R>
+        template<input_range_value<edge_t> R>
         void set_edges(R &&r) {
             set_edges(std::begin(r), std::end(r));
         }
