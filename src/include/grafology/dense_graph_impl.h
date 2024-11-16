@@ -30,6 +30,7 @@ namespace grafology {
                 _adjacency_matrix[i*_n_max_vertices+_n_vertices] = 0;
             }            
             ++_n_vertices;
+            return _n_vertices-1;
         }
 
         /** 

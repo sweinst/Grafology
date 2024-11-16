@@ -9,7 +9,7 @@
     using generator = std::experimental::generator<_Ty, _Alloc>;
 #else
     #include <generator>
-    template<typename _Ref, typename _Val, typename _Alloc>
+    template<typename _Ref, typename _Val = void, typename _Alloc = void>
     using generator = std::generator<_Ref, _Val, _Alloc>;
 #endif 
 
