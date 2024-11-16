@@ -101,6 +101,7 @@
       "description": "Base target for Linux x64 clang.",
       "hidden": true,
       "generator": "Ninja",
+      "inherits": "TopLevelIncludes",
       "architecture": {
         "value": "x64",
         "strategy": "external"
