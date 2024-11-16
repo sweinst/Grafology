@@ -5,9 +5,12 @@
 #if defined(_MSC_VER)
     // don't know when generator will be available in MSVC ?
     #include <experimental/generator>
-    namespace experimental = std;
+    template <class _Ty, class _Alloc = std::allocator<char>>
+    using generator = std::experimental::generator<_Ty, _Alloc>;
 #else
     #include <generator>
+    template<typename _Ref, typename _Val, typename _Alloc>
+    using generator = std::generator<_Ref, _Val, _Alloc>;
 #endif 
 
 namespace grafology {
@@ -24,6 +27,28 @@ struct edge_t {
     int weight;
 };
 
+/** @brief The requirements for an iterator handling node_t 
+ * @details The requirements are:
+ * - must be an input iterator
+ * - must be able to dereference the iterator to an node_t
+ */
+template <typename I>
+concept input_iterator_vertex = 
+    std::input_iterator<I> &&
+    std::convertible_to<std::iter_value_t<I>, node_t>
+;
+
+/** @brief The requirements for a range handling node_t 
+ * @details The requirements are:
+ * - must be an input range
+ * - must be able to dereference the iterator to an node_t
+ */
+template <typename R>
+concept input_range_vertex = 
+    std::ranges::input_range<R> &&
+    std::convertible_to<std::iter_value_t<R>, node_t>
+;
+
 /** @brief The requirements for an iterator handling edge_t 
  * @details The requirements are:
  * - must be an input iterator
@@ -35,7 +60,7 @@ concept input_iterator_edge =
     std::convertible_to<std::iter_value_t<I>, edge_t>
 ;
 
-/** @brief The requirements for an iterator handling edge_t 
+/** @brief The requirements for a range handling edge_t 
  * @details The requirements are:
  * - must be an input range
  * - must be able to dereference the iterator to an edge_t
@@ -55,31 +80,25 @@ concept input_range_edge =
 *
 * The requirements are:
 * - must have a Node type which match the requirements of the concept Node
-* - must be able to add a node
-* - must be able to add an edge
-* - must be able to remove a node
-* - must be able to remove an edge
+* - must be able to add one or more vertices
+* - must be able to add one or more edges
+* - must be able to remove a vertex
 * @remarks It is not possible to set the constraints on templated functions without explicitly defining the template type.
 * So they should be put in separated concepts and should be checked only in the instantiations or specializations.
 * So I've left them aside.
 */
 template<typename G>
 concept GraphImpl = requires(G g, unsigned i, unsigned j, weight_t w) {
-    // { G::Node } -> Node;
-    {g.set_edge(i, j, w)};
-    // g.set_edges(std::declval<input_iterator_edge>(), std::declval<std::sentinel_for<input_iterator_edge>>());
-    // g.set_edges(std::declval<input_range_edge>());
-    // { g.add_node(node_t) } -> std::convertible_to<bool>;
-    // { g.add_edge(Impl::Node{}, Impl::Node{}) } -> std::convertible_to<bool>;
-    // { g.remove_node(Impl::Node{}) } -> std::convertible_to<bool>;
-    // { g.remove_edge(Impl::Node{}, Impl::Node{}) } -> std::convertible_to<bool>;
+        // TODO: vertex removal
+        {g.add_vertex()} -> std::convertible_to<node_t>;
+        {g.add_vertices(i)} -> std::convertible_to<generator<node_t>>;
+        {g.set_edge(i, j, w)};
+        // g.set_edges(std::declval<input_iterator_edge>(), std::declval<std::sentinel_for<input_iterator_edge>>());
+        // g.set_edges(std::declval<input_range_edge>());
     }
     && requires(const G g, unsigned i, unsigned j) {
-    {g.operator()(i, j)} -> std::convertible_to<weight_t>;
+        {g.operator()(i, j)} -> std::convertible_to<weight_t>;
     }
 ;
-
-// } // namespace grafology
-// concept GraphImpl = requires(G g, unsigned i, unsigned j, weight_t w) {
 
 } // namespace grafology

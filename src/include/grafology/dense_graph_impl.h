@@ -17,24 +17,43 @@ namespace grafology {
           _is_directed(is_directed),
           _n_max_vertices(n_max_vertices), 
           _n_vertices(n_vertices),
-          _matrix(_n_max_vertices * _n_max_vertices, 0) {
+          _adjacency_matrix(_n_max_vertices * _n_max_vertices, 0) {
         }
         // NB: VS2022 does not support the C++23 multidimensional subscript operator (i.e. a[i,j])
         weight_t operator()(unsigned i, unsigned j) const { 
-            return _matrix[i*_n_max_vertices+j];
+            return _adjacency_matrix[i*_n_max_vertices+j];
+        }
+
+        node_t add_vertex() {
+            std::memset(_adjacency_matrix.data() + _n_vertices*_n_max_vertices, 0, _n_max_vertices);
+            for (node_t i = 0; i < _n_max_vertices; i++) {
+                _adjacency_matrix[i*_n_max_vertices+_n_vertices] = 0;
+            }            
+            ++_n_vertices;
+        }
+
+        /** 
+         * @brief Batch add vertices
+         * @remark This returns an iterator because when the removal of vertices will be implemented#
+         * it will return first the "free" vertex slots, so indices won't be contiguous anymore.
+        */
+        generator<node_t> add_vertices(unsigned n) {
+            for (unsigned i = 0; i < n; i++) {
+                co_yield add_vertex();
+            }
         }
 
         void set_edge(unsigned i, unsigned j, weight_t weight) {
-            _matrix[i*_n_max_vertices+j] = weight;
+            _adjacency_matrix[i*_n_max_vertices+j] = weight;
             if (!_is_directed) {
-                _matrix[j*_n_max_vertices+i] = weight;
+                _adjacency_matrix[j*_n_max_vertices+i] = weight;
             }
         }
 
         void set_edge(const edge_t& edge) {
-            _matrix[edge.start*_n_max_vertices+edge.end] = edge.weight;
+            _adjacency_matrix[edge.start*_n_max_vertices+edge.end] = edge.weight;
             if (!_is_directed) {
-                _matrix[edge.end*_n_max_vertices+edge.start] = edge.weight;
+                _adjacency_matrix[edge.end*_n_max_vertices+edge.start] = edge.weight;
             }
         }
 
@@ -55,8 +74,8 @@ namespace grafology {
     private:
         const bool _is_directed;
         const unsigned _n_max_vertices;
-        const unsigned _n_vertices;
-        std::vector<weight_t> _matrix;
+        unsigned _n_vertices;
+        std::vector<weight_t> _adjacency_matrix;
     };
 
 static_assert(GraphImpl<DenseGraphImpl>);

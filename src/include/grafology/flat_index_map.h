@@ -19,10 +19,14 @@ namespace grafology {
             FlatIndexMap& operator=(FlatIndexMap&&) = default;
             ~FlatIndexMap() = default;
 
+            /**
+             * @brief A map element
+             * @details
+             * - the key is the edge end node index
+             * - the value is the edge weight
+             */
             struct MapEntry {
-                // key
                 node_t node;
-                //value
                 weight_t weight;
                 
                 auto operator<=>(const MapEntry& other) const {

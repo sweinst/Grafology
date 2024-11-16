@@ -17,6 +17,23 @@ namespace grafology {
              return _adjacency_list[i].get(j);
         }
 
+        node_t add_vertex() {
+            ++_n_vertices;
+            _adjacency_list.emplace_back();
+            return _n_vertices - 1;
+        }
+
+        /** 
+         * @brief Batch add vertices
+         * @remark This returns an iterator because when the removal of vertices will be implemented#
+         * it will return first the "free" vertex slots, so indices won't be contiguous anymore.
+        */
+        generator<node_t> add_vertices(unsigned n) {
+            for (unsigned i = 0; i < n; i++) {
+                co_yield add_vertex();
+            }
+        }
+
         void set_edge(unsigned i, unsigned j, weight_t weight) {
             _adjacency_list[i].set(j, weight);
             if (!_is_directed) {
@@ -48,7 +65,7 @@ namespace grafology {
     private:
         const bool _is_directed;
         const unsigned _n_max_vertices;
-        const unsigned _n_vertices;
+        unsigned _n_vertices;
         std::vector<FlatIndexMap> _adjacency_list;
     };
 
