@@ -92,10 +92,12 @@ namespace grafology {
 
         generator<edge_t> get_neighbors(node_t node) const {
             auto rowStart = _adjacency_matrix.data() + node*_n_max_vertices;
-            for (node_t i = 0; i < _n_vertices; i++) {
-                auto weight = *(rowStart+i);
-                if (weight != 0) {
-                    co_yield {.start = node, .end = i, .weight = weight};
+            for (node_t i = 0; i < _n_vertices; ++i) {
+                if (i != node) {
+                    auto weight = *(rowStart+i);
+                    if (weight != 0) {
+                        co_yield {.start = node, .end = i, .weight = weight};
+                    }
                 }
             }
         }

@@ -1,4 +1,5 @@
 #include <grafology/grafology.h>
+#include <set>
 
 namespace g = grafology;
 

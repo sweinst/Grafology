@@ -2,7 +2,7 @@
 #include <catch2/catch_template_test_macros.hpp>
 #include <grafology/dense_graph_impl.h>
 #include <grafology/sparse_graph_impl.h>
-#include <iostream>
+#include <ranges>
 
 TEMPLATE_TEST_CASE("Graph implementations", "[graph-impl]", g::DenseGraphImpl , g::SparseGraphImpl)
 {
@@ -25,11 +25,13 @@ TEMPLATE_TEST_CASE("Graph implementations", "[graph-impl]", g::DenseGraphImpl , 
         {8, 3, 11},
         {8, 7, 15},
         {8, 9, 17},
+        {10, 10, 20},
     };
 
 
     SECTION("Directed graphs")
     {   
+        //initialization
         std::vector<unsigned> degrees { 
             2, 0, 3, 1, 0, 
             1 , 0};
@@ -42,10 +44,11 @@ TEMPLATE_TEST_CASE("Graph implementations", "[graph-impl]", g::DenseGraphImpl , 
             CHECK(g.degree(idx) == degree);
         }
 
+        // modifications
         std::vector<unsigned> extra_degrees { 
             2, 0, 3, 2, 0, 
             2, 1, 0, 3, 0, 
-            0 };
+            1 };
 
         for (auto _ : g.add_vertices(n_extra_vertices)) {};
             CAPTURE(g.size(), n_vertices + n_extra_vertices);
@@ -60,10 +63,34 @@ TEMPLATE_TEST_CASE("Graph implementations", "[graph-impl]", g::DenseGraphImpl , 
             CAPTURE(idx, degree, g.degree(idx));
             CHECK(g.degree(idx) == degree);
         }
+
+        // neighbors
+        std::vector<std::set<g::node_t>> neighbors(g.size());
+        auto edges = {edges_init, extra_edges_init};
+        for(const auto& edge: std::views::join(edges))
+        {
+            if (edge.start != edge.end)
+            {
+                neighbors[edge.start].insert(edge.end);
+            }
+        }
+
+        for (g::node_t i = 0; i < g.size(); i++)
+        {
+            unsigned n_neighbors = 0;
+            for (const auto& neighbor: g.get_neighbors(i))
+            {
+                CHECK(neighbors[i].contains(neighbor.end));
+                ++n_neighbors;
+            }
+            CAPTURE(neighbors[i].size(), n_neighbors);
+            CHECK(neighbors[i].size() == n_neighbors);
+        }
     }
 
     SECTION("Undirected graphs")
     {   
+        //initialization
         std::vector<unsigned> degrees { 2, 3, 4, 2, 1, 2 };
 
         TestType g(max_vertices, n_vertices, false);
@@ -73,11 +100,12 @@ TEMPLATE_TEST_CASE("Graph implementations", "[graph-impl]", g::DenseGraphImpl , 
             CAPTURE(idx, degree, g.degree(idx));
             CHECK(g.degree(idx) == degree);
         }
+
+        // modifications
         std::vector<unsigned> extra_degrees { 
             2, 3, 4, 4, 1, 
             3, 1, 2, 4, 1, 
-            1 };
-
+            2 };
 
         for (auto _ : g.add_vertices(n_extra_vertices)) {}
         CAPTURE(g.size(), n_vertices + n_extra_vertices);
@@ -91,6 +119,30 @@ TEMPLATE_TEST_CASE("Graph implementations", "[graph-impl]", g::DenseGraphImpl , 
         {
             CAPTURE(idx, degree, g.degree(idx));
             CHECK(g.degree(idx) == degree);
+        }
+
+        // neighbors
+        std::vector<std::set<g::node_t>> neighbors(g.size());
+        auto edges = {edges_init, extra_edges_init};
+        for(const auto& edge: std::views::join(edges))
+        {
+            if (edge.start != edge.end)
+            {
+                neighbors[edge.start].insert(edge.end);
+                neighbors[edge.end].insert(edge.start);
+            }
+        }
+
+        for (g::node_t i = 0; i < g.size(); i++)
+        {
+            unsigned n_neighbors = 0;
+            for (const auto& neighbor: g.get_neighbors(i))
+            {
+                CHECK(neighbors[i].contains(neighbor.end));
+                ++n_neighbors;
+            }
+            CAPTURE(neighbors[i].size(), n_neighbors);
+            CHECK(neighbors[i].size() == n_neighbors);
         }
     }    
 }
