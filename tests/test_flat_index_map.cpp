@@ -22,9 +22,9 @@ TEST_CASE("Test FlatIndexMap", "[flatindexmap]")
         REQUIRE(map.get(e.node) == e.weight);
     }
 
-    REQUIRE(map.get(1) == -1);
-    REQUIRE(map.get(5) == -1);
-    REQUIRE(map.get(100) == -1);
+    REQUIRE(map.get(1) == 0);
+    REQUIRE(map.get(5) == 0);
+    REQUIRE(map.get(100) == 0);
     
     map.set(1, 10);
     map.set(1, 1);
@@ -44,9 +44,9 @@ TEST_CASE("Test FlatIndexMap", "[flatindexmap]")
 
     REQUIRE(map.size() == expected.size());
 
-    REQUIRE(map.get(1) == -1);
-    REQUIRE(map.get(5) == -1);
-    REQUIRE(map.get(100) == -1);
+    REQUIRE(map.get(1) == 0);
+    REQUIRE(map.get(5) == 0);
+    REQUIRE(map.get(100) == 0);
 }
 
 

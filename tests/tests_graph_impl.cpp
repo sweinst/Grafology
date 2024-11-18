@@ -1,16 +1,47 @@
 #include "test_vertex.h"
-#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch_template_test_macros.hpp>
 #include <grafology/dense_graph_impl.h>
+#include <grafology/sparse_graph_impl.h>
+#include <iostream>
 
-TEST_CASE("Hello World", "[hello]")
+TEMPLATE_TEST_CASE("Graph implementations", "[graph-impl]", g::DenseGraphImpl, g::SparseGraphImpl)
 {
-    REQUIRE(1 == 1);
+    constexpr unsigned max_vertices = 20;
+    unsigned n_vertices = 7;
+    const std::vector<g::edge_t> edges_init {
+        {0, 1, 1},
+        {0, 2, 2},
+        {2, 3, 5},
+        {2, 4, 6},
+        {2, 5, 7},
+        {3, 1, 4},
+        {5, 1, 6},
+    };
+
+    SECTION("Directed graphs")
+    {   
+        std::vector<unsigned> degrees { 2, 0, 3, 1, 0, 1 };
+
+        TestType g(max_vertices, n_vertices, true);
+        g.set_edges(edges_init);
+        for (const auto [idx, degree]: std::views::enumerate(degrees))
+        {
+            CAPTURE(idx, degree, g.degree(idx));
+            CHECK(g.degree(idx) == degree);
+        }
+    }    
+
+    SECTION("Undirected graphs")
+    {   
+        std::vector<unsigned> degrees { 2, 3, 4, 2, 1, 2 };
+
+        TestType g(max_vertices, n_vertices, false);
+        g.set_edges(edges_init);
+        for (const auto [idx, degree]: std::views::enumerate(degrees))
+        {
+            CAPTURE(idx, degree, g.degree(idx));
+            CHECK(g.degree(idx) == degree);
+        }
+    }    
 }
 
-void f() {
-    g::DenseGraphImpl g(10, 5, true);
-    g.set_edge(1, 2, 3);
-    std::vector<g::edge_t> edges = {{1, 2, 3}, {2, 3, 4}};
-    g.set_edges(edges.begin(), edges.end());
-    g.set_edges(edges);
-}
