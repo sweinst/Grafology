@@ -42,6 +42,7 @@ namespace grafology {
          * @brief Batch add vertices
          * @remark This returns an iterator because when the removal of vertices will be implemented#
          * it will return first the "free" vertex slots, so indices won't be contiguous anymore.
+         * @remark In order to add the vertices, the generator must be iterated
         */
         generator<node_t> add_vertices(unsigned n) {
             for (unsigned i = 0; i < n; ++i) {

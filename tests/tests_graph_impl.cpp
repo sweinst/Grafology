@@ -4,7 +4,7 @@
 #include <grafology/sparse_graph_impl.h>
 #include <iostream>
 
-TEMPLATE_TEST_CASE("Graph implementations", "[graph-impl]", g::DenseGraphImpl/* , g::SparseGraphImpl */)
+TEMPLATE_TEST_CASE("Graph implementations", "[graph-impl]", g::DenseGraphImpl , g::SparseGraphImpl)
 {
     constexpr unsigned max_vertices = 11;
     constexpr unsigned n_vertices = 7;
@@ -46,7 +46,7 @@ TEMPLATE_TEST_CASE("Graph implementations", "[graph-impl]", g::DenseGraphImpl/* 
             2, 1, 0, 2, 0, 
             0 };
 
-        g.add_vertices(n_extra_vertices);
+        for (auto _ : g.add_vertices(n_extra_vertices)) {}
         CAPTURE(g.size(), n_vertices + n_extra_vertices);
         REQUIRE(g.size() == n_vertices + n_extra_vertices);
         for (const auto& edge: extra_edges_init)
