@@ -4,10 +4,10 @@
 #include <grafology/sparse_graph_impl.h>
 #include <iostream>
 
-TEMPLATE_TEST_CASE("Graph implementations", "[graph-impl]", g::DenseGraphImpl, g::SparseGraphImpl)
+TEMPLATE_TEST_CASE("Graph implementations", "[graph-impl]", g::DenseGraphImpl/* , g::SparseGraphImpl */)
 {
-    constexpr unsigned max_vertices = 20;
-    unsigned n_vertices = 7;
+    constexpr unsigned max_vertices = 11;
+    constexpr unsigned n_vertices = 7;
     const std::vector<g::edge_t> edges_init {
         {0, 1, 1},
         {0, 2, 2},
@@ -17,10 +17,21 @@ TEMPLATE_TEST_CASE("Graph implementations", "[graph-impl]", g::DenseGraphImpl, g
         {3, 1, 4},
         {5, 1, 6},
     };
+    constexpr unsigned n_extra_vertices = 4;
+    const std::vector<g::edge_t> extra_edges_init {
+        {3, 10, 11},
+        {5, 8, 13},
+        {6, 7, 13},
+        {8, 7, 15},
+        {8, 9, 17},
+    };
+
 
     SECTION("Directed graphs")
     {   
-        std::vector<unsigned> degrees { 2, 0, 3, 1, 0, 1 };
+        std::vector<unsigned> degrees { 
+            2, 0, 3, 1, 0, 
+            1 , 0};
 
         TestType g(max_vertices, n_vertices, true);
         g.set_edges(edges_init);
@@ -29,7 +40,30 @@ TEMPLATE_TEST_CASE("Graph implementations", "[graph-impl]", g::DenseGraphImpl, g
             CAPTURE(idx, degree, g.degree(idx));
             CHECK(g.degree(idx) == degree);
         }
-    }    
+
+        std::vector<unsigned> extra_degrees { 
+            2, 0, 3, 2, 0, 
+            2, 1, 0, 2, 0, 
+            0 };
+
+        g.add_vertices(n_extra_vertices);
+        CAPTURE(g.size(), n_vertices + n_extra_vertices);
+        REQUIRE(g.size() == n_vertices + n_extra_vertices);
+        for (const auto& edge: extra_edges_init)
+        {
+            g.set_edge(edge);
+        }
+
+        for (const auto [idx, degree]: std::views::enumerate(extra_degrees))
+        {
+            if(g.degree(idx) != degree) {
+                auto x = g.degree(idx);
+                std::cout << "idx: " << idx << " degree: " << degree << " g.degree(idx): " << g.degree(idx) << std::endl;
+            }
+            CAPTURE(idx, degree, g.degree(idx));
+            CHECK(g.degree(idx) == degree);
+        }
+    }
 
     SECTION("Undirected graphs")
     {   

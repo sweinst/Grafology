@@ -13,6 +13,10 @@ namespace grafology {
             _adjacency_list.reserve(_n_max_vertices);
         }
 
+        unsigned size() const { return _n_vertices; }
+
+        unsigned capacity() const { return _n_max_vertices; }
+
         weight_t operator()(unsigned i, unsigned j) const { 
              return _adjacency_list[i].get(j);
         }
@@ -46,9 +50,9 @@ namespace grafology {
                 _adjacency_list[edge.start].remove(edge.end);
                 return;
             }
-            _adjacency_list[edge.start].set(edge.start, edge.weight);
+            _adjacency_list[edge.start].set(edge.end, edge.weight);
             if (!_is_directed) {
-                _adjacency_list[edge.start].set(edge.start, edge.weight);
+                _adjacency_list[edge.end].set(edge.start, edge.weight);
             }
         }
         

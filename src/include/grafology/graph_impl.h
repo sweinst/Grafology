@@ -75,6 +75,8 @@ concept GraphImpl = requires(G g, node_t i, node_t j, weight_t w) {
         // g.set_edges(std::declval<input_range_value<edge_t>>());
     }
     && requires(const G g, node_t i, node_t j) {
+        {g.size()} -> std::convertible_to<std::size_t>;
+        {g.capacity()} -> std::convertible_to<std::size_t>;
         {g.degree(i)} -> std::convertible_to<std::size_t>;
         {g.operator()(i, j)} -> std::convertible_to<weight_t>;
         {g.get_neighbors(i)} -> std::convertible_to<generator<edge_t>>; 

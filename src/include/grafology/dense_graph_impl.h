@@ -19,6 +19,11 @@ namespace grafology {
           _n_vertices(n_vertices),
           _adjacency_matrix(_n_max_vertices * _n_max_vertices, 0) {
         }
+
+        unsigned size() const { return _n_vertices; }
+
+        unsigned capacity() const { return _n_max_vertices; }
+
         // NB: VS2022 does not support the C++23 multidimensional subscript operator (i.e. a[i,j])
         weight_t operator()(unsigned i, unsigned j) const { 
             return _adjacency_matrix[i*_n_max_vertices+j];
@@ -39,7 +44,7 @@ namespace grafology {
          * it will return first the "free" vertex slots, so indices won't be contiguous anymore.
         */
         generator<node_t> add_vertices(unsigned n) {
-            for (unsigned i = 0; i < n; i++) {
+            for (unsigned i = 0; i < n; ++i) {
                 co_yield add_vertex();
             }
         }
@@ -75,8 +80,9 @@ namespace grafology {
 
         std::size_t degree(node_t node) const {
             int degree = 0;
+            auto rowStart = _adjacency_matrix.data() + node*_n_max_vertices;
             for (node_t i = 0; i < _n_vertices; i++) {
-                if (_adjacency_matrix[node*_n_max_vertices+i] != 0) {
+                if (*(rowStart+i) != 0) {
                     ++degree;
                 }
             }
@@ -84,8 +90,9 @@ namespace grafology {
         }
 
         generator<edge_t> get_neighbors(node_t node) const {
+            auto rowStart = _adjacency_matrix.data() + node*_n_max_vertices;
             for (node_t i = 0; i < _n_vertices; i++) {
-                auto weight = _adjacency_matrix[node*_n_max_vertices+i];
+                auto weight = *(rowStart+i);
                 if (weight != 0) {
                     co_yield {.start = node, .end = i, .weight = weight};
                 }
