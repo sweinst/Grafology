@@ -18,7 +18,8 @@ TEST_CASE("Test BiMap", "[bimap]") {
 
     BiMap b(10);
     for (const auto& v: init) {
-        b.add_vertex(v);
+        auto idx = b.add_vertex(v);
+        CHECK(idx + 1 == v._id);
     }
 
     for (const auto& v: init) {
