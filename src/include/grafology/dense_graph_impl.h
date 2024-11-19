@@ -24,6 +24,8 @@ namespace grafology {
 
         unsigned capacity() const { return _n_max_vertices; }
 
+        bool is_directed() const { return _is_directed; }
+
         // NB: VS2022 does not support the C++23 multidimensional subscript operator (i.e. a[i,j])
         weight_t operator()(unsigned i, unsigned j) const { 
             return _adjacency_matrix[i*_n_max_vertices+j];
