@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.26)
 project(grafology VERSION 0.1.0 LANGUAGES C CXX)
+
+option(BUILD_TESTS "Build tests" ON)
+
 set(CMAKE_CXX_STANDARD 23)
 
 if (NOT CMAKE_BUILD_TYPE)
@@ -8,7 +11,9 @@ endif ()
 
 message(STATUS "Using compiler ${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")
 
-find_package(Catch2 CONFIG REQUIRED)
+if(BUILD_TESTS)
+    find_package(Catch2 CONFIG REQUIRED)
+endif(BUILD_TESTS)
 
 ##################################################
 # Library
@@ -45,7 +50,9 @@ set_target_properties(
 ##################################################
 # Tests
 ##################################################
-add_subdirectory(tests)
+if(BUILD_TESTS)
+    add_subdirectory(tests)
+endif(BUILD_TESTS)
 
 ##################################################
 # Installation
