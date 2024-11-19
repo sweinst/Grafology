@@ -9,7 +9,7 @@
 
 param(  
     [Parameter(Mandatory=$true, Position=0)]
-    [ValidateNotNullorEmpty()]
+    [ValidateNotNullOrEmpty()]
     [ValidateSet('', 'Debug', 'Release', 'RelWithDebInfo', 'MinSizeRel', 'All')]
     [string[]] $BuildTypes,
 

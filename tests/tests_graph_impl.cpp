@@ -1,8 +1,10 @@
-#include "test_vertex.h"
 #include <catch2/catch_template_test_macros.hpp>
 #include <grafology/dense_graph_impl.h>
 #include <grafology/sparse_graph_impl.h>
 #include <ranges>
+#include <set>
+
+namespace g = grafology;
 
 TEMPLATE_TEST_CASE("Graph implementations", "[graph-impl]", g::DenseGraphImpl , g::SparseGraphImpl)
 {

@@ -26,13 +26,14 @@ set(GRAFOLOGY_SRC
 )
 
 set(GRAFOLOGY_HDRS 
-    src/include/grafology/grafology.h
-    src/include/grafology/vertex.h 
+    src/include/grafology/bimap.h
     src/include/grafology/graph.h 
     src/include/grafology/graph_impl.h
+    src/include/grafology/grafology.h
     src/include/grafology/sparse_graph_impl.h
     src/include/grafology/dense_graph_impl.h
     src/include/grafology/flat_index_map.h
+    src/include/grafology/vertex.h 
 )
 
 add_library(${PROJECT_NAME} ${GRAFOLOGY_SRC} ${GRAFOLOGY_HDRS})
