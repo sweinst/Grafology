@@ -5,11 +5,11 @@
 
 namespace g = grafology;
 
-TEMPLATE_TEST_CASE("Directed graphs", "[graph]", g::DirectedDenseGraph<TestVertex> , g::DirectedSparseGraph<TestVertex>) {
-    using Edge = TestType::Edge;
+namespace {
+    using Edge = g::EdgeDefinition<TestVertex>;
 
     constexpr unsigned max_vertices = 11;
-    constexpr unsigned n_vertices = 8;
+    constexpr unsigned n_vertices = 7;
 
     std::vector<TestVertex> init = {
       {0, "zero"},
@@ -19,7 +19,6 @@ TEMPLATE_TEST_CASE("Directed graphs", "[graph]", g::DirectedDenseGraph<TestVerte
       {4, "four"},
       {5, "five"},
       {6, "six"},
-      {7, "seven"},
     };
 
     // the Vertex key is in fact _id
@@ -33,8 +32,9 @@ TEMPLATE_TEST_CASE("Directed graphs", "[graph]", g::DirectedDenseGraph<TestVerte
         {{5, ""}, {1, ""}, 6},
     };
 
-    constexpr unsigned n_extra_vertices = 3;
+    constexpr unsigned n_extra_vertices = 4;
     std::vector<TestVertex> extra_init = {
+      {7, "seven"},
       {8, "eight"},
       {9, "nine"},
       {10, "ten"},
@@ -49,7 +49,9 @@ TEMPLATE_TEST_CASE("Directed graphs", "[graph]", g::DirectedDenseGraph<TestVerte
         {{8, ""}, {9, ""}, 17},
         {{10, ""}, {10, ""}, 20},
     };
+}
 
+TEMPLATE_TEST_CASE("Directed graphs", "[graph]", g::DirectedDenseGraph<TestVertex> , g::DirectedSparseGraph<TestVertex>) {
     TestType graph(max_vertices);
 
     //initialization
@@ -111,50 +113,6 @@ TEMPLATE_TEST_CASE("Directed graphs", "[graph]", g::DirectedDenseGraph<TestVerte
 }
 
 TEMPLATE_TEST_CASE("Undirected graphs", "[graph]", g::UndirectedDenseGraph<TestVertex> , g::UndirectedSparseGraph<TestVertex>) {
-    using Edge = TestType::Edge;
-
-    constexpr unsigned max_vertices = 11;
-    constexpr unsigned n_vertices = 8;
-
-    std::vector<TestVertex> init = {
-      {0, "zero"},
-      {1, "one"},
-      {2, "two"},
-      {3, "three"},
-      {4, "four"},
-      {5, "five"},
-      {6, "six"},
-      {7, "seven"},
-    };
-
-    // the Vertex key is in fact _id
-    std::vector<Edge> edges_init = {
-        {{0, ""}, {1, ""}, 1},
-        {{0, ""}, {2, ""}, 2},
-        {{2, ""}, {3, ""}, 5},
-        {{2, ""}, {4, ""}, 6},
-        {{2, ""}, {5, ""}, 7},
-        {{3, ""}, {1, ""}, 4},
-        {{5, ""}, {1, ""}, 6},
-    };
-
-    constexpr unsigned n_extra_vertices = 3;
-    std::vector<TestVertex> extra_init = {
-      {8, "eight"},
-      {9, "nine"},
-      {10, "ten"},
-    };
-
-    const std::vector<Edge> extra_edges_init {
-        {{3, ""}, {10, ""}, 13},
-        {{5, ""}, {8, ""}, 13},
-        {{6, ""}, {7, ""}, 13},
-        {{8, ""}, {3, ""}, 11},
-        {{8, ""}, {7, ""}, 15},
-        {{8, ""}, {9, ""}, 17},
-        {{10, ""}, {10, ""}, 20},
-    };
-
     TestType graph(max_vertices);
 
     //initialization

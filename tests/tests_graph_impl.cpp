@@ -9,7 +9,7 @@ namespace g = grafology;
 TEMPLATE_TEST_CASE("Graph implementations", "[graph-impl]", g::DenseGraphImpl , g::SparseGraphImpl)
 {
     constexpr unsigned max_vertices = 11;
-    constexpr unsigned n_vertices = 8;
+    constexpr unsigned n_vertices = 7;
     const std::vector<g::edge_t> edges_init {
         {0, 1, 1},
         {0, 2, 2},
@@ -19,7 +19,7 @@ TEMPLATE_TEST_CASE("Graph implementations", "[graph-impl]", g::DenseGraphImpl , 
         {3, 1, 4},
         {5, 1, 6},
     };
-    constexpr unsigned n_extra_vertices = 3;
+    constexpr unsigned n_extra_vertices = 4;
     const std::vector<g::edge_t> extra_edges_init {
         {3, 10, 13},
         {5, 8, 13},

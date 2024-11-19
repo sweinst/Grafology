@@ -36,6 +36,10 @@ namespace grafology {
             return _impl.capacity();
         }
 
+        bool is_directed() const {
+            return IsDirected;
+        }
+
         template<input_iterator_value<Vertex> I, std::sentinel_for<I> S>
         void add_vertices(I first, S last) {
             for (auto it = first; it != last; ++it) {
