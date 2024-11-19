@@ -45,8 +45,7 @@ TEMPLATE_TEST_CASE("Graph implementations", "[graph-impl]",
 
         TestType g(max_vertices, n_vertices, is_directed);
         g.set_edges(edges_init);
-        for (const auto [idx, degree]: std::views::enumerate(degrees))
-        {
+        for (const auto [idx, degree]: std::views::enumerate(degrees)) {
             CAPTURE(idx, degree, g.degree(idx));
             CHECK(g.degree(idx) == degree);
         }
@@ -65,13 +64,11 @@ TEMPLATE_TEST_CASE("Graph implementations", "[graph-impl]",
         for (auto _ : g.add_vertices(n_extra_vertices)) {};
         CAPTURE(g.size(), n_vertices + n_extra_vertices);
         REQUIRE(g.size() == n_vertices + n_extra_vertices);
-        for (const auto& edge: extra_edges_init)
-        {
+        for (const auto& edge: extra_edges_init) {
             g.set_edge(edge);
         }
 
-        for (const auto [idx, degree]: std::views::enumerate(extra_degrees))
-        {
+        for (const auto [idx, degree]: std::views::enumerate(extra_degrees)) {
             CAPTURE(idx, degree, g.degree(idx));
             CHECK(g.degree(idx) == degree);
         }
@@ -79,8 +76,7 @@ TEMPLATE_TEST_CASE("Graph implementations", "[graph-impl]",
         // neighbors
         std::vector<std::set<g::node_t>> neighbors(g.size());
         auto edges = {edges_init, extra_edges_init};
-        for(const auto& edge: std::views::join(edges))
-        {
+        for(const auto& edge: std::views::join(edges)) {
             if (edge.start != edge.end)
             {                
                 neighbors[edge.start].insert(edge.end);
@@ -91,11 +87,9 @@ TEMPLATE_TEST_CASE("Graph implementations", "[graph-impl]",
             }
         }
 
-        for (g::node_t i = 0; i < g.size(); i++)
-        {
+        for (g::node_t i = 0; i < g.size(); i++) {
             unsigned n_neighbors = 0;
-            for (const auto& neighbor: g.get_neighbors(i))
-            {
+            for (const auto& neighbor: g.get_neighbors(i)) {
                 CAPTURE(neighbor.start, neighbor.end, neighbor.weight);
                 CHECK(neighbors[i].contains(neighbor.end));
                 CHECK(neighbor.start + neighbor.end == neighbor.weight);
