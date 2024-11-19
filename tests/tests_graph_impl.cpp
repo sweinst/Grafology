@@ -19,7 +19,7 @@ TEMPLATE_TEST_CASE("Graph implementations", "[graph-impl]", g::DenseGraphImpl , 
     };
     constexpr unsigned n_extra_vertices = 4;
     const std::vector<g::edge_t> extra_edges_init {
-        {3, 10, 11},
+        {3, 10, 13},
         {5, 8, 13},
         {6, 7, 13},
         {8, 3, 11},
@@ -80,7 +80,9 @@ TEMPLATE_TEST_CASE("Graph implementations", "[graph-impl]", g::DenseGraphImpl , 
             unsigned n_neighbors = 0;
             for (const auto& neighbor: g.get_neighbors(i))
             {
+                CAPTURE(neighbor.start, neighbor.end, neighbor.weight);
                 CHECK(neighbors[i].contains(neighbor.end));
+                CHECK(neighbor.start + neighbor.end == neighbor.weight);
                 ++n_neighbors;
             }
             CAPTURE(neighbors[i].size(), n_neighbors);
@@ -138,7 +140,9 @@ TEMPLATE_TEST_CASE("Graph implementations", "[graph-impl]", g::DenseGraphImpl , 
             unsigned n_neighbors = 0;
             for (const auto& neighbor: g.get_neighbors(i))
             {
+                CAPTURE(neighbor.start, neighbor.end, neighbor.weight);
                 CHECK(neighbors[i].contains(neighbor.end));
+                CHECK(neighbor.start + neighbor.end == neighbor.weight);
                 ++n_neighbors;
             }
             CAPTURE(neighbors[i].size(), n_neighbors);
