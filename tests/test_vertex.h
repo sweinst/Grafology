@@ -35,5 +35,5 @@ namespace std {
 }
 
 // check if the concept is satisfied
-static_assert(g::Vertex<TestVertex>);
+static_assert(g::VertexKey<TestVertex>);
 

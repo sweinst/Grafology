@@ -7,7 +7,7 @@ namespace grafology
     /**
      * @brief A crude bidirectional map between Vertex and internal indexes.
      */
-    template <Vertex V>
+    template <VertexKey V>
     class BiMap {
         // TODO: check bounds in debug builds
     public:
