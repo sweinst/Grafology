@@ -2,8 +2,12 @@
 #include "flat_index_map.h"
 
 namespace grafology {
+    /**
+     * @brief A sparse graph implementation which use an adjacency list
+     * @warning Once built, the graph capacity cannot be changed.
+     */
     class SparseGraphImpl {
-        // TODO: check bounds
+        // TODO: check bounds in debug builds
     public:
         SparseGraphImpl(unsigned n_max_vertices, unsigned n_vertices, bool is_directed) :
           _is_directed(is_directed),

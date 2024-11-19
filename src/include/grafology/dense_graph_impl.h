@@ -11,7 +11,7 @@ namespace grafology {
      * @warning Once built, the graph capacity cannot be changed.
      */
     class DenseGraphImpl {
-        // TODO: check bounds
+        // TODO: check bounds in debug builds
     public:
         DenseGraphImpl(unsigned n_max_vertices, unsigned n_vertices, bool is_directed) :
           _is_directed(is_directed),
