@@ -7,7 +7,7 @@
 
 namespace grafology {
     template<VertexKey Vertex>
-    struct Edge {
+    struct EdgeDefinition {
         Vertex start;
         Vertex end;
         weight_t weight;
@@ -16,7 +16,7 @@ namespace grafology {
     template<GraphImpl Impl, VertexKey Vertex, bool IsDirected>
     class Graph {
     public:
-        using Edge = Edge<Vertex>;
+        using Edge = EdgeDefinition<Vertex>;
 
         Graph(unsigned capacity): 
             _impl(capacity, 0, IsDirected),
