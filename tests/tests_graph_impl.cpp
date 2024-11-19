@@ -9,7 +9,7 @@ namespace g = grafology;
 TEMPLATE_TEST_CASE("Graph implementations", "[graph-impl]", g::DenseGraphImpl , g::SparseGraphImpl)
 {
     constexpr unsigned max_vertices = 11;
-    constexpr unsigned n_vertices = 7;
+    constexpr unsigned n_vertices = 8;
     const std::vector<g::edge_t> edges_init {
         {0, 1, 1},
         {0, 2, 2},
@@ -19,7 +19,7 @@ TEMPLATE_TEST_CASE("Graph implementations", "[graph-impl]", g::DenseGraphImpl , 
         {3, 1, 4},
         {5, 1, 6},
     };
-    constexpr unsigned n_extra_vertices = 4;
+    constexpr unsigned n_extra_vertices = 3;
     const std::vector<g::edge_t> extra_edges_init {
         {3, 10, 13},
         {5, 8, 13},
@@ -53,8 +53,8 @@ TEMPLATE_TEST_CASE("Graph implementations", "[graph-impl]", g::DenseGraphImpl , 
             1 };
 
         for (auto _ : g.add_vertices(n_extra_vertices)) {};
-            CAPTURE(g.size(), n_vertices + n_extra_vertices);
-            REQUIRE(g.size() == n_vertices + n_extra_vertices);
+        CAPTURE(g.size(), n_vertices + n_extra_vertices);
+        REQUIRE(g.size() == n_vertices + n_extra_vertices);
         for (const auto& edge: extra_edges_init)
         {
             g.set_edge(edge);
