@@ -20,6 +20,11 @@ namespace grafology {
           _adjacency_matrix(_n_max_vertices * _n_max_vertices, 0) {
         }
 
+        DenseGraphImpl(const DenseGraphImpl&) = default;
+        DenseGraphImpl(DenseGraphImpl&&) = default;
+        DenseGraphImpl& operator=(const DenseGraphImpl&) = default;
+        DenseGraphImpl& operator=(DenseGraphImpl&&) = default;
+
         unsigned size() const { return _n_vertices; }
 
         unsigned capacity() const { return _n_max_vertices; }
@@ -148,13 +153,23 @@ namespace grafology {
             }
         }
 
+        DenseGraphImpl invert() const {
+            DenseGraphImpl inverted(_n_max_vertices, _n_vertices, _is_directed);
+            for (node_t i = 0; i < _n_vertices; ++i) {
+                for (node_t j = 0; j < _n_vertices; ++j) {
+                    inverted._adjacency_matrix[i*_n_max_vertices+j] = _adjacency_matrix[j*_n_max_vertices+i];
+                }
+            }
+            return inverted;
+        }
+
     private:
-        const bool _is_directed;
-        const unsigned _n_max_vertices;
+        bool _is_directed;
+        unsigned _n_max_vertices;
         unsigned _n_vertices;
         std::vector<weight_t> _adjacency_matrix;
     };
 
-//static_assert(GraphImpl<DenseGraphImpl>);
+    static_assert(GraphImpl<DenseGraphImpl>);
 
 } // namespace grafology

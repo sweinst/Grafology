@@ -17,6 +17,11 @@ namespace grafology {
             _adjacency_list.reserve(_n_max_vertices);
         }
 
+        SparseGraphImpl(const SparseGraphImpl&) = default;
+        SparseGraphImpl(SparseGraphImpl&&) = default;
+        SparseGraphImpl& operator=(const SparseGraphImpl&) = default;
+        SparseGraphImpl& operator=(SparseGraphImpl&&) = default;
+
         unsigned size() const { return _n_vertices; }
 
         unsigned capacity() const { return _n_max_vertices; }
@@ -138,9 +143,20 @@ namespace grafology {
                 }
             }
         }
+
+        SparseGraphImpl invert() const {
+            SparseGraphImpl inverted(_n_max_vertices, _n_vertices, _is_directed);
+            for (unsigned i = 0; i < _n_vertices; i++) {
+                for (const auto& edge : _adjacency_list[i]) {
+                    inverted.set_edge(edge.node, i, edge.weight);
+                }
+            }
+            return inverted;
+        }
+
    private:
-        const bool _is_directed;
-        const unsigned _n_max_vertices;
+        bool _is_directed;
+        unsigned _n_max_vertices;
         unsigned _n_vertices;
         std::vector<FlatIndexMap> _adjacency_list;
     };

@@ -167,5 +167,17 @@ TEMPLATE_TEST_CASE("Graphs", "[graphs]",
             CAPTURE(in_neighbors[v].size(), n_in_neighbors);
             CHECK(in_neighbors[v].size() == n_in_neighbors);
         }
+        {
+            auto inverted = graph.invert();
+            unsigned n_in_neighbors = 0;
+            for (const auto& in_neighbor: inverted.get_neighbors(v)) {
+                CAPTURE(in_neighbor.start._id, in_neighbor.end._id, in_neighbor.weight);
+                CHECK(in_neighbors[v].contains(in_neighbor.end));
+                CHECK(in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight);
+                ++n_in_neighbors;
+            }
+            CAPTURE(in_neighbors[v].size(), n_in_neighbors);
+            CHECK(in_neighbors[v].size() == n_in_neighbors);
+        }
     }
 }

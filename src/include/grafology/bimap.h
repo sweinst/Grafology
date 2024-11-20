@@ -16,6 +16,11 @@ namespace grafology
             _index_to_vertex.reserve(capacity);
         }
 
+        BiMap(const BiMap&) = default;
+        BiMap(BiMap&&) = default;
+        BiMap& operator=(const BiMap&) = default;
+        BiMap& operator=(BiMap&&) = default;
+
         unsigned size() const {
             return _size;
         }
@@ -46,7 +51,7 @@ namespace grafology
     private:
         std::vector<V> _index_to_vertex;
         std::unordered_map<V, unsigned> _vertex_to_index;
-        const unsigned _capacity;
+        unsigned _capacity;
         unsigned _size;
 
     };

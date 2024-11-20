@@ -155,6 +155,18 @@ TEMPLATE_TEST_CASE("Graph implementations", "[graph-impl]",
                 CAPTURE(in_neighbors[i].size(), n_in_neighbors);
                 CHECK(in_neighbors[i].size() == n_in_neighbors);
             }
+            {
+                auto inverted = g.invert();
+                unsigned n_in_neighbors = 0;
+                for (const auto& in_neighbor: inverted.get_neighbors(i)) {
+                    CAPTURE(in_neighbor.start, in_neighbor.end, in_neighbor.weight);
+                    CHECK(in_neighbors[i].contains(in_neighbor.end));
+                    CHECK(in_neighbor.start + in_neighbor.end == in_neighbor.weight);
+                    ++n_in_neighbors;
+                }
+                CAPTURE(in_neighbors[i].size(), n_in_neighbors);
+                CHECK(in_neighbors[i].size() == n_in_neighbors);
+            }
         }
     }
 }

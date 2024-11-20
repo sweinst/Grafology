@@ -126,6 +126,13 @@ namespace grafology {
             }
         }
 
+        Graph invert() const {
+            Graph inverted(capacity());
+            inverted._impl = _impl.invert();
+            inverted._vertex_map = _vertex_map;
+            return inverted;
+        }
+
     private:
         Impl _impl;
         BiMap<Vertex> _vertex_map;
