@@ -113,6 +113,31 @@ namespace grafology {
             }
         }
 
+        generator<node_t> get_raw_in_neighbors(node_t node) const {
+            for (unsigned i = 0; i < size(); ++i) {
+                if (i == node) {
+                    continue;
+                }
+                for (const auto& edge : _adjacency_list[i]) {
+                    if (edge.node == node) {
+                        co_yield i;
+                    }
+                }
+            }
+        }
+
+        generator<edge_t> get_in_neighbors(node_t node) const {
+            for (unsigned i = 0; i < size(); ++i) {
+                if (i == node) {
+                    continue;
+                }
+                for (const auto& edge : _adjacency_list[i]) {
+                    if (edge.node == node) {
+                        co_yield {.start = i, .end = node, .weight = edge.weight};
+                    }
+                }
+            }
+        }
    private:
         const bool _is_directed;
         const unsigned _n_max_vertices;

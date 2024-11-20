@@ -125,6 +125,29 @@ namespace grafology {
                 }
             }
         }
+
+        generator<node_t> get_raw_in_neighbors(node_t node) const {
+            for (node_t i = 0; i < _n_vertices; ++i) {
+                if (i != node) {
+                    auto weight = _adjacency_matrix[i*_n_max_vertices+node];
+                    if (weight != 0) {
+                        co_yield i;
+                    }
+                }
+            }
+        }
+        
+        generator<edge_t> get_in_neighbors(node_t node) const {
+            for (node_t i = 0; i < _n_vertices; ++i) {
+                if (i != node) {
+                    auto weight = _adjacency_matrix[i*_n_max_vertices+node];
+                    if (weight != 0) {
+                        co_yield {.start = i, .end = node, .weight = weight};
+                    }
+                }
+            }
+        }
+
     private:
         const bool _is_directed;
         const unsigned _n_max_vertices;

@@ -97,14 +97,17 @@ TEMPLATE_TEST_CASE("Graph implementations", "[graph-impl]",
 
         // neighbors
         std::vector<std::set<g::node_t>> neighbors(g.size());
+        std::vector<std::set<g::node_t>> in_neighbors(g.size());
         auto edges = {edges_init, extra_edges_init};
         for(const auto& edge: std::views::join(edges)) {
             if (edge.start != edge.end)
             {                
                 neighbors[edge.start].insert(edge.end);
+                in_neighbors[edge.end].insert(edge.start);
                 if (!is_directed)
                 {
                     neighbors[edge.end].insert(edge.start);
+                    in_neighbors[edge.start].insert(edge.end);
                 }
             }
         }
@@ -130,6 +133,27 @@ TEMPLATE_TEST_CASE("Graph implementations", "[graph-impl]",
                 }
                 CAPTURE(neighbors[i].size(), n_neighbors);
                 CHECK(neighbors[i].size() == n_neighbors);
+            }
+            {
+                unsigned n_in_neighbors = 0;
+                for (const auto& in_neighbor: g.get_in_neighbors(i)) {
+                    CAPTURE(in_neighbor.start, in_neighbor.end, in_neighbor.weight);
+                    CHECK(in_neighbors[i].contains(in_neighbor.start));
+                    CHECK(in_neighbor.start + in_neighbor.end == in_neighbor.weight);
+                    ++n_in_neighbors;
+                }
+                CAPTURE(in_neighbors[i].size(), n_in_neighbors);
+                CHECK(in_neighbors[i].size() == n_in_neighbors);
+            }
+            {
+                unsigned n_in_neighbors = 0;
+                for (const auto& in_neighbor: g.get_raw_in_neighbors(i)) {
+                    CAPTURE(i, in_neighbor);
+                    CHECK(in_neighbors[i].contains(in_neighbor));
+                    ++n_in_neighbors;
+                }
+                CAPTURE(in_neighbors[i].size(), n_in_neighbors);
+                CHECK(in_neighbors[i].size() == n_in_neighbors);
             }
         }
     }
