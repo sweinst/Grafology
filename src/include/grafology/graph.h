@@ -85,6 +85,11 @@ namespace grafology {
             return _impl.degree(i);
         }
 
+        unsigned in_degree(const Vertex& v) const {
+            auto i = _vertex_map.get_index(v);
+            return _impl.in_degree(i);
+        }
+
         generator<Vertex> get_vertices() const {
             for (unsigned i = 0; i < size(); ++i) {
                 co_yield _vertex_map.get_vertex(i);
@@ -95,6 +100,13 @@ namespace grafology {
             auto i = _vertex_map.get_index(v);
             for (const auto& edge : _impl.get_neighbors(i)) {
                 co_yield {.start = v, .end = _vertex_map.get_vertex(edge.end), .weight = edge.weight};
+            }
+        }
+
+        generator<const Vertex&> get_raw_neighbors(const Vertex& v) const {
+            auto i = _vertex_map.get_index(v);
+            for (const auto& edge : _impl.get_neighbors(i)) {
+                co_yield _vertex_map.get_vertex(edge.end);
             }
         }
 

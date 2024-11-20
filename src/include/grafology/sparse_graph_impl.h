@@ -21,6 +21,8 @@ namespace grafology {
 
         unsigned capacity() const { return _n_max_vertices; }
 
+        bool is_directed() const { return _is_directed; }
+
         weight_t operator()(unsigned i, unsigned j) const { 
              return _adjacency_list[i].get(j);
         }
@@ -79,7 +81,28 @@ namespace grafology {
             return _adjacency_list[node].size();
         }
 
-         generator<edge_t> get_neighbors(node_t node) const {
+        std::size_t in_degree(node_t node) const {
+            if (!is_directed()) {
+                return degree(node);
+            }
+            std::size_t in_degree = 0;
+            for (const auto& neighbors: _adjacency_list) {
+                for (const auto& neighbor: neighbors) {
+                    if (neighbor.node == node) {
+                        ++in_degree;
+                    }
+                }
+            }
+            return in_degree;
+        }
+
+        generator<node_t> get_raw_neighbors(node_t node) const {
+            for (const auto& edge : _adjacency_list[node]) {
+                    co_yield edge.node;
+            }
+        }
+
+        generator<edge_t> get_neighbors(node_t node) const {
             for (const auto& edge : _adjacency_list[node])
             {
                 if (edge.node != node) {

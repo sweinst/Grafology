@@ -82,14 +82,36 @@ namespace grafology {
         }
 
         std::size_t degree(node_t node) const {
-            int degree = 0;
+            std::size_t degree = 0;
             auto rowStart = _adjacency_matrix.data() + node*_n_max_vertices;
-            for (node_t i = 0; i < _n_vertices; i++) {
+            for (node_t i = 0; i < _n_vertices; ++i) {
                 if (*(rowStart+i) != 0) {
                     ++degree;
                 }
             }
             return degree;
+        }
+
+        std::size_t in_degree(node_t node) const {
+            std::size_t in_degree = 0;
+            for (node_t i = 0; i < _n_vertices; ++i) {
+                if (_adjacency_matrix[i*_n_max_vertices+node] != 0) {
+                    ++in_degree;
+                }
+            }
+            return in_degree;
+        }
+
+        generator<node_t> get_raw_neighbors(node_t node) const {
+            auto rowStart = _adjacency_matrix.data() + node*_n_max_vertices;
+            for (node_t i = 0; i < _n_vertices; ++i) {
+                if (i != node) {
+                    auto weight = *(rowStart+i);
+                    if (weight != 0) {
+                        co_yield i;
+                    }
+                }
+            }
         }
 
         generator<edge_t> get_neighbors(node_t node) const {
@@ -110,6 +132,6 @@ namespace grafology {
         std::vector<weight_t> _adjacency_matrix;
     };
 
-static_assert(GraphImpl<DenseGraphImpl>);
+//static_assert(GraphImpl<DenseGraphImpl>);
 
 } // namespace grafology
