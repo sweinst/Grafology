@@ -1,0 +1,1750 @@
+Randomness seeded to: 1763963992
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+tests.exe is a Catch2 v3.7.1 host application.
+Run with -? for options
+
+-------------------------------------------------------------------------------
+Graphs - g::DirectedDenseGraph<TestVertex>
+-------------------------------------------------------------------------------
+D:\src\Grafology\tests\tests_graph.cpp(10)
+...............................................................................
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 1
+  in_neighbor.end._id := 1
+  in_neighbor.weight := 1
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  2 == 1
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 1
+  in_neighbor.end._id := 1
+  in_neighbor.weight := 1
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 1
+  in_neighbor.end._id := 1
+  in_neighbor.weight := 4
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  2 == 4
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 1
+  in_neighbor.end._id := 1
+  in_neighbor.weight := 4
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 1
+  in_neighbor.end._id := 1
+  in_neighbor.weight := 6
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  2 == 6
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 1
+  in_neighbor.end._id := 1
+  in_neighbor.weight := 6
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 2
+  in_neighbor.end._id := 2
+  in_neighbor.weight := 2
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  4 == 2
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 2
+  in_neighbor.end._id := 2
+  in_neighbor.weight := 2
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 3
+  in_neighbor.end._id := 3
+  in_neighbor.weight := 5
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  6 == 5
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 3
+  in_neighbor.end._id := 3
+  in_neighbor.weight := 5
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 3
+  in_neighbor.end._id := 3
+  in_neighbor.weight := 11
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  6 == 11
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 3
+  in_neighbor.end._id := 3
+  in_neighbor.weight := 11
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 4
+  in_neighbor.end._id := 4
+  in_neighbor.weight := 6
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  8 == 6
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 4
+  in_neighbor.end._id := 4
+  in_neighbor.weight := 6
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 5
+  in_neighbor.end._id := 5
+  in_neighbor.weight := 7
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  10 == 7
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 5
+  in_neighbor.end._id := 5
+  in_neighbor.weight := 7
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 7
+  in_neighbor.end._id := 7
+  in_neighbor.weight := 13
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  14 == 13
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 7
+  in_neighbor.end._id := 7
+  in_neighbor.weight := 13
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 7
+  in_neighbor.end._id := 7
+  in_neighbor.weight := 15
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  14 == 15
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 7
+  in_neighbor.end._id := 7
+  in_neighbor.weight := 15
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 8
+  in_neighbor.end._id := 8
+  in_neighbor.weight := 13
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  16 == 13
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 8
+  in_neighbor.end._id := 8
+  in_neighbor.weight := 13
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 9
+  in_neighbor.end._id := 9
+  in_neighbor.weight := 17
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  18 == 17
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 9
+  in_neighbor.end._id := 9
+  in_neighbor.weight := 17
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 10
+  in_neighbor.end._id := 10
+  in_neighbor.weight := 13
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  20 == 13
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 10
+  in_neighbor.end._id := 10
+  in_neighbor.weight := 13
+
+-------------------------------------------------------------------------------
+Graphs - g::DirectedSparseGraph<TestVertex>
+-------------------------------------------------------------------------------
+D:\src\Grafology\tests\tests_graph.cpp(10)
+...............................................................................
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 1
+  in_neighbor.end._id := 1
+  in_neighbor.weight := 1
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  2 == 1
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 1
+  in_neighbor.end._id := 1
+  in_neighbor.weight := 1
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 1
+  in_neighbor.end._id := 1
+  in_neighbor.weight := 4
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  2 == 4
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 1
+  in_neighbor.end._id := 1
+  in_neighbor.weight := 4
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 1
+  in_neighbor.end._id := 1
+  in_neighbor.weight := 6
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  2 == 6
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 1
+  in_neighbor.end._id := 1
+  in_neighbor.weight := 6
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 2
+  in_neighbor.end._id := 2
+  in_neighbor.weight := 2
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  4 == 2
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 2
+  in_neighbor.end._id := 2
+  in_neighbor.weight := 2
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 3
+  in_neighbor.end._id := 3
+  in_neighbor.weight := 5
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  6 == 5
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 3
+  in_neighbor.end._id := 3
+  in_neighbor.weight := 5
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 3
+  in_neighbor.end._id := 3
+  in_neighbor.weight := 11
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  6 == 11
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 3
+  in_neighbor.end._id := 3
+  in_neighbor.weight := 11
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 4
+  in_neighbor.end._id := 4
+  in_neighbor.weight := 6
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  8 == 6
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 4
+  in_neighbor.end._id := 4
+  in_neighbor.weight := 6
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 5
+  in_neighbor.end._id := 5
+  in_neighbor.weight := 7
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  10 == 7
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 5
+  in_neighbor.end._id := 5
+  in_neighbor.weight := 7
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 7
+  in_neighbor.end._id := 7
+  in_neighbor.weight := 13
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  14 == 13
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 7
+  in_neighbor.end._id := 7
+  in_neighbor.weight := 13
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 7
+  in_neighbor.end._id := 7
+  in_neighbor.weight := 15
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  14 == 15
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 7
+  in_neighbor.end._id := 7
+  in_neighbor.weight := 15
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 8
+  in_neighbor.end._id := 8
+  in_neighbor.weight := 13
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  16 == 13
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 8
+  in_neighbor.end._id := 8
+  in_neighbor.weight := 13
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 9
+  in_neighbor.end._id := 9
+  in_neighbor.weight := 17
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  18 == 17
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 9
+  in_neighbor.end._id := 9
+  in_neighbor.weight := 17
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 10
+  in_neighbor.end._id := 10
+  in_neighbor.weight := 13
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  20 == 13
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 10
+  in_neighbor.end._id := 10
+  in_neighbor.weight := 13
+
+-------------------------------------------------------------------------------
+Graphs - g::UndirectedDenseGraph<TestVertex>
+-------------------------------------------------------------------------------
+D:\src\Grafology\tests\tests_graph.cpp(10)
+...............................................................................
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 0
+  in_neighbor.end._id := 0
+  in_neighbor.weight := 1
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  0 == 1
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 0
+  in_neighbor.end._id := 0
+  in_neighbor.weight := 1
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 0
+  in_neighbor.end._id := 0
+  in_neighbor.weight := 2
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  0 == 2
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 0
+  in_neighbor.end._id := 0
+  in_neighbor.weight := 2
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 1
+  in_neighbor.end._id := 1
+  in_neighbor.weight := 1
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  2 == 1
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 1
+  in_neighbor.end._id := 1
+  in_neighbor.weight := 1
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 1
+  in_neighbor.end._id := 1
+  in_neighbor.weight := 4
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  2 == 4
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 1
+  in_neighbor.end._id := 1
+  in_neighbor.weight := 4
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 1
+  in_neighbor.end._id := 1
+  in_neighbor.weight := 6
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  2 == 6
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 1
+  in_neighbor.end._id := 1
+  in_neighbor.weight := 6
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 2
+  in_neighbor.end._id := 2
+  in_neighbor.weight := 2
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  4 == 2
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 2
+  in_neighbor.end._id := 2
+  in_neighbor.weight := 2
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 2
+  in_neighbor.end._id := 2
+  in_neighbor.weight := 5
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  4 == 5
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 2
+  in_neighbor.end._id := 2
+  in_neighbor.weight := 5
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 2
+  in_neighbor.end._id := 2
+  in_neighbor.weight := 6
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  4 == 6
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 2
+  in_neighbor.end._id := 2
+  in_neighbor.weight := 6
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 2
+  in_neighbor.end._id := 2
+  in_neighbor.weight := 7
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  4 == 7
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 2
+  in_neighbor.end._id := 2
+  in_neighbor.weight := 7
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 3
+  in_neighbor.end._id := 3
+  in_neighbor.weight := 4
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  6 == 4
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 3
+  in_neighbor.end._id := 3
+  in_neighbor.weight := 4
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 3
+  in_neighbor.end._id := 3
+  in_neighbor.weight := 5
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  6 == 5
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 3
+  in_neighbor.end._id := 3
+  in_neighbor.weight := 5
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 3
+  in_neighbor.end._id := 3
+  in_neighbor.weight := 11
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  6 == 11
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 3
+  in_neighbor.end._id := 3
+  in_neighbor.weight := 11
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 3
+  in_neighbor.end._id := 3
+  in_neighbor.weight := 13
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  6 == 13
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 3
+  in_neighbor.end._id := 3
+  in_neighbor.weight := 13
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 4
+  in_neighbor.end._id := 4
+  in_neighbor.weight := 6
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  8 == 6
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 4
+  in_neighbor.end._id := 4
+  in_neighbor.weight := 6
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 5
+  in_neighbor.end._id := 5
+  in_neighbor.weight := 6
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  10 == 6
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 5
+  in_neighbor.end._id := 5
+  in_neighbor.weight := 6
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 5
+  in_neighbor.end._id := 5
+  in_neighbor.weight := 7
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  10 == 7
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 5
+  in_neighbor.end._id := 5
+  in_neighbor.weight := 7
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 5
+  in_neighbor.end._id := 5
+  in_neighbor.weight := 13
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  10 == 13
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 5
+  in_neighbor.end._id := 5
+  in_neighbor.weight := 13
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 6
+  in_neighbor.end._id := 6
+  in_neighbor.weight := 13
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  12 == 13
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 6
+  in_neighbor.end._id := 6
+  in_neighbor.weight := 13
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 7
+  in_neighbor.end._id := 7
+  in_neighbor.weight := 13
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  14 == 13
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 7
+  in_neighbor.end._id := 7
+  in_neighbor.weight := 13
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 7
+  in_neighbor.end._id := 7
+  in_neighbor.weight := 15
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  14 == 15
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 7
+  in_neighbor.end._id := 7
+  in_neighbor.weight := 15
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 8
+  in_neighbor.end._id := 8
+  in_neighbor.weight := 11
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  16 == 11
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 8
+  in_neighbor.end._id := 8
+  in_neighbor.weight := 11
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 8
+  in_neighbor.end._id := 8
+  in_neighbor.weight := 13
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  16 == 13
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 8
+  in_neighbor.end._id := 8
+  in_neighbor.weight := 13
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 8
+  in_neighbor.end._id := 8
+  in_neighbor.weight := 15
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  16 == 15
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 8
+  in_neighbor.end._id := 8
+  in_neighbor.weight := 15
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 8
+  in_neighbor.end._id := 8
+  in_neighbor.weight := 17
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  16 == 17
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 8
+  in_neighbor.end._id := 8
+  in_neighbor.weight := 17
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 9
+  in_neighbor.end._id := 9
+  in_neighbor.weight := 17
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  18 == 17
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 9
+  in_neighbor.end._id := 9
+  in_neighbor.weight := 17
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 10
+  in_neighbor.end._id := 10
+  in_neighbor.weight := 13
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  20 == 13
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 10
+  in_neighbor.end._id := 10
+  in_neighbor.weight := 13
+
+-------------------------------------------------------------------------------
+Graphs - g::UndirectedSparseGraph<TestVertex>
+-------------------------------------------------------------------------------
+D:\src\Grafology\tests\tests_graph.cpp(10)
+...............................................................................
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 0
+  in_neighbor.end._id := 0
+  in_neighbor.weight := 1
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  0 == 1
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 0
+  in_neighbor.end._id := 0
+  in_neighbor.weight := 1
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 0
+  in_neighbor.end._id := 0
+  in_neighbor.weight := 2
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  0 == 2
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 0
+  in_neighbor.end._id := 0
+  in_neighbor.weight := 2
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 1
+  in_neighbor.end._id := 1
+  in_neighbor.weight := 1
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  2 == 1
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 1
+  in_neighbor.end._id := 1
+  in_neighbor.weight := 1
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 1
+  in_neighbor.end._id := 1
+  in_neighbor.weight := 4
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  2 == 4
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 1
+  in_neighbor.end._id := 1
+  in_neighbor.weight := 4
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 1
+  in_neighbor.end._id := 1
+  in_neighbor.weight := 6
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  2 == 6
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 1
+  in_neighbor.end._id := 1
+  in_neighbor.weight := 6
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 2
+  in_neighbor.end._id := 2
+  in_neighbor.weight := 2
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  4 == 2
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 2
+  in_neighbor.end._id := 2
+  in_neighbor.weight := 2
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 2
+  in_neighbor.end._id := 2
+  in_neighbor.weight := 5
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  4 == 5
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 2
+  in_neighbor.end._id := 2
+  in_neighbor.weight := 5
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 2
+  in_neighbor.end._id := 2
+  in_neighbor.weight := 6
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  4 == 6
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 2
+  in_neighbor.end._id := 2
+  in_neighbor.weight := 6
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 2
+  in_neighbor.end._id := 2
+  in_neighbor.weight := 7
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  4 == 7
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 2
+  in_neighbor.end._id := 2
+  in_neighbor.weight := 7
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 3
+  in_neighbor.end._id := 3
+  in_neighbor.weight := 4
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  6 == 4
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 3
+  in_neighbor.end._id := 3
+  in_neighbor.weight := 4
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 3
+  in_neighbor.end._id := 3
+  in_neighbor.weight := 5
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  6 == 5
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 3
+  in_neighbor.end._id := 3
+  in_neighbor.weight := 5
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 3
+  in_neighbor.end._id := 3
+  in_neighbor.weight := 11
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  6 == 11
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 3
+  in_neighbor.end._id := 3
+  in_neighbor.weight := 11
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 3
+  in_neighbor.end._id := 3
+  in_neighbor.weight := 13
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  6 == 13
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 3
+  in_neighbor.end._id := 3
+  in_neighbor.weight := 13
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 4
+  in_neighbor.end._id := 4
+  in_neighbor.weight := 6
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  8 == 6
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 4
+  in_neighbor.end._id := 4
+  in_neighbor.weight := 6
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 5
+  in_neighbor.end._id := 5
+  in_neighbor.weight := 6
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  10 == 6
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 5
+  in_neighbor.end._id := 5
+  in_neighbor.weight := 6
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 5
+  in_neighbor.end._id := 5
+  in_neighbor.weight := 7
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  10 == 7
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 5
+  in_neighbor.end._id := 5
+  in_neighbor.weight := 7
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 5
+  in_neighbor.end._id := 5
+  in_neighbor.weight := 13
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  10 == 13
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 5
+  in_neighbor.end._id := 5
+  in_neighbor.weight := 13
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 6
+  in_neighbor.end._id := 6
+  in_neighbor.weight := 13
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  12 == 13
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 6
+  in_neighbor.end._id := 6
+  in_neighbor.weight := 13
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 7
+  in_neighbor.end._id := 7
+  in_neighbor.weight := 13
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  14 == 13
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 7
+  in_neighbor.end._id := 7
+  in_neighbor.weight := 13
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 7
+  in_neighbor.end._id := 7
+  in_neighbor.weight := 15
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  14 == 15
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 7
+  in_neighbor.end._id := 7
+  in_neighbor.weight := 15
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 8
+  in_neighbor.end._id := 8
+  in_neighbor.weight := 11
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  16 == 11
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 8
+  in_neighbor.end._id := 8
+  in_neighbor.weight := 11
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 8
+  in_neighbor.end._id := 8
+  in_neighbor.weight := 13
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  16 == 13
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 8
+  in_neighbor.end._id := 8
+  in_neighbor.weight := 13
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 8
+  in_neighbor.end._id := 8
+  in_neighbor.weight := 15
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  16 == 15
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 8
+  in_neighbor.end._id := 8
+  in_neighbor.weight := 15
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 8
+  in_neighbor.end._id := 8
+  in_neighbor.weight := 17
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  16 == 17
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 8
+  in_neighbor.end._id := 8
+  in_neighbor.weight := 17
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 9
+  in_neighbor.end._id := 9
+  in_neighbor.weight := 17
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  18 == 17
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 9
+  in_neighbor.end._id := 9
+  in_neighbor.weight := 17
+
+D:\src\Grafology\tests\tests_graph.cpp(153): FAILED:
+  CHECK( in_neighbors[v].contains(in_neighbor.start) )
+with expansion:
+  false
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 10
+  in_neighbor.end._id := 10
+  in_neighbor.weight := 13
+
+D:\src\Grafology\tests\tests_graph.cpp(154): FAILED:
+  CHECK( in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight )
+with expansion:
+  20 == 13
+with messages:
+  graph.size() := 11
+  n_vertices + n_extra_vertices := 11
+  in_neighbor.start._id := 10
+  in_neighbor.end._id := 10
+  in_neighbor.weight := 13
+
+===============================================================================
+test cases:    8 |    4 passed |   4 failed
+assertions: 1595 | 1439 passed | 156 failed
+

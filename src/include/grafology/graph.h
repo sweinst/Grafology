@@ -106,8 +106,23 @@ namespace grafology {
         // TODO: check if "const Vertex &" can be used instead 
         generator<Vertex> get_raw_neighbors(const Vertex& v) const {
             auto i = _vertex_map.get_index(v);
-            for (const auto& edge : _impl.get_neighbors(i)) {
-                co_yield _vertex_map.get_vertex(edge.end);
+            for (const auto& vertex : _impl.get_raw_neighbors(i)) {
+                co_yield _vertex_map.get_vertex(vertex);
+            }
+        }
+
+        generator<Edge> get_in_neighbors(const Vertex& v) const {
+            auto i = _vertex_map.get_index(v);
+            for (const auto& edge : _impl.get_in_neighbors(i)) {
+                co_yield {.start = _vertex_map.get_vertex(edge.start), .end = v, .weight = edge.weight};
+            }
+        }
+
+        // TODO: check if "const Vertex &" can be used instead 
+        generator<Vertex> get_raw_in_neighbors(const Vertex& v) const {
+            auto i = _vertex_map.get_index(v);
+            for (const auto& vertex : _impl.get_raw_in_neighbors(i)) {
+                co_yield _vertex_map.get_vertex(vertex);
             }
         }
 

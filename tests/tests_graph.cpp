@@ -110,13 +110,16 @@ TEMPLATE_TEST_CASE("Graphs", "[graphs]",
 
     // neighbors
     std::unordered_map<TestVertex, std::unordered_set<TestVertex>> neighbors;
+    std::unordered_map<TestVertex, std::unordered_set<TestVertex>> in_neighbors;
     auto edges = {edges_init, extra_edges_init};
     for(const auto& edge: std::views::join(edges))
     {
         if (edge.start != edge.end) {
             neighbors[edge.start].insert(edge.end);
+            in_neighbors[edge.end].insert(edge.start);
             if (!graph.is_directed()) {
                 neighbors[edge.end].insert(edge.start);
+                in_neighbors[edge.start].insert(edge.end);
             }
         }
     }
@@ -136,12 +139,33 @@ TEMPLATE_TEST_CASE("Graphs", "[graphs]",
         {
             unsigned n_neighbors = 0;
             for (const auto& neighbor: graph.get_raw_neighbors(v)) {
-                CAPTURE(neighbor, v);
+                CAPTURE(neighbor._id, v._id);
                 CHECK(neighbors[v].contains(neighbor));
                 ++n_neighbors;
             }
             CAPTURE(neighbors[v].size(), n_neighbors);
             CHECK(neighbors[v].size() == n_neighbors);
+        }
+        {
+            unsigned n_in_neighbors = 0;
+            for (const auto& in_neighbor: graph.get_in_neighbors(v)) {
+                CAPTURE(in_neighbor.start._id, in_neighbor.end._id, in_neighbor.weight);
+                CHECK(in_neighbors[v].contains(in_neighbor.start));
+                CHECK(in_neighbor.start._id + in_neighbor.end._id == in_neighbor.weight);
+                ++n_in_neighbors;
+            }
+            CAPTURE(in_neighbors[v].size(), n_in_neighbors);
+            CHECK(in_neighbors[v].size() == n_in_neighbors);
+        }
+        {
+            unsigned n_in_neighbors = 0;
+            for (const auto& in_neighbor: graph.get_raw_in_neighbors(v)) {
+                CAPTURE(in_neighbor._id, v._id);
+                CHECK(in_neighbors[v].contains(in_neighbor));
+                ++n_in_neighbors;
+            }
+            CAPTURE(in_neighbors[v].size(), n_in_neighbors);
+            CHECK(in_neighbors[v].size() == n_in_neighbors);
         }
     }
 }
