@@ -74,7 +74,7 @@ TEMPLATE_TEST_CASE("Graphs", "[graphs]",
     }
 
     // modifications
-    std::vector<unsigned> extra_degrees = (graph.is_directed()) ? 
+    std::vector<unsigned> extra_degrees = graph.is_directed() ? 
         std::vector<unsigned> { 
         2, 0, 3, 2, 0, 
         2, 1, 0, 3, 0, 
@@ -83,6 +83,13 @@ TEMPLATE_TEST_CASE("Graphs", "[graphs]",
         2, 3, 4, 4, 1, 
         3, 1, 2, 4, 1, 
         2 };
+
+    std::vector<unsigned> extra_in_degrees = graph.is_directed() ?
+        std::vector<unsigned>{ 
+            0, 3, 1, 2, 1, 
+            1, 0, 2, 1, 1, 
+            2 } :
+        extra_degrees;
 
     graph.add_vertices(extra_init);
     graph.set_edges(extra_edges_init);
@@ -93,6 +100,12 @@ TEMPLATE_TEST_CASE("Graphs", "[graphs]",
         TestVertex v {static_cast<int>(idx), ""};
         CAPTURE(idx, degree, graph.degree(v));
         CHECK(graph.degree(v) == degree);
+    }
+
+    for (const auto [idx, in_degree]: std::views::enumerate(extra_in_degrees)) {
+        TestVertex v {static_cast<int>(idx), ""};
+        CAPTURE(idx, in_degree, graph.in_degree(v));
+        CHECK(graph.in_degree(v) == in_degree);
     }
 
     // neighbors

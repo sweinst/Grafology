@@ -42,12 +42,22 @@ TEMPLATE_TEST_CASE("Graph implementations", "[graph-impl]",
             std::vector<unsigned>{
                 2, 3, 4, 2, 1, 
                 2};
+        std::vector<unsigned> in_degrees = is_directed ?  
+            std::vector<unsigned>{ 
+                0, 3, 1, 1, 1, 
+                1, 0} :
+            degrees;
 
         TestType g(max_vertices, n_vertices, is_directed);
         g.set_edges(edges_init);
         for (const auto [idx, degree]: std::views::enumerate(degrees)) {
             CAPTURE(idx, degree, g.degree(idx));
             CHECK(g.degree(idx) == degree);
+        }
+
+        for (const auto [idx, in_degree]: std::views::enumerate(in_degrees)) {
+            CAPTURE(idx, in_degree, g.in_degree(idx));
+            CHECK(g.in_degree(idx) == in_degree);
         }
 
         // modifications
@@ -61,6 +71,13 @@ TEMPLATE_TEST_CASE("Graph implementations", "[graph-impl]",
                 3, 1, 2, 4, 1, 
                 2 };
 
+        std::vector<unsigned> extra_in_degrees = is_directed ?
+            std::vector<unsigned>{ 
+                0, 3, 1, 2, 1, 
+                1, 0, 2, 1, 1, 
+                2 } :
+            extra_degrees;
+
         for (auto _ : g.add_vertices(n_extra_vertices)) {};
         CAPTURE(g.size(), n_vertices + n_extra_vertices);
         REQUIRE(g.size() == n_vertices + n_extra_vertices);
@@ -71,6 +88,11 @@ TEMPLATE_TEST_CASE("Graph implementations", "[graph-impl]",
         for (const auto [idx, degree]: std::views::enumerate(extra_degrees)) {
             CAPTURE(idx, degree, g.degree(idx));
             CHECK(g.degree(idx) == degree);
+        }
+
+        for (const auto [idx, in_degree]: std::views::enumerate(extra_in_degrees)) {
+            CAPTURE(idx, in_degree, g.in_degree(idx));
+            CHECK(g.in_degree(idx) == in_degree);
         }
 
         // neighbors
