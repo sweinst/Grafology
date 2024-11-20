@@ -103,7 +103,7 @@ namespace grafology {
             }
         }
 
-        generator<const Vertex&> get_raw_neighbors(const Vertex& v) const {
+        generator<Vertex> get_raw_neighbors(const Vertex& v) const {
             auto i = _vertex_map.get_index(v);
             for (const auto& edge : _impl.get_neighbors(i)) {
                 co_yield _vertex_map.get_vertex(edge.end);

@@ -110,15 +110,27 @@ TEMPLATE_TEST_CASE("Graph implementations", "[graph-impl]",
         }
 
         for (g::node_t i = 0; i < g.size(); i++) {
-            unsigned n_neighbors = 0;
-            for (const auto& neighbor: g.get_neighbors(i)) {
-                CAPTURE(neighbor.start, neighbor.end, neighbor.weight);
-                CHECK(neighbors[i].contains(neighbor.end));
-                CHECK(neighbor.start + neighbor.end == neighbor.weight);
-                ++n_neighbors;
+            {
+                unsigned n_neighbors = 0;
+                for (const auto& neighbor: g.get_neighbors(i)) {
+                    CAPTURE(neighbor.start, neighbor.end, neighbor.weight);
+                    CHECK(neighbors[i].contains(neighbor.end));
+                    CHECK(neighbor.start + neighbor.end == neighbor.weight);
+                    ++n_neighbors;
+                }
+                CAPTURE(neighbors[i].size(), n_neighbors);
+                CHECK(neighbors[i].size() == n_neighbors);
             }
-            CAPTURE(neighbors[i].size(), n_neighbors);
-            CHECK(neighbors[i].size() == n_neighbors);
+            {
+                unsigned n_neighbors = 0;
+                for (const auto& neighbor: g.get_raw_neighbors(i)) {
+                    CAPTURE(i, neighbor);
+                    CHECK(neighbors[i].contains(neighbor));
+                    ++n_neighbors;
+                }
+                CAPTURE(neighbors[i].size(), n_neighbors);
+                CHECK(neighbors[i].size() == n_neighbors);
+            }
         }
     }
 }

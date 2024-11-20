@@ -98,7 +98,9 @@ namespace grafology {
 
         generator<node_t> get_raw_neighbors(node_t node) const {
             for (const auto& edge : _adjacency_list[node]) {
+                if (edge.node != node) {
                     co_yield edge.node;
+                }
             }
         }
 

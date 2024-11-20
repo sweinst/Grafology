@@ -122,14 +122,26 @@ TEMPLATE_TEST_CASE("Graphs", "[graphs]",
     }
     for (const auto& v: graph.get_vertices())
     {
-        unsigned n_neighbors = 0;
-        for (const auto& neighbor: graph.get_neighbors(v)) {
-            CAPTURE(neighbor.start, neighbor.end, neighbor.weight);
-            CHECK(neighbors[v].contains(neighbor.end));
-            CHECK(neighbor.start._id + neighbor.end._id == neighbor.weight);
-            ++n_neighbors;
+        {
+            unsigned n_neighbors = 0;
+            for (const auto& neighbor: graph.get_neighbors(v)) {
+                CAPTURE(neighbor.start, neighbor.end, neighbor.weight);
+                CHECK(neighbors[v].contains(neighbor.end));
+                CHECK(neighbor.start._id + neighbor.end._id == neighbor.weight);
+                ++n_neighbors;
+            }
+            CAPTURE(neighbors[v].size(), n_neighbors);
+            CHECK(neighbors[v].size() == n_neighbors);
         }
-        CAPTURE(neighbors[v].size(), n_neighbors);
-        CHECK(neighbors[v].size() == n_neighbors);
+        {
+            unsigned n_neighbors = 0;
+            for (const auto& neighbor: graph.get_raw_neighbors(v)) {
+                CAPTURE(neighbor, v);
+                CHECK(neighbors[v].contains(neighbor));
+                ++n_neighbors;
+            }
+            CAPTURE(neighbors[v].size(), n_neighbors);
+            CHECK(neighbors[v].size() == n_neighbors);
+        }
     }
 }
