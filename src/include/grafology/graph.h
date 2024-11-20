@@ -6,6 +6,9 @@
 #include "bimap.h"
 
 namespace grafology {
+    /**
+     * @brief The definition of an edge
+     */
     template<VertexKey Vertex>
     struct EdgeDefinition {
         Vertex start;
@@ -13,6 +16,9 @@ namespace grafology {
         weight_t weight;
     }; 
 
+    /**
+     * @brief The generic graph class
+     */
     template<GraphImpl Impl, VertexKey Vertex, bool IsDirected>
     class Graph {
     public:
@@ -97,15 +103,27 @@ namespace grafology {
         BiMap<Vertex> _vertex_map;
     };
 
+    /**
+     * @brief A directed sparse graph
+     */
     template<VertexKey Vertex>
     using DirectedSparseGraph = Graph<SparseGraphImpl, Vertex, true>;
 
+    /**
+     * @brief An undirected sparse graph
+     */
     template<VertexKey Vertex>
     using UndirectedSparseGraph = Graph<SparseGraphImpl, Vertex, false>;
     
+    /**
+     * @brief A directed dense graph
+     */
     template<VertexKey Vertex>
     using DirectedDenseGraph = Graph<DenseGraphImpl, Vertex, true>;
     
+    /**
+     * @brief A undirected dense graph
+     */
     template<VertexKey Vertex>
     using UndirectedDenseGraph = Graph<DenseGraphImpl, Vertex, false>;
 
