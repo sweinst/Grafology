@@ -2,6 +2,7 @@
 #include <concepts>
 #include <ranges>
 #include <string>
+#include <stdexcept>
 #if defined(_MSC_VER)
     // don't know when generator will be available in MSVC ?
     #include <experimental/generator>
@@ -14,6 +15,14 @@
 #endif 
 
 namespace grafology {
+
+/** @brief a grafology exception 
+ * @details This exception allows the definition of errors specific to this library.
+ */
+class error : public std::runtime_error {
+public:
+    using std::runtime_error::runtime_error;
+};
 
 //** the internal node type
 using node_t = unsigned;

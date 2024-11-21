@@ -3,6 +3,7 @@ project(Grafology-Tests LANGUAGES C CXX)
 add_executable(
     tests 
     test_vertex.h 
+    tests_algos.cpp
     tests_bimap.cpp
     tests_flat_index_map.cpp
     tests_graph.cpp
