@@ -1,4 +1,7 @@
 digraph test_network1 {
+    rankdir="LR"
+    node [fontsize=9, shape=ellipse, height=0.25]
+
     0 -> 1;
     0 -> 2;
     2 -> 3;
@@ -6,13 +9,15 @@ digraph test_network1 {
     3 -> 1;
     5 -> 1;
     subgraph added  {
-        3 -> 10 [color=red];
-        5 -> 8 [color=red];
-        6 -> 7 [color=red];
-        8 -> 3 [color=red];
-        8 -> 7 [color=red];
-        8 -> 9 [color=red];
-        10 -> 10 [color=red];
+        edge [color=red];
+        node [color=red];
+        3 -> 10;
+        5 -> 8;
+        6 -> 7;
+        8 -> 3;
+        8 -> 7;
+        8 -> 9;
+        10 -> 10;
     }
     
 }
