@@ -35,7 +35,7 @@ TEMPLATE_TEST_CASE("Topological sort", "[graph-algos]",
         {4, 5},
         {8},
         {3, 7, 9},
-        {1, 10},
+        {1, 10},  
     };
 
     TestType g(max_vertices, n_vertices, true);
@@ -55,4 +55,16 @@ TEMPLATE_TEST_CASE("Topological sort", "[graph-algos]",
         visited.insert(vertex);
     }
     CHECK(expected[current_group] == visited);
+
+    // add a cycle
+    const std::vector<g::edge_t> edges_cycle {
+        {1, 7, 8},
+        {7, 5, 12},
+    };
+    g.set_edges(edges_cycle);
+    
+    REQUIRE_THROWS(std::ranges::for_each(g::topological_sort(g), [](const auto& group_vertex) {
+        CAPTURE(group_vertex);
+    }));
+    
 }
