@@ -5,7 +5,7 @@
 
 namespace grafology {
 
-    /** @brief A very simple flat map for mapping node destination index to weight
+    /** @brief A very simple flat map for mapping vertex destination index to weight
      * @details This is simple a sorted vector .
      */
     class FlatIndexMap {
@@ -22,22 +22,22 @@ namespace grafology {
             /**
              * @brief A map element
              * @details
-             * - the key is the edge end node index
+             * - the key is the edge end vertex index
              * - the value is the edge weight
              */
             struct MapEntry {
-                vertex_t node;
+                vertex_t vertex;
                 weight_t weight;
                 
                 auto operator<=>(const MapEntry& other) const {
-                    return node <=> other.node;
+                    return vertex <=> other.vertex;
                 }
             };
 
-            void set(vertex_t node, weight_t weight) {
-                MapEntry key {node, weight};
+            void set(vertex_t vertex, weight_t weight) {
+                MapEntry key {vertex, weight};
                 auto it = std::lower_bound(_flat_map.begin(), _flat_map.end(), key);
-                if (it != _flat_map.end() && it->node == node) {
+                if (it != _flat_map.end() && it->vertex == vertex) {
                     it->weight = weight;
                 } else {
                     _flat_map.insert(it, std::move(key));
@@ -45,20 +45,20 @@ namespace grafology {
             }
 
             void set(const MapEntry& entry) {
-                set(entry.node, entry.weight);
+                set(entry.vertex, entry.weight);
             }
 
-            weight_t get(vertex_t node) const {
-                auto it = std::lower_bound(_flat_map.begin(), _flat_map.end(), MapEntry{node, 0});
-                if (it != _flat_map.end() && it->node == node) {
+            weight_t get(vertex_t vertex) const {
+                auto it = std::lower_bound(_flat_map.begin(), _flat_map.end(), MapEntry{vertex, 0});
+                if (it != _flat_map.end() && it->vertex == vertex) {
                     return it->weight;
                 }
                 return 0;
             }
 
-            void remove(vertex_t node) {
-                auto it = std::lower_bound(_flat_map.begin(), _flat_map.end(), MapEntry{node, 0});
-                if (it != _flat_map.end() && it->node == node) {
+            void remove(vertex_t vertex) {
+                auto it = std::lower_bound(_flat_map.begin(), _flat_map.end(), MapEntry{vertex, 0});
+                if (it != _flat_map.end() && it->vertex == vertex) {
                     _flat_map.erase(it);
                 }
             }

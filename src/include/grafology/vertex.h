@@ -7,7 +7,7 @@
 namespace grafology {
     /*!
     * @brief the requirements for identifying a Vertex
-    * A VertexKey should allow to identify a node in a graph.
+    * A VertexKey should allow to identify a vertex in a graph.
     *     
     * The requirements are:
     * - must be hashable using std::hash

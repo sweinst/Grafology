@@ -5,7 +5,7 @@
 namespace grafology {
     /**
      * @brief A dense graph implementation which use an adjacency matrix
-     * @details The adjacency matrix is a matrix where the rows and columns are the nodes of the graph.
+     * @details The adjacency matrix is a matrix where the rows and columns are the vertices of the graph.
      * The value of the cells are the weight of the edges.
      * If the weight is 0, then there is no edge.
      * @warning Once built, the graph capacity cannot be changed.
@@ -86,9 +86,9 @@ namespace grafology {
             set_edges(std::begin(r), std::end(r));
         }
 
-        std::size_t degree(vertex_t node) const {
+        std::size_t degree(vertex_t vertex) const {
             std::size_t degree = 0;
-            auto rowStart = _adjacency_matrix.data() + node*_n_max_vertices;
+            auto rowStart = _adjacency_matrix.data() + vertex*_n_max_vertices;
             for (vertex_t i = 0; i < _n_vertices; ++i) {
                 if (*(rowStart+i) != 0) {
                     ++degree;
@@ -97,20 +97,20 @@ namespace grafology {
             return degree;
         }
 
-        std::size_t in_degree(vertex_t node) const {
+        std::size_t in_degree(vertex_t vertex) const {
             std::size_t in_degree = 0;
             for (vertex_t i = 0; i < _n_vertices; ++i) {
-                if (_adjacency_matrix[i*_n_max_vertices+node] != 0) {
+                if (_adjacency_matrix[i*_n_max_vertices+vertex] != 0) {
                     ++in_degree;
                 }
             }
             return in_degree;
         }
 
-        generator<vertex_t> get_raw_neighbors(vertex_t node) const {
-            auto rowStart = _adjacency_matrix.data() + node*_n_max_vertices;
+        generator<vertex_t> get_raw_neighbors(vertex_t vertex) const {
+            auto rowStart = _adjacency_matrix.data() + vertex*_n_max_vertices;
             for (vertex_t i = 0; i < _n_vertices; ++i) {
-                if (i != node) {
+                if (i != vertex) {
                     auto weight = *(rowStart+i);
                     if (weight != 0) {
                         co_yield i;
@@ -119,22 +119,22 @@ namespace grafology {
             }
         }
 
-        generator<edge_t> get_neighbors(vertex_t node) const {
-            auto rowStart = _adjacency_matrix.data() + node*_n_max_vertices;
+        generator<edge_t> get_neighbors(vertex_t vertex) const {
+            auto rowStart = _adjacency_matrix.data() + vertex*_n_max_vertices;
             for (vertex_t i = 0; i < _n_vertices; ++i) {
-                if (i != node) {
+                if (i != vertex) {
                     auto weight = *(rowStart+i);
                     if (weight != 0) {
-                        co_yield {.start = node, .end = i, .weight = weight};
+                        co_yield {.start = vertex, .end = i, .weight = weight};
                     }
                 }
             }
         }
 
-        generator<vertex_t> get_raw_in_neighbors(vertex_t node) const {
+        generator<vertex_t> get_raw_in_neighbors(vertex_t vertex) const {
             for (vertex_t i = 0; i < _n_vertices; ++i) {
-                if (i != node) {
-                    auto weight = _adjacency_matrix[i*_n_max_vertices+node];
+                if (i != vertex) {
+                    auto weight = _adjacency_matrix[i*_n_max_vertices+vertex];
                     if (weight != 0) {
                         co_yield i;
                     }
@@ -142,12 +142,12 @@ namespace grafology {
             }
         }
         
-        generator<edge_t> get_in_neighbors(vertex_t node) const {
+        generator<edge_t> get_in_neighbors(vertex_t vertex) const {
             for (vertex_t i = 0; i < _n_vertices; ++i) {
-                if (i != node) {
-                    auto weight = _adjacency_matrix[i*_n_max_vertices+node];
+                if (i != vertex) {
+                    auto weight = _adjacency_matrix[i*_n_max_vertices+vertex];
                     if (weight != 0) {
-                        co_yield {.start = i, .end = node, .weight = weight};
+                        co_yield {.start = i, .end = vertex, .weight = weight};
                     }
                 }
             }

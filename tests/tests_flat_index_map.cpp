@@ -13,13 +13,13 @@ TEST_CASE("Test FlatIndexMap", "[flatindexmap]")
     }
     REQUIRE(map.size() == expected.size());
     for (const auto& [stored, expected] : std::views::zip(map, expected)) {
-        REQUIRE(stored.node == expected.node);
+        REQUIRE(stored.vertex == expected.vertex);
         REQUIRE(stored.weight == expected.weight);
     }
 
     for (const auto& e: expected)
     {
-        REQUIRE(map.get(e.node) == e.weight);
+        REQUIRE(map.get(e.vertex) == e.weight);
     }
 
     REQUIRE(map.get(1) == 0);

@@ -82,18 +82,18 @@ namespace grafology {
             set_edges(std::begin(r), std::end(r));
         }
 
-        std::size_t degree(vertex_t node) const {
-            return _adjacency_list[node].size();
+        std::size_t degree(vertex_t vertex) const {
+            return _adjacency_list[vertex].size();
         }
 
-        std::size_t in_degree(vertex_t node) const {
+        std::size_t in_degree(vertex_t vertex) const {
             if (!is_directed()) {
-                return degree(node);
+                return degree(vertex);
             }
             std::size_t in_degree = 0;
             for (const auto& neighbors: _adjacency_list) {
                 for (const auto& neighbor: neighbors) {
-                    if (neighbor.node == node) {
+                    if (neighbor.vertex == vertex) {
                         ++in_degree;
                     }
                 }
@@ -101,44 +101,44 @@ namespace grafology {
             return in_degree;
         }
 
-        generator<vertex_t> get_raw_neighbors(vertex_t node) const {
-            for (const auto& edge : _adjacency_list[node]) {
-                if (edge.node != node) {
-                    co_yield edge.node;
+        generator<vertex_t> get_raw_neighbors(vertex_t vertex) const {
+            for (const auto& edge : _adjacency_list[vertex]) {
+                if (edge.vertex != vertex) {
+                    co_yield edge.vertex;
                 }
             }
         }
 
-        generator<edge_t> get_neighbors(vertex_t node) const {
-            for (const auto& edge : _adjacency_list[node])
+        generator<edge_t> get_neighbors(vertex_t vertex) const {
+            for (const auto& edge : _adjacency_list[vertex])
             {
-                if (edge.node != node) {
-                    co_yield {.start = node, .end = edge.node, .weight = edge.weight};
+                if (edge.vertex != vertex) {
+                    co_yield {.start = vertex, .end = edge.vertex, .weight = edge.weight};
                 }
             }
         }
 
-        generator<vertex_t> get_raw_in_neighbors(vertex_t node) const {
+        generator<vertex_t> get_raw_in_neighbors(vertex_t vertex) const {
             for (unsigned i = 0; i < size(); ++i) {
-                if (i == node) {
+                if (i == vertex) {
                     continue;
                 }
                 for (const auto& edge : _adjacency_list[i]) {
-                    if (edge.node == node) {
+                    if (edge.vertex == vertex) {
                         co_yield i;
                     }
                 }
             }
         }
 
-        generator<edge_t> get_in_neighbors(vertex_t node) const {
+        generator<edge_t> get_in_neighbors(vertex_t vertex) const {
             for (unsigned i = 0; i < size(); ++i) {
-                if (i == node) {
+                if (i == vertex) {
                     continue;
                 }
                 for (const auto& edge : _adjacency_list[i]) {
-                    if (edge.node == node) {
-                        co_yield {.start = i, .end = node, .weight = edge.weight};
+                    if (edge.vertex == vertex) {
+                        co_yield {.start = i, .end = vertex, .weight = edge.weight};
                     }
                 }
             }
@@ -148,7 +148,7 @@ namespace grafology {
             SparseGraphImpl inverted(_n_max_vertices, _n_vertices, _is_directed);
             for (unsigned i = 0; i < _n_vertices; i++) {
                 for (const auto& edge : _adjacency_list[i]) {
-                    inverted.set_edge(edge.node, i, edge.weight);
+                    inverted.set_edge(edge.vertex, i, edge.weight);
                 }
             }
             return inverted;

@@ -62,11 +62,11 @@ concept input_range_value =
 * @brief the requirements for a graph implementation
 * @details
 * In an implementation:
-* - node are represented by integers. These integers are private to the implementation.
-* - edges are represented by (node start, node end, weight). For bidrected graph, each edge is represented by two edges.
+* - vertex are represented by integers. These integers are private to the implementation.
+* - edges are represented by (vertex start, vertex end, weight). For bidrected graph, each edge is represented by two edges.
 *
 * The requirements are:
-* - must have a Node type which match the requirements of the concept Node
+* - must have a Vertex type which match the requirements of the concept VertexKey
 * - must be able to add one or more vertices
 * - must be able to add one or more edges
 * - must be able to remove a vertex

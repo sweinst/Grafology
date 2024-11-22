@@ -36,12 +36,12 @@ namespace grafology {
             if (to_process.empty()) {
                 throw error("The graph has a cycle");
             }
-            for (auto node : to_process) {
+            for (auto vertex : to_process) {
                 // return the new root and decease the in-degree of its neighbors
-                co_yield std::make_pair(i_group, node);
+                co_yield std::make_pair(i_group, vertex);
                 ++n_processed;
-                in_degrees[node] = -1;
-                for (auto neighbour : graph.get_raw_neighbors(node)) {
+                in_degrees[vertex] = -1;
+                for (auto neighbour : graph.get_raw_neighbors(vertex)) {
                     --in_degrees[neighbour];
                 }
             }
@@ -53,8 +53,8 @@ namespace grafology {
     template<GraphImpl Impl, VertexKey Vertex>
     generator<std::pair<unsigned, Vertex>> topological_sort(const Graph<Impl, Vertex, true>& graph) {
         const auto impl = graph.impl();
-        for (auto [group, node] : topological_sort(impl)) {
-            co_yield std::make_pair(group, graph.get_vertex_from_internal_index(node));
+        for (auto [group, vertex] : topological_sort(impl)) {
+            co_yield std::make_pair(group, graph.get_vertex_from_internal_index(vertex));
         }
     }
 
