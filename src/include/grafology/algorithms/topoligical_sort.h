@@ -50,33 +50,17 @@ namespace grafology {
 
     }
 
-/*     template <GraphImpl Impl> 
-    generator<node_t> topological_sort(const Impl& graph) {
-        std::vector<unsigned> in_degrees(graph.size(), 0);
-        for (node_t i = 0; i < graph.size(); ++i) {
-            for (auto edge : graph.get_neighbors(i)) {
-                ++in_degrees[edge.end];
-            }
-        }
-
-        std::queue<node_t> q;
-        for (node_t i = 0; i < graph.size(); ++i) {
-            if (in_degrees[i] == 0) {
-                q.push(i);
-            }
-        }
-
-        while (!q.empty()) {
-            auto node = q.front();
-            q.pop();
-            co_yield node;
-            for (auto edge : graph.get_neighbors(node)) {
-                --in_degrees[edge.end];
-                if (in_degrees[edge.end] == 0) {
-                    q.push(edge.end);
-                }
-            }
+    template<GraphImpl Impl, VertexKey Vertex>
+    generator<std::pair<unsigned, Vertex>> topological_sort(const Graph<Impl, Vertex, true>& graph) {
+        const auto impl = graph.impl();
+        for (auto [group, node] : topological_sort(impl)) {
+            co_yield std::make_pair(group, graph.get_vertex_from_internal_index(node));
         }
     }
- */    
+
+    template<GraphImpl Impl, VertexKey Vertex>
+    generator<std::pair<unsigned, Vertex>> topological_sort(const Graph<Impl, Vertex, false>& graph) {
+        static_assert(false, "Topological sort works only on directed graphs");
+    }
+
 } // namespace grafology

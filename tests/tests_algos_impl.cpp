@@ -1,6 +1,7 @@
 #include <grafology/grafology.h>
 #include <catch2/catch_template_test_macros.hpp>
 #include <set>
+#include "test_vertex.h"
 
 namespace g = grafology;
 
@@ -26,7 +27,7 @@ namespace {
    
 }
 
-TEMPLATE_TEST_CASE("Topological sort", "[graph-algos]", 
+TEMPLATE_TEST_CASE("Impl - Topological sort", "[impl-algos]", 
     g::DenseGraphImpl , g::SparseGraphImpl)
 {
     std::vector<std::set<g::node_t>> expected {

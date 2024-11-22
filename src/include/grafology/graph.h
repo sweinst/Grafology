@@ -46,6 +46,18 @@ namespace grafology {
             return IsDirected;
         }
 
+        const Impl& impl() const {
+            return _impl;
+        }
+
+        node_t get_internal_index(const Vertex& v) const {
+            return _vertex_map.get_index(v);
+        }
+
+        const Vertex& get_vertex_from_internal_index(node_t i) const {
+            return _vertex_map.get_vertex(i);
+        }
+
         template<input_iterator_value<Vertex> I, std::sentinel_for<I> S>
         void add_vertices(I first, S last) {
             for (auto it = first; it != last; ++it) {
