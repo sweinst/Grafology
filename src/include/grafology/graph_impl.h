@@ -24,15 +24,15 @@ public:
     using std::runtime_error::runtime_error;
 };
 
-//** the internal node type
-using node_t = unsigned;
+//** the internal vertex type
+using vertex_t = unsigned;
 //** the type for the edge weights
 using weight_t = int;
 
 //** the edge type */
 struct edge_t {
-    node_t start;
-    node_t end;
+    vertex_t start;
+    vertex_t end;
     int weight;
 };
 
@@ -75,24 +75,24 @@ concept input_range_value =
 * So I've left them aside.
 */
 template<typename G>
-concept GraphImpl = requires(G g, node_t i, node_t j, weight_t w) {
+concept GraphImpl = requires(G g, vertex_t i, vertex_t j, weight_t w) {
         // TODO: vertex removal
-        {g.add_vertex()} -> std::convertible_to<node_t>;
-        {g.add_vertices(i)} -> std::convertible_to<generator<node_t>>;
+        {g.add_vertex()} -> std::convertible_to<vertex_t>;
+        {g.add_vertices(i)} -> std::convertible_to<generator<vertex_t>>;
         {g.set_edge(i, j, w)};
         // g.set_edges(std::declval<input_iterator_value<edge_t>>(), std::declval<std::sentinel_for<input_iterator_edge>>());
         // g.set_edges(std::declval<input_range_value<edge_t>>());
     }
-    && requires(const G g, node_t i, node_t j) {
+    && requires(const G g, vertex_t i, vertex_t j) {
         {g.is_directed()} -> std::convertible_to<bool>;
         {g.size()} -> std::convertible_to<std::size_t>;
         {g.capacity()} -> std::convertible_to<std::size_t>;
         {g.degree(i)} -> std::convertible_to<std::size_t>;
         {g.in_degree(i)} -> std::convertible_to<std::size_t>;
         {g.operator()(i, j)} -> std::convertible_to<weight_t>;
-        {g.get_raw_neighbors(i)} -> std::convertible_to<generator<node_t>>;
+        {g.get_raw_neighbors(i)} -> std::convertible_to<generator<vertex_t>>;
         {g.get_neighbors(i)} -> std::convertible_to<generator<edge_t>>; 
-        {g.get_raw_in_neighbors(i)} -> std::convertible_to<generator<node_t>>;
+        {g.get_raw_in_neighbors(i)} -> std::convertible_to<generator<vertex_t>>;
         {g.get_in_neighbors(i)} -> std::convertible_to<generator<edge_t>>; 
         {g.invert()} -> std::convertible_to<G>;
     }

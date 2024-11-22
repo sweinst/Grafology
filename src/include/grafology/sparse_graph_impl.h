@@ -32,7 +32,7 @@ namespace grafology {
              return _adjacency_list[i].get(j);
         }
 
-        node_t add_vertex() {
+        vertex_t add_vertex() {
             ++_n_vertices;
             _adjacency_list.emplace_back();
             return _n_vertices - 1;
@@ -43,7 +43,7 @@ namespace grafology {
          * @remark This returns an iterator because when the removal of vertices will be implemented#
          * it will return first the "free" vertex slots, so indices won't be contiguous anymore.
         */
-        generator<node_t> add_vertices(unsigned n) {
+        generator<vertex_t> add_vertices(unsigned n) {
             for (unsigned i = 0; i < n; i++) {
                 co_yield add_vertex();
             }
@@ -82,11 +82,11 @@ namespace grafology {
             set_edges(std::begin(r), std::end(r));
         }
 
-        std::size_t degree(node_t node) const {
+        std::size_t degree(vertex_t node) const {
             return _adjacency_list[node].size();
         }
 
-        std::size_t in_degree(node_t node) const {
+        std::size_t in_degree(vertex_t node) const {
             if (!is_directed()) {
                 return degree(node);
             }
@@ -101,7 +101,7 @@ namespace grafology {
             return in_degree;
         }
 
-        generator<node_t> get_raw_neighbors(node_t node) const {
+        generator<vertex_t> get_raw_neighbors(vertex_t node) const {
             for (const auto& edge : _adjacency_list[node]) {
                 if (edge.node != node) {
                     co_yield edge.node;
@@ -109,7 +109,7 @@ namespace grafology {
             }
         }
 
-        generator<edge_t> get_neighbors(node_t node) const {
+        generator<edge_t> get_neighbors(vertex_t node) const {
             for (const auto& edge : _adjacency_list[node])
             {
                 if (edge.node != node) {
@@ -118,7 +118,7 @@ namespace grafology {
             }
         }
 
-        generator<node_t> get_raw_in_neighbors(node_t node) const {
+        generator<vertex_t> get_raw_in_neighbors(vertex_t node) const {
             for (unsigned i = 0; i < size(); ++i) {
                 if (i == node) {
                     continue;
@@ -131,7 +131,7 @@ namespace grafology {
             }
         }
 
-        generator<edge_t> get_in_neighbors(node_t node) const {
+        generator<edge_t> get_in_neighbors(vertex_t node) const {
             for (unsigned i = 0; i < size(); ++i) {
                 if (i == node) {
                     continue;

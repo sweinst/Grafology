@@ -4,16 +4,16 @@
 
 namespace grafology {
     template <GraphImpl G>
-    generator<std::pair<unsigned, node_t>> topological_sort(const G& graph) {
+    generator<std::pair<unsigned, vertex_t>> topological_sort(const G& graph) {
         if (!graph.is_directed()) {
             throw error("Topological sort works only on directed graphs");
         }
 
-        const auto n_nodes = graph.size();
+        const auto n_vertices = graph.size();
         
         // count the number of incoming edges for each vertex
-        std::vector<int> in_degrees(n_nodes, 0);
-        for (node_t i = 0; i < n_nodes; ++i) {
+        std::vector<int> in_degrees(n_vertices, 0);
+        for (vertex_t i = 0; i < n_vertices; ++i) {
             for (auto edge : graph.get_neighbors(i)) {
                 ++in_degrees[edge.end];
             }
@@ -21,14 +21,14 @@ namespace grafology {
 
         unsigned n_processed = 0;
         unsigned i_group = 0;
-        std::vector<node_t> to_process;
+        std::vector<vertex_t> to_process;
         while (true) {
-            if (n_processed == n_nodes) {
+            if (n_processed == n_vertices) {
                 break;
             }
             // find the roots (vertices with no incoming edges)
             to_process.clear();
-            for (node_t i = 0; i < n_nodes; ++i) {
+            for (vertex_t i = 0; i < n_vertices; ++i) {
                 if (in_degrees[i] == 0) {
                     to_process.push_back(i);
                 }

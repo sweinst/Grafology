@@ -30,7 +30,7 @@ namespace {
 TEMPLATE_TEST_CASE("Impl - Topological sort", "[impl-algos]", 
     g::DenseGraphImpl , g::SparseGraphImpl)
 {
-    std::vector<std::set<g::node_t>> expected {
+    std::vector<std::set<g::vertex_t>> expected {
         {0, 6},
         {2},
         {4, 5},
@@ -43,7 +43,7 @@ TEMPLATE_TEST_CASE("Impl - Topological sort", "[impl-algos]",
     g.set_edges(edges_init);
 
     unsigned current_group = 0;
-    std::set<g::node_t> visited;
+    std::set<g::vertex_t> visited;
     for (auto [group, vertex]: g::topological_sort(g)) {
         if (group != current_group) {
             CHECK(expected[current_group] == visited);

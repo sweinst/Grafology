@@ -26,7 +26,7 @@ namespace grafology {
              * - the value is the edge weight
              */
             struct MapEntry {
-                node_t node;
+                vertex_t node;
                 weight_t weight;
                 
                 auto operator<=>(const MapEntry& other) const {
@@ -34,7 +34,7 @@ namespace grafology {
                 }
             };
 
-            void set(node_t node, weight_t weight) {
+            void set(vertex_t node, weight_t weight) {
                 MapEntry key {node, weight};
                 auto it = std::lower_bound(_flat_map.begin(), _flat_map.end(), key);
                 if (it != _flat_map.end() && it->node == node) {
@@ -48,7 +48,7 @@ namespace grafology {
                 set(entry.node, entry.weight);
             }
 
-            weight_t get(node_t node) const {
+            weight_t get(vertex_t node) const {
                 auto it = std::lower_bound(_flat_map.begin(), _flat_map.end(), MapEntry{node, 0});
                 if (it != _flat_map.end() && it->node == node) {
                     return it->weight;
@@ -56,7 +56,7 @@ namespace grafology {
                 return 0;
             }
 
-            void remove(node_t node) {
+            void remove(vertex_t node) {
                 auto it = std::lower_bound(_flat_map.begin(), _flat_map.end(), MapEntry{node, 0});
                 if (it != _flat_map.end() && it->node == node) {
                     _flat_map.erase(it);

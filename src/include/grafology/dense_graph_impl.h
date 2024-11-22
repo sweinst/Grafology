@@ -36,9 +36,9 @@ namespace grafology {
             return _adjacency_matrix[i*_n_max_vertices+j];
         }
 
-        node_t add_vertex() {
+        vertex_t add_vertex() {
             std::memset(_adjacency_matrix.data() + _n_vertices*_n_max_vertices, 0, _n_max_vertices);
-            for (node_t i = 0; i < _n_max_vertices; i++) {
+            for (vertex_t i = 0; i < _n_max_vertices; i++) {
                 _adjacency_matrix[i*_n_max_vertices+_n_vertices] = 0;
             }            
             ++_n_vertices;
@@ -51,7 +51,7 @@ namespace grafology {
          * it will return first the "free" vertex slots, so indices won't be contiguous anymore.
          * @remark In order to add the vertices, the generator must be iterated
         */
-        generator<node_t> add_vertices(unsigned n) {
+        generator<vertex_t> add_vertices(unsigned n) {
             for (unsigned i = 0; i < n; ++i) {
                 co_yield add_vertex();
             }
@@ -86,10 +86,10 @@ namespace grafology {
             set_edges(std::begin(r), std::end(r));
         }
 
-        std::size_t degree(node_t node) const {
+        std::size_t degree(vertex_t node) const {
             std::size_t degree = 0;
             auto rowStart = _adjacency_matrix.data() + node*_n_max_vertices;
-            for (node_t i = 0; i < _n_vertices; ++i) {
+            for (vertex_t i = 0; i < _n_vertices; ++i) {
                 if (*(rowStart+i) != 0) {
                     ++degree;
                 }
@@ -97,9 +97,9 @@ namespace grafology {
             return degree;
         }
 
-        std::size_t in_degree(node_t node) const {
+        std::size_t in_degree(vertex_t node) const {
             std::size_t in_degree = 0;
-            for (node_t i = 0; i < _n_vertices; ++i) {
+            for (vertex_t i = 0; i < _n_vertices; ++i) {
                 if (_adjacency_matrix[i*_n_max_vertices+node] != 0) {
                     ++in_degree;
                 }
@@ -107,9 +107,9 @@ namespace grafology {
             return in_degree;
         }
 
-        generator<node_t> get_raw_neighbors(node_t node) const {
+        generator<vertex_t> get_raw_neighbors(vertex_t node) const {
             auto rowStart = _adjacency_matrix.data() + node*_n_max_vertices;
-            for (node_t i = 0; i < _n_vertices; ++i) {
+            for (vertex_t i = 0; i < _n_vertices; ++i) {
                 if (i != node) {
                     auto weight = *(rowStart+i);
                     if (weight != 0) {
@@ -119,9 +119,9 @@ namespace grafology {
             }
         }
 
-        generator<edge_t> get_neighbors(node_t node) const {
+        generator<edge_t> get_neighbors(vertex_t node) const {
             auto rowStart = _adjacency_matrix.data() + node*_n_max_vertices;
-            for (node_t i = 0; i < _n_vertices; ++i) {
+            for (vertex_t i = 0; i < _n_vertices; ++i) {
                 if (i != node) {
                     auto weight = *(rowStart+i);
                     if (weight != 0) {
@@ -131,8 +131,8 @@ namespace grafology {
             }
         }
 
-        generator<node_t> get_raw_in_neighbors(node_t node) const {
-            for (node_t i = 0; i < _n_vertices; ++i) {
+        generator<vertex_t> get_raw_in_neighbors(vertex_t node) const {
+            for (vertex_t i = 0; i < _n_vertices; ++i) {
                 if (i != node) {
                     auto weight = _adjacency_matrix[i*_n_max_vertices+node];
                     if (weight != 0) {
@@ -142,8 +142,8 @@ namespace grafology {
             }
         }
         
-        generator<edge_t> get_in_neighbors(node_t node) const {
-            for (node_t i = 0; i < _n_vertices; ++i) {
+        generator<edge_t> get_in_neighbors(vertex_t node) const {
+            for (vertex_t i = 0; i < _n_vertices; ++i) {
                 if (i != node) {
                     auto weight = _adjacency_matrix[i*_n_max_vertices+node];
                     if (weight != 0) {
@@ -155,8 +155,8 @@ namespace grafology {
 
         DenseGraphImpl invert() const {
             DenseGraphImpl inverted(_n_max_vertices, _n_vertices, _is_directed);
-            for (node_t i = 0; i < _n_vertices; ++i) {
-                for (node_t j = 0; j < _n_vertices; ++j) {
+            for (vertex_t i = 0; i < _n_vertices; ++i) {
+                for (vertex_t j = 0; j < _n_vertices; ++j) {
                     inverted._adjacency_matrix[i*_n_max_vertices+j] = _adjacency_matrix[j*_n_max_vertices+i];
                 }
             }

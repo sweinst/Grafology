@@ -50,11 +50,11 @@ namespace grafology {
             return _impl;
         }
 
-        node_t get_internal_index(const Vertex& v) const {
+        vertex_t get_internal_index(const Vertex& v) const {
             return _vertex_map.get_index(v);
         }
 
-        const Vertex& get_vertex_from_internal_index(node_t i) const {
+        const Vertex& get_vertex_from_internal_index(vertex_t i) const {
             return _vertex_map.get_vertex(i);
         }
 

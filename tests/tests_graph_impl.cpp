@@ -96,8 +96,8 @@ TEMPLATE_TEST_CASE("Graph implementations", "[graph-impl]",
         }
 
         // neighbors
-        std::vector<std::set<g::node_t>> neighbors(g.size());
-        std::vector<std::set<g::node_t>> in_neighbors(g.size());
+        std::vector<std::set<g::vertex_t>> neighbors(g.size());
+        std::vector<std::set<g::vertex_t>> in_neighbors(g.size());
         auto edges = {edges_init, extra_edges_init};
         for(const auto& edge: std::views::join(edges)) {
             if (edge.start != edge.end)
@@ -112,7 +112,7 @@ TEMPLATE_TEST_CASE("Graph implementations", "[graph-impl]",
             }
         }
 
-        for (g::node_t i = 0; i < g.size(); i++) {
+        for (g::vertex_t i = 0; i < g.size(); i++) {
             {
                 unsigned n_neighbors = 0;
                 for (const auto& neighbor: g.get_neighbors(i)) {
