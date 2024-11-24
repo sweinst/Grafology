@@ -39,8 +39,8 @@ Graph and GraphImpl can be:
 
 ## Example
 ```mermaid
-%%{init: {'themeVariables': {'fontSize': 8,'sectionFontSize': 8}}}%%
-graph TD;
+%%{init: {'themeVariables': {'fontSize': 9,'sectionFontSize': 9}}}%%
+graph LR;
 A(Mix ingredients) --> B(Add batter to pan) 
 C(Grease/Flour pan) --> B(Add batter to pan) 
 B(Add batter to pan) --> D(Bake cake) 
