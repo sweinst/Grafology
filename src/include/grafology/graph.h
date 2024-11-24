@@ -75,7 +75,7 @@ namespace grafology {
             if (i == -1) {
                 if (!create_vertices_if_missing)
                 {
-                    throw error(std::format("Vertex {}' not found", start));
+                    throw error("Vertex '{}' not found", start);
                 }
                 i = add_vertex(start);
             }
@@ -83,7 +83,7 @@ namespace grafology {
             if (j == -1) {
                 if (!create_vertices_if_missing)
                 {
-                    throw error(std::format("Vertex {}' not found", end));
+                    throw error("Vertex '{}' not found", end);
                 }
                 j = add_vertex(end);
             }

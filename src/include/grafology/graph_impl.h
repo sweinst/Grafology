@@ -3,6 +3,7 @@
 #include <ranges>
 #include <string>
 #include <stdexcept>
+#include <format>
 #if defined(_MSC_VER)
     // don't know when generator will be available in MSVC ?
     #include <experimental/generator>
@@ -21,7 +22,12 @@ namespace grafology {
  */
 class error : public std::runtime_error {
 public:
+    // inherit the constructors
     using std::runtime_error::runtime_error;
+    // allow to use std::format directly in the constructor
+    template< class... Args >
+    error(std::format_string<Args...> fmt, Args&&... args )
+    : std::runtime_error(std::format(fmt, std::forward<Args>(args)...)) {}
 };
 
 //** the internal vertex type
