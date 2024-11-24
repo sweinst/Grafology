@@ -28,8 +28,8 @@ namespace std {
         }
 
         template <class FormatContext>
-        FormatContext::iterator format(const TestVertex& v, FormatContext& ctx) const {
-            return format_to(ctx.out(), "TestVertex[{id: {}, label: {}]", v._id, v._label);
+        auto format(const TestVertex& v, FormatContext& ctx) const {
+            return std::format_to(ctx.out(), "TestVertex[id: {}, label: {}]", v._id, v._label);
         }
     };
 }

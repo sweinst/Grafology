@@ -73,10 +73,18 @@ namespace grafology {
         void set_edge(const Vertex& start, const Vertex& end, weight_t weight, bool create_vertices_if_missing = false) {
             auto i = _vertex_map.get_index(start);
             if (i == -1) {
+                if (!create_vertices_if_missing)
+                {
+                    throw error(std::format("Vertex {}' not found", start));
+                }
                 i = add_vertex(start);
             }
             auto j = _vertex_map.get_index(end);
             if (j == -1) {
+                if (!create_vertices_if_missing)
+                {
+                    throw error(std::format("Vertex {}' not found", end));
+                }
                 j = add_vertex(end);
             }
             _impl.set_edge(i, j, weight);
