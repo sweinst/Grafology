@@ -13,7 +13,7 @@ namespace grafology {
     struct EdgeDefinition {
         Vertex start;
         Vertex end;
-        weight_t weight;
+        weight_t weight = 1;
     }; 
 
     /**

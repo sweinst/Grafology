@@ -33,7 +33,7 @@ using weight_t = int;
 struct edge_t {
     vertex_t start;
     vertex_t end;
-    int weight;
+    int weight = 1;
 };
 
 /** @brief The requirements for an iterator handling values of type V 
