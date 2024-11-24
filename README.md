@@ -94,3 +94,8 @@ Group 3: 'Cool cake'
 Group 4: 'Frost cake'
 Group 5: 'Eat cake :-)'
 ```
+
+## Platforms
+This code has been tested on:
+- Windows 11 - Visual Studio Tools 17.12
+- Linux (Ubuntu 24.04) - g++ 14.2
