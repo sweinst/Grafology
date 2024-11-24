@@ -3,6 +3,10 @@
 #include <queue>
 
 namespace grafology {
+    /**
+    * @brief Perform a topological sort on a directed graph
+    * @remark This algorithm is based on Kahn's algorithm
+    */
     template <GraphImpl G>
     generator<std::pair<unsigned, vertex_t>> topological_sort(const G& graph) {
         if (!graph.is_directed()) {
@@ -50,6 +54,10 @@ namespace grafology {
 
     }
 
+    /**
+    * @brief Perform a topological sort on a directed graph
+    * @remark This algorithm is based on Kahn's algorithm
+    */
     template<GraphImpl Impl, VertexKey Vertex>
     generator<std::pair<unsigned, Vertex>> topological_sort(const Graph<Impl, Vertex, true>& graph) {
         const auto impl = graph.impl();
@@ -58,6 +66,9 @@ namespace grafology {
         }
     }
 
+    /**
+    * @brief Prevent topological sorts on undirected graphs
+    */
     template<GraphImpl Impl, VertexKey Vertex>
     generator<std::pair<unsigned, Vertex>> topological_sort(const Graph<Impl, Vertex, false>& graph) {
         static_assert(false, "Topological sort works only on directed graphs");

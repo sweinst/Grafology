@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.26)
 project(grafology VERSION 0.1.0 LANGUAGES C CXX)
 
 option(BUILD_TESTS "Build tests" ON)
+option(BUILD_EXAMPLES "Build examples" ON)
 
 set(CMAKE_CXX_STANDARD 23)
 
@@ -54,6 +55,13 @@ set_target_properties(
 if(BUILD_TESTS)
     add_subdirectory(tests)
 endif(BUILD_TESTS)
+
+##################################################
+# Examples
+##################################################
+if(BUILD_EXAMPLES)
+    add_subdirectory(examples)
+endif(BUILD_EXAMPLES)
 
 ##################################################
 # Installation
