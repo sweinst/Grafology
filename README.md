@@ -39,15 +39,16 @@ Graph and GraphImpl can be:
 
 ## Example
 ```mermaid
+%%{init: {'themeVariables': {'fontSize': 8,'sectionFontSize': 8}}}%%
 graph TD;
-A[Mix ingredients] --> B[Add batter to pan] 
-C[Grease/Flour pan] --> B[Add batter to pan] 
-B[Add batter to pan] --> D[Bake cake] 
-E[Preheat oven] --> D[Bake cake] 
-D[Bake cake] --> F[Cool cake] 
-F[Cool cake] --> G[Frost cake] 
-H[Make frosting] --> G[Frost cake] 
-G[Frost cake] --> i[Eat cake 😀] 
+A(Mix ingredients) --> B(Add batter to pan) 
+C(Grease/Flour pan) --> B(Add batter to pan) 
+B(Add batter to pan) --> D(Bake cake) 
+E(Preheat oven) --> D(Bake cake) 
+D(Bake cake) --> F(Cool cake) 
+F(Cool cake) --> G(Frost cake) 
+H(Make frosting) --> G(Frost cake) 
+G(Frost cake) --> i(Eat cake 😀) 
 ```
 
 
