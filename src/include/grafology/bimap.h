@@ -34,7 +34,12 @@ namespace grafology
         }
 
         unsigned get_index(const V& v) const {
-            return _vertex_to_index.find(v)->second;
+            auto i = _vertex_to_index.find(v);
+            if (i == _vertex_to_index.end())
+            {
+                return -1;
+            }
+            return i->second;
         }
 
         // "pass by value then move" idiom

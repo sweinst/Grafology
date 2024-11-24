@@ -29,9 +29,9 @@ namespace grafology {
             _vertex_map(capacity) {
         }
 
-        void add_vertex(const Vertex& v) {
+        vertex_t add_vertex(const Vertex& v) {
             _vertex_map.add_vertex(v);
-            _impl.add_vertex();
+            return _impl.add_vertex();
         }
 
         unsigned size() const {
@@ -70,26 +70,32 @@ namespace grafology {
             add_vertices(std::begin(r), std::end(r));
         }
 
-        void set_edge(const Vertex& start, const Vertex& end, weight_t weight) {
+        void set_edge(const Vertex& start, const Vertex& end, weight_t weight, bool create_vertices_if_missing = false) {
             auto i = _vertex_map.get_index(start);
+            if (i == -1) {
+                i = add_vertex(start);
+            }
             auto j = _vertex_map.get_index(end);
+            if (j == -1) {
+                j = add_vertex(end);
+            }
             _impl.set_edge(i, j, weight);
         }
 
-        void set_edge(const Edge& edge) {
-            set_edge(edge.start, edge.end, edge.weight);
+        void set_edge(const Edge& edge, bool create_vertices_if_missing = false) {
+            set_edge(edge.start, edge.end, edge.weight, create_vertices_if_missing);
         }
 
         template<input_iterator_value<Edge> I, std::sentinel_for<I> S>
-        void set_edges(I first, S last) {
+        void set_edges(I first, S last, bool create_vertices_if_missing = false) {
             for (auto it = first; it != last; ++it) {
-                set_edge(*it);
+                set_edge(*it, create_vertices_if_missing);
             }
         }
 
         template<input_range_value<Edge> R>
-        void set_edges(R &&r) {
-            set_edges(std::begin(r), std::end(r));
+        void set_edges(R &&r, bool create_vertices_if_missing = false) {
+            set_edges(std::begin(r), std::end(r), create_vertices_if_missing);
         }
 
         unsigned degree(const Vertex& v) const {

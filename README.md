@@ -6,6 +6,7 @@
 		/>
 </div>
 <br/>
+<br/>
 <hr/>
 
 # A simple graph library
@@ -36,5 +37,59 @@ Graph and GraphImpl can be:
 - Directed
 - Undirected. In this case, there will be always 2 "directed" node between 2 vertices with the same weight buf with opposite direction
 
+## Example
+```mermaid
+graph TD;
+A[Mix ingredients] --> B[Add batter to pan] 
+C[Grease/Flour pan] --> B[Add batter to pan] 
+B[Add batter to pan] --> D[Bake cake] 
+E[Preheat oven] --> D[Bake cake] 
+D[Bake cake] --> F[Cool cake] 
+F[Cool cake] --> G[Frost cake] 
+H[Make frosting] --> G[Frost cake] 
+G[Frost cake] --> i[Eat cake 😀] 
+```
 
 
+```C++
+#include <grafology/grafology.h>
+#include <print>
+
+namespace g = grafology;
+// a directed sparse graph which uses strings as vertices identifiers
+using Graph = g::DirectedSparseGraph<std::string>;
+using Edge = Graph::Edge;
+
+std::vector<Edge> edges {
+        {"Mix ingredients", "Add batter to pan"}, 
+        {"Grease/Flour pan", "Add batter to pan"}, 
+        {"Add batter to pan", "Bake cake"}, 
+        {"Preheat oven", "Bake cake"}, 
+        {"Bake cake", "Cool cake"}, 
+        {"Cool cake", "Frost cake"}, 
+        {"Make frosting", "Frost cake"}, 
+        {"Frost cake", "Eat cake :-)"}, 
+    };
+
+
+int main () {
+    Graph graph(10);
+    graph.set_edges(edges, true);
+    for (const auto& [group, vertex] : g::topological_sort(graph)) {
+        std::println( "Group {}: '{}'", group, vertex);
+    }
+    return 0;
+}
+```
+Output:
+```bash
+Group 0: 'Mix ingredients'
+Group 0: 'Grease/Flour pan'
+Group 0: 'Preheat oven'
+Group 0: 'Make frosting'
+Group 1: 'Add batter to pan'
+Group 2: 'Bake cake'
+Group 3: 'Cool cake'
+Group 4: 'Frost cake'
+Group 5: 'Eat cake :-)'
+```

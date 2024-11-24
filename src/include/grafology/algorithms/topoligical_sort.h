@@ -5,7 +5,7 @@
 namespace grafology {
     /**
     * @brief Perform a topological sort on a directed graph
-    * @remark This algorithm is based on Kahn's algorithm
+    * @remark This is an implementation of Kahn's algorithm
     */
     template <GraphImpl G>
     generator<std::pair<unsigned, vertex_t>> topological_sort(const G& graph) {
@@ -56,7 +56,7 @@ namespace grafology {
 
     /**
     * @brief Perform a topological sort on a directed graph
-    * @remark This algorithm is based on Kahn's algorithm
+    * @remark This is an implementation of Kahn's algorithm
     */
     template<GraphImpl Impl, VertexKey Vertex>
     generator<std::pair<unsigned, Vertex>> topological_sort(const Graph<Impl, Vertex, true>& graph) {
