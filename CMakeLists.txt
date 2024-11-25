@@ -35,6 +35,8 @@ set(GRAFOLOGY_HDRS
     src/include/grafology/dense_graph_impl.h
     src/include/grafology/flat_index_map.h
     src/include/grafology/vertex.h 
+    src/include/grafology/algorithms/dfs.h
+    src/include/grafology/algorithms/topological_sort.h
 )
 
 add_library(${PROJECT_NAME} ${GRAFOLOGY_SRC} ${GRAFOLOGY_HDRS})

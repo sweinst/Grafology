@@ -14,8 +14,24 @@ namespace grafology {
         Vertex start;
         Vertex end;
         weight_t weight = 1;
-    }; 
 
+        bool operator ==(const EdgeDefinition&) const = default;
+    };
+
+} // namespace grafology
+
+namespace std {
+    template <grafology::VertexKey Vertex>
+    struct hash<grafology::EdgeDefinition<Vertex>> {
+        std::size_t operator() (const grafology::EdgeDefinition<Vertex>& e) const {
+            auto h1 = std::hash<Vertex>{}(e.start);
+            auto h2 = std::hash<Vertex>{}(e.end);
+            return (h1 ^ (h2 << 1));
+        }
+    };
+} // namespace std
+
+namespace grafology {
     /**
      * @brief The generic graph class
      */
@@ -42,7 +58,7 @@ namespace grafology {
             return _impl.capacity();
         }
 
-        bool is_directed() const {
+        consteval bool is_directed() const {
             return IsDirected;
         }
 

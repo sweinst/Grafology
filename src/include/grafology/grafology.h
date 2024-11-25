@@ -1,5 +1,6 @@
 #pragma once
 
 #include "graph.h"
-#include "algorithms/topoligical_sort.h"
+#include "algorithms/depth_first_search.h"
+#include "algorithms/topological_sort.h"
 
