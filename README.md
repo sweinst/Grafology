@@ -37,32 +37,34 @@ Graph and GraphImpl can be:
 - Directed
 - Undirected. In this case, there will be always 2 "directed" node between 2 vertices with the same weight buf with opposite direction
 
-## Example
+## Example: 
+
+This example shows how to implement the topological sort of the following graph (how to cook a cake 😀):
+
 ```mermaid
 %%{init: {'themeVariables': {'fontSize': 10,'sectionFontSize': 10}}}%%
 graph LR;
-A(Mix ingredients) --> B(Add batter to pan) 
-C(Grease/Flour pan) --> B(Add batter to pan) 
-B(Add batter to pan) --> D(Bake cake) 
-E(Preheat oven) --> D(Bake cake) 
-D(Bake cake) --> F(Cool cake) 
-F(Cool cake) --> G(Frost cake) 
-H(Make frosting) --> G(Frost cake) 
-G(Frost cake) --> i(Eat cake 😀) 
+    A(Mix ingredients) --> B(Add batter to pan) 
+    C(Grease/Flour pan) --> B(Add batter to pan) 
+    B(Add batter to pan) --> D(Bake cake) 
+    E(Preheat oven) --> D(Bake cake) 
+    D(Bake cake) --> F(Cool cake) 
+    F(Cool cake) --> G(Frost cake) 
+    H(Make frosting) --> G(Frost cake) 
+    G(Frost cake) --> I(Eat cake 😀) 
 ```
-
 
 ```C++
 #include <grafology/grafology.h>
 #include <print>
 
 namespace g = grafology;
-// a directed sparse graph which uses strings as vertices identifiers
+// a directed sparse graph which uses strings as vertex identifiers
 using Graph = g::DirectedSparseGraph<std::string>;
 using Edge = Graph::Edge;
 
 std::vector<Edge> edges {
-        {"Mix ingredients", "Add batter to pan"}, 
+        {.start="Mix ingredients", .end="Add batter to pan"}, 
         {"Grease/Flour pan", "Add batter to pan"}, 
         {"Add batter to pan", "Bake cake"}, 
         {"Preheat oven", "Bake cake"}, 

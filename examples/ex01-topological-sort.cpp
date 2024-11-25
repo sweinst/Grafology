@@ -7,7 +7,7 @@ using Graph = g::DirectedSparseGraph<std::string>;
 using Edge = Graph::Edge;
 
 std::vector<Edge> edges {
-        {"Mix ingredients", "Add batter to pan"}, 
+        {.start="Mix ingredients", .end="Add batter to pan"}, 
         {"Grease/Flour pan", "Add batter to pan"}, 
         {"Add batter to pan", "Bake cake"}, 
         {"Preheat oven", "Bake cake"}, 
