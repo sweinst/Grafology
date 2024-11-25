@@ -10,7 +10,7 @@
 <hr/>
 
 # A simple graph library
-*Graphology* is yet another graph library implementing various classical algorithms. It uses various C++23/20 features like: coroutines/generators, concepts, ranges/views, ... in order to generate an easy API.
+*Graphology* is yet another graph library implementing various classical algorithms. It uses various C++23/20 features like: coroutines/generators, concepts, ranges/views, ... in order to generate an easy to use API.
 
 ## Graph types
 There are two types of graph classes:
