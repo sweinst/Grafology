@@ -10,7 +10,7 @@ namespace {
     constexpr unsigned max_vertices = 11;
     constexpr unsigned n_vertices = 11;
 
-    std::vector<TestVertex> vertices_init = {
+    const std::vector<TestVertex> vertices_init = {
       {0, "zero"},
       {1, "one"},
       {2, "two"},
@@ -24,7 +24,7 @@ namespace {
       {10, "ten"},
     };
 
-    std::vector<TestEdge> edges_init = {
+    const std::vector<TestEdge> edges_init = {
         {{0, ""}, {1, ""}, 1},
         {{0, ""}, {2, ""}, 2},
         {{2, ""}, {3, ""}, 5},
@@ -46,7 +46,7 @@ namespace {
 TEMPLATE_TEST_CASE("Graphs - Topological sort", "[graphs-algos]", 
     g::DirectedDenseGraph<TestVertex> , g::DirectedSparseGraph<TestVertex>) {
 
-    std::vector<std::unordered_set<TestVertex>> expected {
+    const std::vector<std::unordered_set<TestVertex>> expected {
         {{0, ""}, {6, ""}},
         {{2, ""}},
         {{4, ""}, {5, ""}},
@@ -87,3 +87,25 @@ TEMPLATE_TEST_CASE("Graphs - Topological sort", "[graphs-algos]",
     }));
     
 }
+
+TEMPLATE_TEST_CASE("Graphs - DFS", "[graphs-algos]", 
+    g::DirectedDenseGraph<TestVertex> , g::DirectedSparseGraph<TestVertex>,
+    g::UndirectedDenseGraph<TestVertex> , g::UndirectedSparseGraph<TestVertex>) {
+
+    const std::unordered_set<TestVertex> directed_expected {
+        {0, ""}, {1, ""}, {2, ""}, {3, ""}, {4, ""}, {5, ""}, {7, ""}, {8, ""}, {9, ""}, {10, ""},
+    };
+    const std::unordered_set<TestVertex> undirected_expected {
+        {0, ""}, {1, ""}, {2, ""}, {3, ""}, {4, ""}, {5, ""}, {6, ""}, {7, ""}, {8, ""}, {9, ""}, {10, ""},
+    };
+
+    TestType graph(max_vertices);
+    graph.set_edges(edges_init, true);
+
+    std::unordered_set<TestVertex> visited;
+    for (const auto& vertex: g::depth_first_search(graph, TestVertex{0, ""})) {
+        CAPTURE(vertex);
+        CHECK(visited.insert(vertex).second);
+    }
+    CHECK(visited == (graph.is_directed() ? directed_expected : undirected_expected));
+ }

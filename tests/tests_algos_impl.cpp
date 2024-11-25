@@ -30,7 +30,7 @@ namespace {
 TEMPLATE_TEST_CASE("Impl - Topological sort", "[impl-algos]", 
     g::DenseGraphImpl , g::SparseGraphImpl)
 {
-    std::vector<std::set<g::vertex_t>> expected {
+    const std::vector<std::set<g::vertex_t>> expected {
         {0, 6},
         {2},
         {4, 5},
@@ -68,4 +68,28 @@ TEMPLATE_TEST_CASE("Impl - Topological sort", "[impl-algos]",
         CAPTURE(group_vertex);
     }));
     
+}
+
+TEMPLATE_TEST_CASE("Impl - DFS", "[impl-algos]", 
+    g::DenseGraphImpl , g::SparseGraphImpl)
+{
+    const std::set<g::vertex_t> expected_directed {
+        0, 1, 2, 3, 4, 5, 7, 8, 9, 10 
+    };
+    const std::set<g::vertex_t> expected_undirected {
+        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 
+    };
+
+    for(auto is_directed : {false, true}) {
+        TestType g(max_vertices, n_vertices, is_directed);
+        g.set_edges(edges_init);
+
+        unsigned current_group = 0;
+        std::set<g::vertex_t> visited;
+        for (auto vertex: g::depth_first_search(g, 0)) {
+            CAPTURE(vertex);
+            CHECK(visited.insert(vertex).second);
+        }
+        CHECK(visited == (is_directed ? expected_directed : expected_undirected));
+    }
 }
