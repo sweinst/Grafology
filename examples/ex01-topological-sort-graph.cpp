@@ -1,6 +1,8 @@
 #include <grafology/grafology.h>
 #include <print>
 
+// Example: topological sort of a Graph
+
 namespace g = grafology;
 // a directed sparse graph which uses strings as vertices identifiers
 using Graph = g::DirectedSparseGraph<std::string>;
@@ -19,7 +21,8 @@ std::vector<Edge> edges {
 
 
 int main () {
-    Graph graph(10);
+    int capacity = 10;
+    Graph graph(capacity);
     graph.set_edges(edges, true);
     for (const auto& [group, vertex] : g::topological_sort(graph)) {
         std::println( "Group {}: '{}'", group, vertex);

@@ -1,7 +1,13 @@
 project(Grafology-examples LANGUAGES C CXX)
 
-add_executable(
-    ex01-topological-sort
-    ex01-topological-sort.cpp
+set (examples
+    ex01-topological-sort-graph
+    ex01-topological-sort-impl
+    ex02-depth-first-search-graph
+    ex02-depth-first-search-impl
 )
-target_link_libraries(ex01-topological-sort PRIVATE grafology)
+
+foreach(example ${examples})
+    add_executable(${example} ${example}.cpp)
+    target_link_libraries(${example} PRIVATE grafology) 
+endforeach()
