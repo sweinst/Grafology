@@ -21,12 +21,32 @@ namespace grafology {
 } // namespace grafology
 
 namespace std {
-    template <grafology::VertexKey Vertex>
+    /**
+     *  @brief Specialization of std::hash for EdgeDefinition
+     */
+    template <typename Vertex>
+        requires grafology::VertexKey<Vertex>
     struct hash<grafology::EdgeDefinition<Vertex>> {
         std::size_t operator() (const grafology::EdgeDefinition<Vertex>& e) const {
             auto h1 = std::hash<Vertex>{}(e.start);
             auto h2 = std::hash<Vertex>{}(e.end);
             return (h1 ^ (h2 << 1));
+        }
+    };
+
+    /** 
+     * @brief Specialization of std::format for EdgeDefinition<Vertex>
+     */
+    template <grafology::VertexKey Vertex>
+    struct formatter<grafology::EdgeDefinition<Vertex>, char> {
+        template <class ParseContext>
+        constexpr ParseContext::iterator parse(ParseContext& ctx) {
+            return ctx.begin();
+        }
+
+        template <class FormatContext>
+        auto format(const grafology::EdgeDefinition<Vertex>& v, FormatContext& ctx) const {
+            return std::format_to(ctx.out(), "[start:{},end:{},weight:{}]", v.start, v.end, v.weight);
         }
     };
 } // namespace std

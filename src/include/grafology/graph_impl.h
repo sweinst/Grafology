@@ -105,3 +105,22 @@ concept GraphImpl = requires(G g, vertex_t i, vertex_t j, weight_t w) {
 ;
 
 } // namespace grafology
+
+namespace std{
+    /** 
+     * @brief Specialization of std::format for edge_t
+     */
+    template<>
+    struct formatter<grafology::edge_t, char> {
+        template <class ParseContext>
+        constexpr ParseContext::iterator parse(ParseContext& ctx) {
+            return ctx.begin();
+        }
+
+        template <class FormatContext>
+        auto format(const grafology::edge_t& v, FormatContext& ctx) const {
+            return std::format_to(ctx.out(), "[start:{},end:{},weight:{}]", v.start, v.end, v.weight);
+        }
+    };
+
+}  // namespace std
