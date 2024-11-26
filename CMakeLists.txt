@@ -35,6 +35,7 @@ set(GRAFOLOGY_HDRS
     src/include/grafology/dense_graph_impl.h
     src/include/grafology/flat_index_map.h
     src/include/grafology/vertex.h 
+    src/include/grafology/algorithms/breath_first_search.h
     src/include/grafology/algorithms/depth_first_search.h
     src/include/grafology/algorithms/topological_sort.h
 )

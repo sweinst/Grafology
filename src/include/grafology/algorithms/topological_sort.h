@@ -1,5 +1,5 @@
 #pragma once
-#include "../grafology.h"
+#include "../graph.h"
 #include <queue>
 
 namespace grafology {

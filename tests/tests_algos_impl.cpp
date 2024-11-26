@@ -1,4 +1,6 @@
-#include <grafology/grafology.h>
+#include <grafology/algorithms/topological_sort.h>
+#include <grafology/algorithms/depth_first_search.h>
+#include <grafology/algorithms/breath_first_search.h>
 #include <catch2/catch_template_test_macros.hpp>
 #include <set>
 #include "test_vertex.h"
@@ -73,22 +75,52 @@ TEMPLATE_TEST_CASE("Impl - Topological sort", "[impl-algos]",
 TEMPLATE_TEST_CASE("Impl - DFS", "[impl-algos]", 
     g::DenseGraphImpl , g::SparseGraphImpl)
 {
-    const std::set<g::vertex_t> expected_directed {
-        0, 1, 2, 3, 4, 5, 7, 8, 9, 10 
+    const std::vector<g::vertex_t> expected_directed {
+        0, 2, 5, 8, 9, 7, 3, 10, 1, 4 
     };
-    const std::set<g::vertex_t> expected_undirected {
-        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 
+    const std::vector<g::vertex_t> expected_undirected {
+        0, 2, 5, 8, 9, 7, 6, 3, 10, 1, 4 
     };
 
     for(auto is_directed : {false, true}) {
+        CAPTURE(is_directed);
+
         TestType g(max_vertices, n_vertices, is_directed);
         g.set_edges(edges_init);
 
         unsigned current_group = 0;
-        std::set<g::vertex_t> visited;
+        std::vector<g::vertex_t> visited;
         for (auto vertex: g::depth_first_search(g, 0)) {
             CAPTURE(vertex);
-            CHECK(visited.insert(vertex).second);
+            CHECK(std::ranges::find(visited, vertex) == visited.end());
+            visited.push_back(vertex);
+        }
+        CHECK(visited == (is_directed ? expected_directed : expected_undirected));
+    }
+}
+
+TEMPLATE_TEST_CASE("Impl - BFS", "[impl-algos]", 
+    g::DenseGraphImpl , g::SparseGraphImpl)
+{
+    const std::vector<g::vertex_t> expected_directed {
+        0, 1, 2, 3, 4, 5, 10, 8, 7, 9 
+    };
+    const std::vector<g::vertex_t> expected_undirected {
+        0, 1, 2, 3, 5, 4, 8, 10, 7, 9, 6 
+    };
+
+    for(auto is_directed : {false, true}) {
+        CAPTURE(is_directed);
+
+        TestType g(max_vertices, n_vertices, is_directed);
+        g.set_edges(edges_init);
+
+        unsigned current_group = 0;
+        std::vector<g::vertex_t> visited;
+        for (auto vertex: g::breath_first_search(g, 0)) {
+            CAPTURE(vertex);
+            CHECK(std::ranges::find(visited, vertex) == visited.end());
+            visited.push_back(vertex);
         }
         CHECK(visited == (is_directed ? expected_directed : expected_undirected));
     }

@@ -1,5 +1,5 @@
-#include <grafology/grafology.h>
-#include <set>
+#include <grafology/graph.h>
+#include <iostream>
 
 namespace g = grafology;
 
@@ -11,6 +11,11 @@ struct TestVertex{
         return _id == v._id;
     }
 };
+
+// for Catch2 which uses streams
+inline std::ostream& operator << (std::ostream& os, const TestVertex& v) {
+    return os << "TestVertex[" << v._id << ",'" << v._label << "']";
+}
 
 namespace std {
     template <>

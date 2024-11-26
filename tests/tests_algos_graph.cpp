@@ -1,7 +1,10 @@
-#include <grafology/grafology.h>
+#include <grafology/algorithms/topological_sort.h>
+#include <grafology/algorithms/depth_first_search.h>
+#include <grafology/algorithms/breath_first_search.h>
 #include <catch2/catch_template_test_macros.hpp>
 #include <unordered_set>
 #include "test_vertex.h"
+using namespace std::string_literals;
 
 namespace g = grafology;
 using TestEdge = g::EdgeDefinition<TestVertex>;
@@ -92,20 +95,50 @@ TEMPLATE_TEST_CASE("Graphs - DFS", "[graphs-algos]",
     g::DirectedDenseGraph<TestVertex> , g::DirectedSparseGraph<TestVertex>,
     g::UndirectedDenseGraph<TestVertex> , g::UndirectedSparseGraph<TestVertex>) {
 
-    const std::unordered_set<TestVertex> directed_expected {
-        {0, ""}, {1, ""}, {2, ""}, {3, ""}, {4, ""}, {5, ""}, {7, ""}, {8, ""}, {9, ""}, {10, ""},
+    const std::vector<TestVertex> directed_expected {
+        {0, ""s}, {2, ""s}, {5, ""s}, {8, ""s}, 
+        {9, ""s}, {7, ""s}, {3, ""s}, {10, ""s}, 
+        {1, ""s}, {4, ""s},
     };
-    const std::unordered_set<TestVertex> undirected_expected {
-        {0, ""}, {1, ""}, {2, ""}, {3, ""}, {4, ""}, {5, ""}, {6, ""}, {7, ""}, {8, ""}, {9, ""}, {10, ""},
+    const std::vector<TestVertex> undirected_expected {
+        {0, ""s}, {2, ""s}, {5, ""s}, {8, ""s}, 
+        {9, ""s}, {7, ""s}, {6, ""s}, {3, ""s}, 
+        {10, ""s}, {1, ""s}, {4, ""s}
     };
 
     TestType graph(max_vertices);
     graph.set_edges(edges_init, true);
 
-    std::unordered_set<TestVertex> visited;
+    std::vector<TestVertex> visited;
     for (const auto& vertex: g::depth_first_search(graph, TestVertex{0, ""})) {
         CAPTURE(vertex);
-        CHECK(visited.insert(vertex).second);
+        visited.push_back(vertex);
+    }
+    CHECK(visited == (graph.is_directed() ? directed_expected : undirected_expected));
+ }
+
+TEMPLATE_TEST_CASE("Graphs - BFS", "[graphs-algos]", 
+    g::DirectedDenseGraph<TestVertex> , g::DirectedSparseGraph<TestVertex>,
+    g::UndirectedDenseGraph<TestVertex> , g::UndirectedSparseGraph<TestVertex>) {
+
+    const std::vector<TestVertex> directed_expected {
+        {0, ""s}, {1, ""s}, {2, ""s}, {3, ""s}, 
+        {4, ""s}, {5, ""s}, {10, ""s}, {8, ""s}, 
+        {7, ""s}, {9, ""s},
+    };
+    const std::vector<TestVertex> undirected_expected {
+        {0, ""s}, {1, ""s}, {2, ""s}, {3, ""s}, 
+        {5, ""s}, {4, ""s}, {10, ""s}, {8, ""s}, 
+        {7, ""s}, {9, ""s}, {6, ""s},
+    };
+
+    TestType graph(max_vertices);
+    graph.set_edges(edges_init, true);
+
+    std::vector<TestVertex> visited;
+    for (const auto& vertex: g::breath_first_search(graph, TestVertex{0, ""})) {
+        CAPTURE(vertex);
+        visited.push_back(vertex);
     }
     CHECK(visited == (graph.is_directed() ? directed_expected : undirected_expected));
  }

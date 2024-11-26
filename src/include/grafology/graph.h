@@ -34,6 +34,9 @@ namespace std {
 namespace grafology {
     /**
      * @brief The generic graph class
+     * @tparam Impl The graph implementation 
+     * @tparam Vertex The class used for identifying vertices
+     * @tparam IsDirected Whether the graph is directed or not
      */
     template<GraphImpl Impl, VertexKey Vertex, bool IsDirected>
     class Graph {
@@ -58,7 +61,7 @@ namespace grafology {
             return _impl.capacity();
         }
 
-        consteval bool is_directed() const {
+        static constexpr bool is_directed() {
             return IsDirected;
         }
 
@@ -182,24 +185,28 @@ namespace grafology {
 
     /**
      * @brief A directed sparse graph
+     * @tparam Vertex The class used for identifying vertices
      */
     template<VertexKey Vertex>
     using DirectedSparseGraph = Graph<SparseGraphImpl, Vertex, true>;
 
     /**
      * @brief An undirected sparse graph
+     * @tparam Vertex The class used for identifying vertices
      */
     template<VertexKey Vertex>
     using UndirectedSparseGraph = Graph<SparseGraphImpl, Vertex, false>;
     
     /**
      * @brief A directed dense graph
+     * @tparam Vertex The class used for identifying vertices
      */
     template<VertexKey Vertex>
     using DirectedDenseGraph = Graph<DenseGraphImpl, Vertex, true>;
     
     /**
-     * @brief A undirected dense graph
+     * @brief An undirected dense graph
+     * @tparam Vertex The class used for identifying vertices
      */
     template<VertexKey Vertex>
     using UndirectedDenseGraph = Graph<DenseGraphImpl, Vertex, false>;
