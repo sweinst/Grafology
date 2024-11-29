@@ -2,18 +2,19 @@
     <img 
         src="imgs/logo.png" 
         alt="Répétiteur logo"
-        height="200px"
-        width="533px"
+        height="150px"
+        width="400px"
         />
 </div>
 <br/>
 <hr/>
 
+# Table of contents
 # Graph types
-## [Graph implementations](graph_implementations.md)
-## Graphs
+## &nbsp;&nbsp;[Graph implementations](graph_implementations.md)
+## &nbsp;&nbsp;Graphs
 # Algorithms
-## Breath first search
-## Depth first search
-## Topological sort
-## Transitive closure
+## &nbsp;&nbsp;Breath first search
+## &nbsp;&nbsp;Depth first search
+## &nbsp;&nbsp;Topological sort
+## &nbsp;&nbsp;Transitive closure

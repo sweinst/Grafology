@@ -2,8 +2,8 @@
 	<img 
 		src="docs/imgs/logo.png" 
 		alt="Répétiteur logo"
-        height="250px"
-        width="667px"
+        height="200px"
+        width="533px"
 		/>
 </div>
 <br/>
