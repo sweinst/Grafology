@@ -40,16 +40,21 @@ int main () {
 
 
     print_frame("DFS");
-    std::println( "{}", g::depth_first_search(graph, 0));
-    // i.e.:
-    // for (const auto vertex : g::depth_first_search(graph, 0)) {
-    //     std::println( "{}", vertex);
-    // }
+    // works with VS 17.12 but not with g++ 14.2
+    //std::println( "{}", g::depth_first_search(graph, 0));
+    std::print("[");
+    for (const auto vertex : g::depth_first_search(graph, 0)) {
+        std::print( "{}, ", vertex);
+    }
+    std::println("]");
+    
     print_frame("BFS");
-    std::println( "{}", g::breath_first_search(graph, 0));
-    // i.e.:
-    // for (const auto vertex : g::breath_first_search(graph, 0)) {
-    //     std::println( "{}", vertex);
-    // }
+    // works with VS 17.12 but not with g++ 14.2
+    //std::println( "{}", g::breath_first_search(graph, 0));
+    std::print("[");
+    for (const auto vertex : g::breath_first_search(graph, 0)) {
+        std::println( "{}, ", vertex);
+    }
+    std::println("]");
     return 0;
 }
