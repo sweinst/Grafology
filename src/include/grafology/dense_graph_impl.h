@@ -31,9 +31,12 @@ namespace grafology {
 
         bool is_directed() const { return _is_directed; }
 
-        // NB: VS2022 does not support the C++23 multidimensional subscript operator (i.e. a[i,j])
         weight_t operator()(unsigned i, unsigned j) const { 
             return _adjacency_matrix[i*_n_max_vertices+j];
+        }
+
+        bool has_edge(vertex_t i, vertex_t j) const { 
+            return _adjacency_matrix[i*_n_max_vertices+j] != 0;
         }
 
         vertex_t add_vertex() {
@@ -57,7 +60,7 @@ namespace grafology {
             }
         }
 
-        void set_edge(unsigned i, unsigned j, weight_t weight) {
+        void set_edge(vertex_t i, vertex_t j, weight_t weight) {
             _adjacency_matrix[i*_n_max_vertices+j] = weight;
             if (!_is_directed) {
                 _adjacency_matrix[j*_n_max_vertices+i] = weight;

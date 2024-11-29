@@ -38,6 +38,7 @@ set(GRAFOLOGY_HDRS
     src/include/grafology/algorithms/breath_first_search.h
     src/include/grafology/algorithms/depth_first_search.h
     src/include/grafology/algorithms/topological_sort.h
+    src/include/grafology/algorithms/transitive_closure.h
 )
 
 add_library(${PROJECT_NAME} ${GRAFOLOGY_SRC} ${GRAFOLOGY_HDRS})

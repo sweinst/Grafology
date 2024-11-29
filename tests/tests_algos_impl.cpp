@@ -1,6 +1,7 @@
 #include <grafology/algorithms/topological_sort.h>
 #include <grafology/algorithms/depth_first_search.h>
 #include <grafology/algorithms/breath_first_search.h>
+#include <grafology/algorithms/transitive_closure.h>
 #include <catch2/catch_template_test_macros.hpp>
 #include <set>
 #include "test_vertex.h"
@@ -123,5 +124,47 @@ TEMPLATE_TEST_CASE("Impl - BFS", "[impl-algos]",
             visited.push_back(vertex);
         }
         CHECK(visited == (is_directed ? expected_directed : expected_undirected));
+    }
+}
+
+TEMPLATE_TEST_CASE("Impl - Transitive closure directed", "[impl-algos]", 
+    g::DenseGraphImpl , g::SparseGraphImpl)
+{
+    const std::vector<g::edge_t> directed_extra_edges {
+        {0, 3}, {0, 4}, {0, 5}, {0, 7}, {0, 8}, {0, 9}, {0, 10},
+        {2, 1}, {2, 8}, {2, 7}, {2, 9}, {2, 10},
+        {5, 1}, {5, 3}, {5, 7}, {5, 9}, {5, 10},
+        {8, 1}, {8, 10},
+    };
+
+    TestType g(max_vertices, n_vertices, true);
+    g.set_edges(edges_init);
+    g::transitive_closure(g);
+
+    TestType expected(max_vertices, n_vertices, true);
+    expected.set_edges(edges_init);
+    expected.set_edges(directed_extra_edges);
+
+    for (g::vertex_t i = 0; i < n_vertices; ++i) {
+        for (g::vertex_t j = 0; j < n_vertices; ++j) {
+            CAPTURE(i, j);
+            CHECK(g.has_edge(i, j) == expected.has_edge(i, j));
+        }
+    }
+}
+
+TEMPLATE_TEST_CASE("Impl - Transitive closure undirected", "[impl-algos]", 
+    g::DenseGraphImpl , g::SparseGraphImpl)
+{
+    TestType g(max_vertices, n_vertices, false);
+    g.set_edges(edges_init);
+    g::transitive_closure(g);
+
+    // all vertices should now be directly connected
+    for (g::vertex_t i = 0; i < n_vertices; ++i) {
+        for (g::vertex_t j = 0; j < n_vertices; ++j) {
+            CAPTURE(i, j);
+            CHECK(g.has_edge(i, j));
+        }
     }
 }

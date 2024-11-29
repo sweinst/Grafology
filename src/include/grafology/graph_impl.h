@@ -95,7 +95,9 @@ concept GraphImpl = requires(G g, vertex_t i, vertex_t j, weight_t w) {
         {g.capacity()} -> std::convertible_to<std::size_t>;
         {g.degree(i)} -> std::convertible_to<std::size_t>;
         {g.in_degree(i)} -> std::convertible_to<std::size_t>;
+        // NB: VS2022 does not support the C++23 multidimensional subscript operator (i.e. a[i,j])
         {g.operator()(i, j)} -> std::convertible_to<weight_t>;
+        {g.has_edge(i, j)} -> std::convertible_to<bool>;
         {g.get_raw_neighbors(i)} -> std::convertible_to<generator<vertex_t>>;
         {g.get_neighbors(i)} -> std::convertible_to<generator<edge_t>>; 
         {g.get_raw_in_neighbors(i)} -> std::convertible_to<generator<vertex_t>>;

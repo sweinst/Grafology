@@ -28,8 +28,12 @@ namespace grafology {
 
         bool is_directed() const { return _is_directed; }
 
-        weight_t operator()(unsigned i, unsigned j) const { 
+        weight_t operator()(vertex_t i, vertex_t j) const { 
              return _adjacency_list[i].get(j);
+        }
+
+        bool has_edge(vertex_t i, vertex_t j) const { 
+             return _adjacency_list[i].get(j) != 0;
         }
 
         vertex_t add_vertex() {
@@ -49,7 +53,7 @@ namespace grafology {
             }
         }
 
-        void set_edge(unsigned i, unsigned j, weight_t weight) {
+        void set_edge(vertex_t i, vertex_t j, weight_t weight) {
             _adjacency_list[i].set(j, weight);
             if (!_is_directed) {
                 _adjacency_list[j].set(i, weight);
