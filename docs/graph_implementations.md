@@ -2,15 +2,15 @@
     <img 
         src="imgs/logo.png" 
         alt="Répétiteur logo"
-        width="533px"
-        height="200px"
+        height="150px"
+        width="400px"
         />
 </div>
 <br/>
 
 # Limitations
 At the moment:
-- Graphs have a fixed capacitiy and cannot be resized
+- Graphs have a fixed capacity and cannot be resized
 - Vertices cannot be removed
 
 This will be fixed in upcoming releases
