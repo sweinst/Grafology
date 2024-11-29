@@ -40,17 +40,21 @@ int main () {
     std::string start{"Mix ingredients"};
 
     print_frame("DFS");
-    std::println( "{}", g::depth_first_search(graph, start));
-    // i.e.:
-    // for (const auto& vertex : g::depth_first_search(graph, start)) {
-    //     std::println( "{}", vertex);
-    // }
+    // works with VS 17.12 but not with g++ 14.2
+    // std::println( "{}", g::depth_first_search(graph, start));
+    std::print("[");
+    for (const auto& vertex : g::depth_first_search(graph, start)) {
+        std::print( "{}, ", vertex);
+    }
+    std::println("]");
 
     print_frame("BFS");
-    std::println( "{}", g::breath_first_search(graph, start));
-    // i.e.:
-    // for (const auto& vertex : g::breath_first_search(graph, start)) {
-    //     std::println( "{}", vertex);
-    // }
+    // works with VS 17.12 but not with g++ 14.2
+    // std::println( "{}", g::breath_first_search(graph, start));
+    std::print("[");
+    for (const auto& vertex : g::breath_first_search(graph, start)) {
+        std::print( "{}, ", vertex);
+    }
+    std::println("]");
     return 0;
 }
