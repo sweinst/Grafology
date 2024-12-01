@@ -20,6 +20,8 @@ namespace grafology
         BiMap(BiMap&&) = default;
         BiMap& operator=(const BiMap&) = default;
         BiMap& operator=(BiMap&&) = default;
+        bool operator==(const BiMap& other) const = default;
+        bool operator!=(const BiMap& other) const = default;
 
         unsigned size() const {
             return _size;

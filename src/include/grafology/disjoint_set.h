@@ -25,12 +25,14 @@ namespace grafology {
                 return r;
             }
 
-            void merge(vertex_t v1, vertex_t v2) {
+            bool merge(vertex_t v1, vertex_t v2) {
                 vertex_t root1 = find(v1);
                 vertex_t root2 = find(v2);
                 if (root1 != root2) {
                     _parent[root1] = root2;
+                    return true;
                 }
+                return false;
             }
 
             generator<vertex_t> roots() const {

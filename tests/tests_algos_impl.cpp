@@ -2,6 +2,7 @@
 #include <grafology/algorithms/depth_first_search.h>
 #include <grafology/algorithms/breath_first_search.h>
 #include <grafology/algorithms/transitive_closure.h>
+#include <grafology/algorithms/minimum_spanning_tree.h>
 #include <catch2/catch_template_test_macros.hpp>
 #include <set>
 #include "test_vertex.h"
@@ -167,4 +168,51 @@ TEMPLATE_TEST_CASE("Impl - Transitive closure undirected", "[impl-algos]",
             CHECK(g.has_edge(i, j));
         }
     }
+}
+
+TEMPLATE_TEST_CASE("Impl - MST", "[impl-algos]", 
+    g::DenseGraphImpl , g::SparseGraphImpl)
+{
+    std::vector<g::edge_t> edges {
+        {0, 1 , 5},
+        {0, 2 , 3},
+        {3, 1 , 2},
+        {4, 1 , 6},
+        {5, 4 , 2},
+        {5, 3 , 1},
+        {1, 2 , 5},
+        {4, 6 , 5},
+        {6, 7 , 5},
+        {7, 8 , 5},
+        {10, 11 , 5},
+        {10, 12 , 2},
+        {12, 11 , 2},
+        {11, 13 , 5},
+        {14, 13 , 5},
+    };
+
+    std::vector<g::edge_t> expected_edges {
+        {0, 1 , 5},
+        {0, 2 , 3},
+        {3, 1 , 2},
+        {5, 4 , 2},
+        {5, 3 , 1},
+        {4, 6 , 5},
+        {6, 7 , 5},
+        {7, 8 , 5},
+        {10, 12 , 2},
+        {12, 11 , 2},
+        {11, 13 , 5},
+        {14, 13 , 5},
+    };
+
+
+    TestType g(15, 15, false);
+    g.set_edges(edges);
+
+    auto mst = g::minimum_spanning_tree(g);
+
+    TestType expected(15, 15, false);
+    expected.set_edges(expected_edges);
+    REQUIRE(mst == expected);
 }

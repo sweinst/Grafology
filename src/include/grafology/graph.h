@@ -68,6 +68,18 @@ namespace grafology {
             _vertex_map(capacity) {
         }
 
+        Graph(const Graph&) = default;
+        Graph(Graph&&) = default;
+        Graph& operator=(const Graph&) = default;
+        Graph& operator=(Graph&&) = default;
+        bool operator==(const Graph& other) const = default;
+        bool operator!=(const Graph& other) const = default;
+
+        Graph(const Graph& src, Impl&& new_impl): 
+            _impl(std::move(new_impl)),
+            _vertex_map(src._vertex_map) {
+        }
+
         vertex_t add_vertex(const Vertex& v) {
             _vertex_map.add_vertex(v);
             return _impl.add_vertex();
@@ -168,7 +180,6 @@ namespace grafology {
             }
         }
 
-        // TODO: check if "const Vertex &" can be used instead 
         generator<Vertex> get_raw_neighbors(const Vertex& v) const {
             auto i = _vertex_map.get_index(v);
             for (const auto& vertex : _impl.get_raw_neighbors(i)) {
@@ -183,7 +194,6 @@ namespace grafology {
             }
         }
 
-        // TODO: check if "const Vertex &" can be used instead 
         generator<Vertex> get_raw_in_neighbors(const Vertex& v) const {
             auto i = _vertex_map.get_index(v);
             for (const auto& vertex : _impl.get_raw_in_neighbors(i)) {

@@ -1,6 +1,7 @@
 #include <grafology/algorithms/topological_sort.h>
 #include <grafology/algorithms/depth_first_search.h>
 #include <grafology/algorithms/breath_first_search.h>
+#include <grafology/algorithms/minimum_spanning_tree.h>
 #include <catch2/catch_template_test_macros.hpp>
 #include <unordered_set>
 #include "test_vertex.h"
@@ -142,3 +143,59 @@ TEMPLATE_TEST_CASE("Graphs - BFS", "[graphs-algos]",
     }
     CHECK(visited == (graph.is_directed() ? directed_expected : undirected_expected));
  }
+
+TEMPLATE_TEST_CASE("Graphs - NST", "[graphs-algos]", 
+    g::UndirectedDenseGraph<TestVertex> , g::UndirectedSparseGraph<TestVertex>) {
+    unsigned n_vertices = 15;
+    std::vector<TestVertex> vertices_init;
+    for(int i = 0; i < n_vertices; ++i) {
+        TestVertex v {i, std::to_string(i)};
+        vertices_init.push_back(v);
+    }
+
+    std::vector<TestEdge> edges_init {
+        {{0}, {1}, 5},
+        {{0}, {2}, 3},
+        {{3}, {1}, 2},
+        {{4}, {1}, 6},
+        {{5}, {4}, 2},
+        {{5}, {3}, 1},
+        {{1}, {2}, 5},
+        {{4}, {6}, 5},
+        {{6}, {7}, 5},
+        {{7}, {8}, 5},
+        {{10}, {11}, 5},
+        {{10}, {12}, 2},
+        {{12}, {11}, 2},
+        {{11}, {13}, 5},
+        {{14}, {13}, 5},
+    };
+
+    std::vector<TestEdge> expected_edges {
+         {{0}, {1}, 5},
+        {{0}, {2}, 3},
+        {{3}, {1}, 2},
+        {{5}, {4}, 2},
+        {{5}, {3}, 1},
+        {{4}, {6}, 5},
+        {{6}, {7}, 5},
+        {{7}, {8}, 5},
+        {{10}, {12}, 2},
+        {{12}, {11}, 2},
+        {{11}, {13}, 5},
+        {{14}, {13}, 5},
+   };
+
+    TestType g(n_vertices);
+    g.add_vertices(vertices_init);
+    g.set_edges(edges_init);
+
+    auto mst = g::minimum_spanning_tree(g);
+
+    TestType expected(n_vertices);
+    expected.add_vertices(vertices_init);
+    expected.set_edges(expected_edges);
+
+    REQUIRE(mst.impl() == expected.impl());
+    REQUIRE(mst == expected);
+}

@@ -40,6 +40,14 @@ struct edge_t {
     vertex_t start;
     vertex_t end;
     int weight = 1;
+
+    auto operator<=>(const edge_t& other) const {
+        auto res = start <=> other.start;
+        if (res != std::strong_ordering::equal) {
+            return res;
+        }
+        return end <=> other.end;
+    }
 };
 
 /** @brief The requirements for an iterator handling values of type V 
@@ -105,8 +113,10 @@ concept GraphImpl = requires(G g, vertex_t i, vertex_t j, weight_t w) {
         {g.get_all_edges()} -> std::convertible_to<generator<edge_t>>; 
         {g.invert()} -> std::convertible_to<G>;
     }
-;
-
+   && requires(const G g1, const G g2) {
+        {g1 == g2} -> std::convertible_to<bool>;
+    }
+    ;
 } // namespace grafology
 
 namespace std{

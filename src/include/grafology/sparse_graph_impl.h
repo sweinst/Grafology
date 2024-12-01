@@ -21,6 +21,8 @@ namespace grafology {
         SparseGraphImpl(SparseGraphImpl&&) = default;
         SparseGraphImpl& operator=(const SparseGraphImpl&) = default;
         SparseGraphImpl& operator=(SparseGraphImpl&&) = default;
+        bool operator==(const SparseGraphImpl& other) const = default;
+        bool operator!=(const SparseGraphImpl& other) const = default;
 
         unsigned size() const { return _n_vertices; }
 
@@ -38,7 +40,6 @@ namespace grafology {
 
         vertex_t add_vertex() {
             ++_n_vertices;
-            _adjacency_list.emplace_back();
             return _n_vertices - 1;
         }
 

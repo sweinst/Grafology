@@ -24,6 +24,8 @@ namespace grafology {
         DenseGraphImpl(DenseGraphImpl&&) = default;
         DenseGraphImpl& operator=(const DenseGraphImpl&) = default;
         DenseGraphImpl& operator=(DenseGraphImpl&&) = default;
+        bool operator==(const DenseGraphImpl& other) const = default;
+        bool operator!=(const DenseGraphImpl& other) const = default;
 
         unsigned size() const { return _n_vertices; }
 

@@ -1,0 +1,23 @@
+digraph test_network1 {
+    rankdir="LR"
+    node [fontsize=9, shape=circle, height=0.25]
+
+    0 -> 1 [dir = none, label="5", color=red];
+    0 -> 2 [dir = none, label="3", color=black];
+    3 -> 1 [dir = none, label="2", color=red];
+    4 -> 1 [dir = none, label="6", color=black];
+    5 -> 4 [dir = none, label="2", color=red];
+    5 -> 3 [dir = none, label="1", color=red];
+    1 -> 2 [dir = none, label="5", color=red];
+    4 -> 6 [dir = none, label="5", color=red];
+    6 -> 7 [dir = none, label="5", color=red];
+    7 -> 8 [dir = none, label="5", color=red];
+
+    9;
+    
+    10 -> 11 [dir = none, label="5", color=black];
+    10 -> 12 [dir = none, label="2", color=red];
+    12 -> 11 [dir = none, label="2", color=red];
+    11 -> 13 [dir = none, label="5", color=red];
+    14 -> 13 [dir = none, label="5", color=red];
+}
