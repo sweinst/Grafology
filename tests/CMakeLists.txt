@@ -6,6 +6,7 @@ add_executable(
     tests_algos_graph.cpp
     tests_algos_impl.cpp
     tests_bimap.cpp
+    tests_disjoint_set.cpp
     tests_flat_index_map.cpp
     tests_graph.cpp
     tests_graph_impl.cpp
