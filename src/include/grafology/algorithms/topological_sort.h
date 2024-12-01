@@ -17,10 +17,8 @@ namespace grafology {
         
         // count the number of incoming edges for each vertex
         std::vector<int> in_degrees(n_vertices, 0);
-        for (vertex_t i = 0; i < n_vertices; ++i) {
-            for (auto edge : graph.get_neighbors(i)) {
-                ++in_degrees[edge.end];
-            }
+        for (auto edge : graph.get_all_edges()) {
+            ++in_degrees[edge.end];
         }
 
         unsigned n_processed = 0;

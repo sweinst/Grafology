@@ -64,6 +64,9 @@ TEMPLATE_TEST_CASE("Graphs - Topological sort", "[graphs-algos]",
     graph.add_vertices(vertices_init);
     graph.set_edges(edges_init);
 
+    // remove the only cycle
+    graph.set_edge({10}, {10}, 0);
+
     unsigned current_group = 0;
     std::unordered_set<TestVertex> visited;
     for (const auto& [group, vertex]: g::topological_sort(graph)) {

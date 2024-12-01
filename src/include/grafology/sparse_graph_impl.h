@@ -54,22 +54,19 @@ namespace grafology {
             }
         }
 
-        void set_edge(vertex_t i, vertex_t j, weight_t weight) {
-            _adjacency_list[i].set(j, weight);
+        void set_edge(vertex_t start, vertex_t end, weight_t weight) {
+            if (weight == 0 && _adjacency_list[start].get(end) != 0) {
+                _adjacency_list[start].remove(end);
+                return;
+            }
+            _adjacency_list[start].set(end, weight);
             if (!_is_directed) {
-                _adjacency_list[j].set(i, weight);
+                _adjacency_list[end].set(start, weight);
             }
         }
 
         void set_edge(const edge_t& edge) {
-            if (edge.weight == 0 && _adjacency_list[edge.start].get(edge.end) != 0) {
-                _adjacency_list[edge.start].remove(edge.end);
-                return;
-            }
-            _adjacency_list[edge.start].set(edge.end, edge.weight);
-            if (!_is_directed) {
-                _adjacency_list[edge.end].set(edge.start, edge.weight);
-            }
+            set_edge(edge.start, edge.end, edge.weight);
         }
         
         template<input_iterator_value<edge_t> I, std::sentinel_for<I> S>
