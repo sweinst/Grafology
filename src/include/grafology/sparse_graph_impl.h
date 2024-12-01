@@ -160,9 +160,21 @@ namespace grafology {
         }
 
         generator<edge_t> get_all_edges() const {
-            for (unsigned i = 0; i < _n_vertices; i++) {
-                for (const auto& edge : _adjacency_list[i]) {
-                    co_yield {.start = i, .end = edge.vertex, .weight = edge.weight};
+            if (is_directed()) {
+                for (unsigned i = 0; i < _n_vertices; i++) {
+                    for (const auto& edge : _adjacency_list[i]) {
+                        co_yield {.start = i, .end = edge.vertex, .weight = edge.weight};
+                    }
+                }
+            }
+            else {
+                for (unsigned i = 0; i < _n_vertices; i++) {
+                    for (const auto& edge : _adjacency_list[i]) {
+                        // we need to avoid duplicates
+                        if (i <= edge.vertex) {
+                            co_yield {.start = i, .end = edge.vertex, .weight = edge.weight};
+                        }
+                    }
                 }
             }
         }

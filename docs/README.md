@@ -16,5 +16,6 @@
 ## Algorithms
 ### &nbsp;&nbsp;Breath first search
 ### &nbsp;&nbsp;Depth first search
+### &nbsp;&nbsp;Minimal spanning trees
 ### &nbsp;&nbsp;Topological sort
 ### &nbsp;&nbsp;Transitive closure

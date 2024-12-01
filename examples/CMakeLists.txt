@@ -5,6 +5,7 @@ set (examples
     ex01-topological-sort-impl
     ex02-depth-and-breath-first-search-graph
     ex02-depth-and-breath-first-search-impl
+    ex03-minimal-spanning-tree
 )
 
 foreach(example ${examples})
