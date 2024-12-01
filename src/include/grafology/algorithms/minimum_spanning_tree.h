@@ -1,5 +1,6 @@
 #include "../graph.h"
 #include "../disjoint_set.h"
+#include <ranges>
 
 namespace grafology {
     /**
@@ -14,8 +15,15 @@ namespace grafology {
         }
         const auto n_vertices = graph.size();
         // a simplified priority queue
-        auto g_edges = graph.get_all_edges();
-        std::vector<edge_t> edges(g_edges.begin(), g_edges.end());
+        
+        // doesn't worj with g++ 14.2, why ? 
+        // auto g_edges = graph.get_all_edges();
+        // std::vector<edge_t> edges(g_edges.begin(), g_edges.end());
+
+        std::vector<edge_t> edges;
+        for (auto edge: graph.get_all_edges()) {
+            edges.emplace_back(std::move(edge));
+        }
         std::sort(edges.begin(), edges.end(), [](const auto& e1, const auto& e2) {
             return e1.weight < e2.weight;
         });
