@@ -28,20 +28,20 @@ namespace {
     };
 
     const std::vector<TestEdge> edges_init = {
-        {{0, ""}, {1, ""}, 1},
-        {{0, ""}, {2, ""}, 2},
-        {{2, ""}, {3, ""}, 5},
-        {{2, ""}, {4, ""}, 6},
-        {{2, ""}, {5, ""}, 7},
-        {{3, ""}, {1, ""}, 4},
-        {{5, ""}, {1, ""}, 6},
-        {{3, ""}, {10, ""}, 13},
-        {{5, ""}, {8, ""}, 13},
-        {{6, ""}, {7, ""}, 13},
-        {{8, ""}, {3, ""}, 11},
-        {{8, ""}, {7, ""}, 15},
-        {{8, ""}, {9, ""}, 17},
-        {{10, ""}, {10, ""}, 20},
+        {{0}, {1}, 1},
+        {{0}, {2}, 2},
+        {{2}, {3}, 5},
+        {{2}, {4}, 6},
+        {{2}, {5}, 7},
+        {{3}, {1}, 4},
+        {{5}, {1}, 6},
+        {{3}, {10}, 13},
+        {{5}, {8}, 13},
+        {{6}, {7}, 13},
+        {{8}, {3}, 11},
+        {{8}, {7}, 15},
+        {{8}, {9}, 17},
+        {{10}, {10}, 20},
     };
 }
 
@@ -50,12 +50,12 @@ TEMPLATE_TEST_CASE("Graphs - Topological sort", "[graphs-algos]",
     g::DirectedDenseGraph<TestVertex> , g::DirectedSparseGraph<TestVertex>) {
 
     const std::vector<std::unordered_set<TestVertex>> expected {
-        {{0, ""}, {6, ""}},
-        {{2, ""}},
-        {{4, ""}, {5, ""}},
-        {{8, ""}},
-        {{3, ""}, {7, ""}, {9, ""}},
-        {{1, ""}, {10, ""}},  
+        {{0}, {6}},
+        {{2}},
+        {{4}, {5}},
+        {{8}},
+        {{3}, {7}, {9}},
+        {{1}, {10}},  
     };
 
     //initialization
@@ -80,8 +80,8 @@ TEMPLATE_TEST_CASE("Graphs - Topological sort", "[graphs-algos]",
 
     // add a cycle
     const std::vector<TestEdge> edges_cycle {
-        {{1, ""}, {7, ""}, 8},
-        {{7, ""}, {5, ""}, 12},
+        {{1}, {7}, 8},
+        {{7}, {5}, 12},
     };
     graph.set_edges(edges_cycle);
     
@@ -96,21 +96,21 @@ TEMPLATE_TEST_CASE("Graphs - DFS", "[graphs-algos]",
     g::UndirectedDenseGraph<TestVertex> , g::UndirectedSparseGraph<TestVertex>) {
 
     const std::vector<TestVertex> directed_expected {
-        {0, ""s}, {2, ""s}, {5, ""s}, {8, ""s}, 
-        {9, ""s}, {7, ""s}, {3, ""s}, {10, ""s}, 
-        {1, ""s}, {4, ""s},
+        {0}, {2}, {5}, {8}, 
+        {9}, {7}, {3}, {10}, 
+        {1}, {4},
     };
     const std::vector<TestVertex> undirected_expected {
-        {0, ""s}, {2, ""s}, {5, ""s}, {8, ""s}, 
-        {9, ""s}, {7, ""s}, {6, ""s}, {3, ""s}, 
-        {10, ""s}, {1, ""s}, {4, ""s}
+        {0}, {2}, {5}, {8}, 
+        {9}, {7}, {6}, {3}, 
+        {10}, {1}, {4}
     };
 
     TestType graph(max_vertices);
     graph.set_edges(edges_init, true);
 
     std::vector<TestVertex> visited;
-    for (const auto& vertex: g::depth_first_search(graph, TestVertex{0, ""})) {
+    for (const auto& vertex: g::depth_first_search(graph, TestVertex{0})) {
         CAPTURE(vertex);
         visited.push_back(vertex);
     }
@@ -122,21 +122,21 @@ TEMPLATE_TEST_CASE("Graphs - BFS", "[graphs-algos]",
     g::UndirectedDenseGraph<TestVertex> , g::UndirectedSparseGraph<TestVertex>) {
 
     const std::vector<TestVertex> directed_expected {
-        {0, ""s}, {1, ""s}, {2, ""s}, {3, ""s}, 
-        {4, ""s}, {5, ""s}, {10, ""s}, {8, ""s}, 
-        {7, ""s}, {9, ""s},
+        {0}, {1}, {2}, {3}, 
+        {4}, {5}, {10}, {8}, 
+        {7}, {9},
     };
     const std::vector<TestVertex> undirected_expected {
-        {0, ""s}, {1, ""s}, {2, ""s}, {3, ""s}, 
-        {5, ""s}, {4, ""s}, {10, ""s}, {8, ""s}, 
-        {7, ""s}, {9, ""s}, {6, ""s},
+        {0}, {1}, {2}, {3}, 
+        {5}, {4}, {10}, {8}, 
+        {7}, {9}, {6},
     };
 
     TestType graph(max_vertices);
     graph.set_edges(edges_init, true);
 
     std::vector<TestVertex> visited;
-    for (const auto& vertex: g::breath_first_search(graph, TestVertex{0, ""})) {
+    for (const auto& vertex: g::breath_first_search(graph, TestVertex{0})) {
         CAPTURE(vertex);
         visited.push_back(vertex);
     }
