@@ -57,6 +57,9 @@ namespace grafology {
         void set_edge(vertex_t start, vertex_t end, weight_t weight) {
             if (weight == 0 && _adjacency_list[start].get(end) != 0) {
                 _adjacency_list[start].remove(end);
+                if (!_is_directed) {
+                    _adjacency_list[end].remove(start);
+                }
                 return;
             }
             _adjacency_list[start].set(end, weight);
@@ -73,9 +76,6 @@ namespace grafology {
         void set_edges(I first, S last) {
             for (auto it = first; it != last; ++it) {
                 set_edge(it->start, it->end, it->weight);
-                if (!_is_directed) {
-                    set_edge(it->end, it->start, it->weight);
-                }                
             }
         }
 
