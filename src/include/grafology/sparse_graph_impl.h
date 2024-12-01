@@ -158,6 +158,14 @@ namespace grafology {
             return inverted;
         }
 
+        generator<edge_t> get_all_edges() const {
+            for (unsigned i = 0; i < _n_vertices; i++) {
+                for (const auto& edge : _adjacency_list[i]) {
+                    co_yield {.start = i, .end = edge.vertex, .weight = edge.weight};
+                }
+            }
+        }
+
    private:
         bool _is_directed;
         unsigned _n_max_vertices;

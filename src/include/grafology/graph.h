@@ -198,6 +198,12 @@ namespace grafology {
             return inverted;
         }
 
+        generator<Edge> get_all_edges() const {
+            for (const auto& edge : _impl.get_all_edges()) {
+                co_yield {.start = _vertex_map.get_vertex(edge.start), .end = _vertex_map.get_vertex(edge.end), .weight = edge.weight};
+            }
+        }
+
     private:
         Impl _impl;
         BiMap<Vertex> _vertex_map;

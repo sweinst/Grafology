@@ -63,12 +63,14 @@ namespace grafology {
                 }
             }
 
+            // should be cbegin but the range-based loops won't work if defined as cbegin
             auto begin() const {
-                return _flat_map.begin();
+                return _flat_map.cbegin();
             }
 
+            // should be cend but the range-based loops won't work if defined as cend
             auto end() const {
-                return _flat_map.end();
+                return _flat_map.cend();
             }
 
             auto size() const {

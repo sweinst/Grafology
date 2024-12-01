@@ -102,6 +102,7 @@ concept GraphImpl = requires(G g, vertex_t i, vertex_t j, weight_t w) {
         {g.get_neighbors(i)} -> std::convertible_to<generator<edge_t>>; 
         {g.get_raw_in_neighbors(i)} -> std::convertible_to<generator<vertex_t>>;
         {g.get_in_neighbors(i)} -> std::convertible_to<generator<edge_t>>; 
+        {g.get_all_edges()} -> std::convertible_to<generator<edge_t>>; 
         {g.invert()} -> std::convertible_to<G>;
     }
 ;

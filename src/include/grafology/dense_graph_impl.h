@@ -166,6 +166,17 @@ namespace grafology {
             return inverted;
         }
 
+        generator<edge_t> get_all_edges() const {
+            for (vertex_t i = 0; i < _n_vertices; ++i) {
+                for (vertex_t j = 0; j < _n_vertices; ++j) {
+                    if (_adjacency_matrix[i*_n_max_vertices+j] != 0) {
+                        co_yield {.start = i, .end = j, .weight = _adjacency_matrix[i*_n_max_vertices+j]};
+                    }
+                }
+            }
+        }
+
+
     private:
         bool _is_directed;
         unsigned _n_max_vertices;
