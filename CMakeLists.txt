@@ -39,6 +39,7 @@ set(GRAFOLOGY_HDRS
     src/include/grafology/algorithms/breath_first_search.h
     src/include/grafology/algorithms/depth_first_search.h
     src/include/grafology/algorithms/minimum_spanning_tree.h
+    src/include/grafology/algorithms/shortest_paths.h
     src/include/grafology/algorithms/topological_sort.h
     src/include/grafology/algorithms/transitive_closure.h
 )

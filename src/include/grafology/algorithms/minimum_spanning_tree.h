@@ -16,7 +16,7 @@ namespace grafology {
         const auto n_vertices = graph.size();
         // a simplified priority queue
         
-        // doesn't worj with g++ 14.2, why ? 
+        // doesn't work with g++ 14.2, why ? 
         // auto g_edges = graph.get_all_edges();
         // std::vector<edge_t> edges(g_edges.begin(), g_edges.end());
 

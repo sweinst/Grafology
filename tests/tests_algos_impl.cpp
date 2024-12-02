@@ -3,6 +3,7 @@
 #include <grafology/algorithms/breath_first_search.h>
 #include <grafology/algorithms/transitive_closure.h>
 #include <grafology/algorithms/minimum_spanning_tree.h>
+#include <grafology/algorithms/shortest_paths.h>
 #include <catch2/catch_template_test_macros.hpp>
 #include <set>
 #include "test_vertex.h"
