@@ -97,11 +97,11 @@ namespace grafology {
         AllShortestPaths& operator=(AllShortestPaths&&) = default;
 
         auto size() const {
-            return _shortest_paths.distances.size();
+            return _shortest_paths._distances.size();
         }
 
         bool is_reachable(const Vertex& v) const {
-            return _shortest_paths.distances[graph.get_internal_index(v)] != AllShortestPathsImpl::D_INFINITY;
+            return _shortest_paths._distances[graph.get_internal_index(v)] != D_INFINITY;
         }
 
         weight_t get_distance(const Vertex& v) const {
