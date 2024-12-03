@@ -2,6 +2,7 @@
 #include <grafology/grafology.h>
 #include <map>
 #include <set>
+#include <optional>
 
 // a graph of London Tube stations and connections
 // derived from data copied from https://markd.ie/2016/04/10/The-London-Tube-as-a-Graph/
@@ -10,13 +11,15 @@ namespace LondonTube {
     namespace g = grafology;
 
     struct Line {
-        g::vertex_t _id;
+        unsigned _id;
         std::string _name {};
         unsigned _color = 0;
 
         auto operator <=>(const Line& l) const noexcept {
             return _id <=> l._id;
         }
+
+        static std::optional<Line> from_id(unsigned id);
     };
     extern std::set<Line> lines;
 
@@ -33,6 +36,8 @@ namespace LondonTube {
         auto operator <=>(const Station& s) const noexcept {
             return _id <=> s._id;
         }
+
+        static std::optional<Station> from_id(g::vertex_t id);
     };
 
     extern std::set<Station> stations;
@@ -47,6 +52,8 @@ namespace LondonTube {
             }
             return end <=> c.end;
         }
+
+        static std::optional<Connection> from_id(g::vertex_t start, g::vertex_t end);
     };
     
     extern std::set<Connection> connections;

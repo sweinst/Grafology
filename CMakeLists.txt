@@ -28,6 +28,7 @@ set(GRAFOLOGY_SRC
 
 set(GRAFOLOGY_HDRS 
     src/include/grafology/bimap.h
+    src/include/grafology/concepts_utils.h
     src/include/grafology/dense_graph_impl.h
     src/include/grafology/disjoint_set.h
     src/include/grafology/flat_index_map.h

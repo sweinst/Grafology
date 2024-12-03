@@ -734,4 +734,22 @@ namespace LondonTube {
         { 13, 279, 4, 12 },
     };
 
-}  // namespace LondonTube
+    std::optional<Line> Line::from_id(unsigned id)
+    {
+        auto it = lines.find({id});
+        return (it == lines.end()) ? std::optional<Line>{} : std::optional<Line>{*it};
+    }
+
+    std::optional<Station> Station::from_id(g::vertex_t id)
+    {
+        auto it = stations.find({id});
+        return (it == stations.end()) ? std::optional<Station>{} : std::optional<Station>{*it};
+    }
+
+    std::optional<Connection> Connection::from_id(g::vertex_t start, g::vertex_t end)
+    {
+        auto it = connections.find({start, end});
+        return (it == connections.end()) ? std::optional<Connection>{} : std::optional<Connection>{*it};
+    }
+
+} // namespace LondonTube
