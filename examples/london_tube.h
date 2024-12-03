@@ -5,7 +5,7 @@
 #include <optional>
 
 // a graph of London Tube stations and connections
-// derived from data copied from https://markd.ie/2016/04/10/The-London-Tube-as-a-Graph/
+// derived from data found at https://www.whatdotheyknow.com/request/station_to_station_journey_times
 
 namespace LondonTube {
     namespace g = grafology;
@@ -13,10 +13,12 @@ namespace LondonTube {
     struct Line {
         unsigned _id;
         std::string _name {};
-        unsigned _color = 0;
 
         auto operator <=>(const Line& l) const noexcept {
             return _id <=> l._id;
+        }
+        bool operator ==(const Line& l) const noexcept {
+            return _id == l._id;
         }
 
         static std::optional<Line> from_id(unsigned id);
@@ -26,39 +28,20 @@ namespace LondonTube {
     struct Station{
         g::vertex_t _id;
         std::string _name {};
-        double _latitude = 0;
-        double _longitude = 0;
-        // some stations are in zones 2 AND 3! => station = 2.5
-        double _zone = 0;
-        unsigned _total_lines = 0;
-        bool is_railways_station = false;
 
         auto operator <=>(const Station& s) const noexcept {
             return _id <=> s._id;
         }
+        bool operator ==(const Station& s) const noexcept {
+            return _id == s._id;
+        }
 
         static std::optional<Station> from_id(g::vertex_t id);
+        static std::optional<Station> from_name(const std::string& name);
     };
 
     extern std::set<Station> stations;
-
-    struct Connection : public g::edge_t {
-        unsigned line = 0;
-
-        std::strong_ordering operator <=>(const Connection& c) const noexcept {
-            auto cmp = start <=> c.start;
-            if (cmp != std::strong_ordering::equal)  {
-                return cmp;
-            }
-            return end <=> c.end;
-        }
-
-        static std::optional<Connection> from_id(g::vertex_t start, g::vertex_t end);
-    };
-    
-    extern std::set<Connection> connections;
-
-}  // namespace LondonTube
+} // namespace LondonTube
 
 namespace std {
     namespace lt = LondonTube;
@@ -82,4 +65,36 @@ namespace std {
             return std::format_to(ctx.out(), "[{}: {}]", v._name, v._id);
         }
     };
+}
+
+namespace LondonTube {
+    struct Connection: public g::EdgeDefinition<Station> {
+        // the weight os the distance in kms
+        unsigned line = 0;
+        double time_unimpeded_sec;
+        double time_peak_am_sec;
+        double time_inter_peak_sec;
+
+
+        Connection(g::vertex_t start, g::vertex_t end, double distance_km = 0, unsigned line = 0, double u = 0, double p = 0, double i = 0):
+            g::EdgeDefinition<Station>{{start}, {end}, g::weight_t(distance_km * 1'000)},
+            line{line}, time_unimpeded_sec(u), time_peak_am_sec(p), time_inter_peak_sec(i) {}
+
+
+        std::strong_ordering operator <=>(const Connection& c) const noexcept {
+            auto cmp = start <=> c.start;
+            if (cmp != std::strong_ordering::equal)  {
+                return cmp;
+            }
+            return end <=> c.end;
+        }
+
+        static std::optional<Connection> from_id(g::vertex_t start, g::vertex_t end);
+    };
+    
+    extern std::set<Connection> connections;
+
+}  // namespace LondonTube
+
+namespace std {
 }

@@ -3,7 +3,6 @@
 #include <string>
 #include <format>
 #include <unordered_map>
-#include "concepts_utils.h"
 
 namespace grafology {
     /*!
@@ -18,7 +17,7 @@ namespace grafology {
     template <typename T>
     concept VertexKey = requires(T n, T u) {
         std::hash<T>{};
-        CanEqualityCompare<T>;
+        { n == u } noexcept -> std::convertible_to<bool>;
         requires std::formattable<T, char>;
     };
 

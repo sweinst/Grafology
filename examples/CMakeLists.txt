@@ -12,6 +12,7 @@ set (examples
     ex02-depth-and-breath-first-search-graph
     ex02-depth-and-breath-first-search-impl
     ex03-minimal-spanning-tree
+    ex04-all-shortest.paths
 )
 
 foreach(example ${examples})
