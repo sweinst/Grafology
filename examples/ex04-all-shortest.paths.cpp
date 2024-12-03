@@ -24,25 +24,24 @@ int main() {
                 }
                 else{
                     std::println("Distance to {} is {:03} km(s)", d->_name, paths.get_distance(*d)/1000.);
-                    g::vertex_t prev = s->_id;
                     int prev_line = -1;
+                    g::vertex_t prev_station_id = s->_id;
                     std::string initial_station = s->_name;
                     std::string prev_station = s->_name;
-                    std::string current_line;
                     for (auto v: paths.get_path(*d)) {
                         if (v != *s) {
-                            auto connection_details = Connection::from_id(prev, v._id);
-                            if (connection_details->line != prev_line) {
+                            auto connection = Connection::from_id(prev_station_id, v._id);
+                            if (connection->line != prev_line) {
                                 auto line_details = Line::from_id(prev_line);
                                 if (prev_line != -1) {
                                     std::println("{} => {} ({})", initial_station, prev_station, line_details->_name);
                                     initial_station = prev_station;
                                 }
-                                prev_line = connection_details->line;
+                                prev_line = connection->line;
                             }
                             prev_station = v._name;
                         }
-                        prev = v._id;
+                        prev_station_id = v._id;
                     }
                     {
                         auto line = Line::from_id(prev_line)->_name;
