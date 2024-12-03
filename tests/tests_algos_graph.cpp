@@ -2,6 +2,7 @@
 #include <grafology/algorithms/depth_first_search.h>
 #include <grafology/algorithms/breath_first_search.h>
 #include <grafology/algorithms/minimum_spanning_tree.h>
+#include <grafology/algorithms/all_shortest_paths.h>
 #include <catch2/catch_template_test_macros.hpp>
 #include <unordered_set>
 #include "test_vertex.h"
@@ -9,6 +10,17 @@ using namespace std::string_literals;
 
 namespace g = grafology;
 using TestEdge = g::EdgeDefinition<TestVertex>;
+
+namespace {
+    std::vector<TestVertex> generate_test_vertices_list(int n_vertices) {
+        std::vector<TestVertex> vertices_init;
+        for(int i = 0; i < n_vertices; ++i) {
+            TestVertex v {i, std::to_string(i)};
+            vertices_init.push_back(v);
+        }
+        return vertices_init;
+    }
+}   // namespace
 
 namespace {
     constexpr unsigned max_vertices = 11;
@@ -150,11 +162,7 @@ TEMPLATE_TEST_CASE("Graphs - BFS", "[graphs-algos]",
 TEMPLATE_TEST_CASE("Graphs - NST", "[graphs-algos]", 
     g::UndirectedDenseGraph<TestVertex> , g::UndirectedSparseGraph<TestVertex>) {
     unsigned n_vertices = 15;
-    std::vector<TestVertex> vertices_init;
-    for(int i = 0; i < n_vertices; ++i) {
-        TestVertex v {i, std::to_string(i)};
-        vertices_init.push_back(v);
-    }
+    std::vector<TestVertex> vertices_init {{ generate_test_vertices_list(n_vertices) }};
 
     std::vector<TestEdge> edges_init {
         {{0}, {1}, 5},
@@ -201,4 +209,51 @@ TEMPLATE_TEST_CASE("Graphs - NST", "[graphs-algos]",
 
     REQUIRE(mst.impl() == expected.impl());
     REQUIRE(mst == expected);
+}
+
+TEMPLATE_TEST_CASE("Graphs - Dijkstra", "[graphs-algos]", 
+    g::UndirectedDenseGraph<TestVertex> , g::UndirectedSparseGraph<TestVertex>) {
+
+    int n_vertices=9;
+
+    std::vector<TestVertex> vertices_init {{ generate_test_vertices_list(n_vertices) }};
+    std::vector<TestEdge> edges_init = {
+        {{0}, {1}, 4}, {{0}, {7}, 8},
+        {{1}, {2}, 8}, {{1}, {7}, 11},
+        {{2}, {3}, 7}, {{2}, {5}, 4}, {{2}, {8}, 2},
+        {{3}, {4}, 9}, {{3}, {5}, 14},
+        {{4}, {5}, 10},
+        {{5}, {6}, 2},
+        {{6}, {7}, 1}, {{6}, {8}, 6},
+        {{7}, {8}, 7},
+        };
+
+    std::vector<g::weight_t> expected_distances = {0, 4, 12, 19, 21, 11, 9, 8, 14};
+    std::vector<TestVertex> expected_predecessors = { /* starting at node 1 */{0}, {1}, {2}, {5}, {6}, {7}, {0}, {2}};
+    std::vector<TestVertex> expected_path_to_8 = {{0}, {1}, {2}, {8}};
+    std::vector<TestVertex> expected_path_to_5 = {{0}, {7}, {6}, {5}};
+
+    TestType g(n_vertices);
+    g.add_vertices(vertices_init);
+    g.set_edges(edges_init);
+
+    auto paths = g::all_shortest_paths(g, {0});
+
+    for(int i = 0; i < n_vertices; ++i) {
+        CAPTURE(i);
+        CHECK(paths.get_distance(vertices_init[i]) == expected_distances[i]);
+        if (i != 0) {
+            CHECK(paths.get_predecessor(vertices_init[i]) == expected_predecessors[i-1]);
+        }
+    }
+
+    for(const auto& [idx, v]: std::views::enumerate(paths.get_path(vertices_init[8]))) {
+        CAPTURE(idx, v, expected_path_to_8[idx]);
+        CHECK(v == expected_path_to_8[idx]);
+    }
+
+    for(const auto& [idx, v]: std::views::enumerate(paths.get_path(vertices_init[5]))) {
+        CAPTURE(idx, v, expected_path_to_8[idx]);
+        CHECK(v == expected_path_to_5[idx]);
+    }
 }

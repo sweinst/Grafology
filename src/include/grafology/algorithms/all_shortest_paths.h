@@ -8,13 +8,14 @@ namespace grafology {
      * @brief This struct allows to process the results of the algorithm shortest_paths
      */
     struct AllShortestPathsImpl {
-        static constexpr weight_t D_INFINITY = std::numeric_limits<weight_t>::max();
-        static constexpr vertex_t NO_PREDECESSOR = std::numeric_limits<vertex_t>::max();
-
         AllShortestPathsImpl(size_t n_vertices, vertex_t start)
         : _distances(n_vertices, D_INFINITY), 
           _predecessors(n_vertices, NO_PREDECESSOR),
           _start(start) {}
+        AllShortestPathsImpl(AllShortestPathsImpl&&) = default;
+        AllShortestPathsImpl(const AllShortestPathsImpl&) = default;
+        AllShortestPathsImpl& operator=(AllShortestPathsImpl&&) = default;
+        AllShortestPathsImpl& operator=(const AllShortestPathsImpl&) = default;
 
         std::vector<weight_t> _distances;
         std::vector<vertex_t> _predecessors;
@@ -55,10 +56,10 @@ namespace grafology {
         }
 
         const auto n_vertices = graph.size();
-        AllShortestPathsImpl res(n_vertices);
+        AllShortestPathsImpl res(n_vertices, start);
         std::priority_queue<std::pair<weight_t, vertex_t>> pq;
 
-        res.distances[start] = 0;
+        res._distances[start] = 0;
         pq.push({0, start});
         while (!pq.empty()) {
             if (pq.empty()) {
@@ -66,14 +67,14 @@ namespace grafology {
             }
             auto [d, v] = pq.top();
             pq.pop();
-            if (d > res.distances[v]) {
+            if (d > res._distances[v]) {
                 continue;
             }
             for (const auto& edge : graph.get_neighbors(v)) {
                 auto new_d = d + edge.weight;
-                if (new_d < res.distances[edge.end]) {
-                    res.distances[edge.end] = new_d;
-                    res.predecessors[edge.end] = v;
+                if (new_d < res._distances[edge.end]) {
+                    res._distances[edge.end] = new_d;
+                    res._predecessors[edge.end] = v;
                     pq.push({new_d, edge.end});
                 }
             }
@@ -88,8 +89,12 @@ namespace grafology {
     template<GraphImpl Impl, VertexKey Vertex, bool IsDirected>
     struct AllShortestPaths {
         AllShortestPaths(AllShortestPathsImpl&& shortest_paths, const Graph<Impl, Vertex, IsDirected>& graph)
-        : AllShortestPathsImpl(std::move(shortest_paths)), graph(graph)
+        : _shortest_paths(std::move(shortest_paths)), graph(graph)
         {}
+        AllShortestPaths(const AllShortestPaths&) = default;
+        AllShortestPaths(AllShortestPaths&&) = default;
+        AllShortestPaths& operator=(const AllShortestPaths&) = default;
+        AllShortestPaths& operator=(AllShortestPaths&&) = default;
 
         auto size() const {
             return _shortest_paths.distances.size();
@@ -99,12 +104,12 @@ namespace grafology {
             return _shortest_paths.distances[graph.get_internal_index(v)] != AllShortestPathsImpl::D_INFINITY;
         }
 
-        weight_t distance(const Vertex& v) const {
-            return _shortest_paths.distances[graph.get_internal_index(v)];
+        weight_t get_distance(const Vertex& v) const {
+            return _shortest_paths._distances[graph.get_internal_index(v)];
         }
 
-        const Vertex& predecessor(const Vertex& v) const {
-            return graph.get_vertex(_shortest_paths.predecessors[graph.get_internal_index(v)]);
+        const Vertex& get_predecessor(const Vertex& v) const {
+            return graph.get_vertex_from_internal_index(_shortest_paths._predecessors[graph.get_internal_index(v)]);
         }
 
         generator<Vertex> get_path(const Vertex& v) const {
@@ -120,13 +125,13 @@ namespace grafology {
     };
 
     template<GraphImpl Impl, VertexKey Vertex>
-    AllShortestPaths<Impl, Vertex, false> shortest_paths(const Graph<Impl, Vertex, false>& graph, const Vertex& start) {
+    AllShortestPaths<Impl, Vertex, false> all_shortest_paths(const Graph<Impl, Vertex, false>& graph, const Vertex& start) {
         auto sp_impl = all_shortest_paths(graph.impl(), graph.get_internal_index(start));
-        return AllShortestPaths<GraphImpl, VertexKey, true>(graph, std::move(sp_impl));
+        return AllShortestPaths<Impl, Vertex, false>(std::move(sp_impl), graph);
     }
 
     template<GraphImpl Impl, VertexKey Vertex>
-    AllShortestPaths<Impl, Vertex, true> shortest_paths(const Graph<Impl, Vertex, true>& graph, const Vertex& start) {
+    AllShortestPaths<Impl, Vertex, true> all_shortest_paths(const Graph<Impl, Vertex, true>& graph, const Vertex& start) {
         static_assert(false, "Shortest paths works only on undirected graphs");
     }
 }

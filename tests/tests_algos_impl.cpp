@@ -217,3 +217,35 @@ TEMPLATE_TEST_CASE("Impl - MST", "[impl-algos]",
     expected.set_edges(expected_edges);
     REQUIRE(mst == expected);
 }
+
+TEMPLATE_TEST_CASE("Impl - Dijkstra", "[impl-algos]", 
+    g::DenseGraphImpl , g::SparseGraphImpl)
+{
+    int n_vertices=9;
+    std::vector<g::edge_t> edges = {
+        {0, 1, 4}, {0, 7, 8},
+        {1, 2, 8}, {1, 7, 11},
+        {2, 3, 7}, {2, 5, 4}, {2, 8, 2},
+        {3, 4, 9}, {3, 5, 14},
+        {4, 5, 10},
+        {5, 6, 2},
+        {6, 7, 1}, {6, 8, 6},
+        {7, 8, 7},
+        };
+
+    std::vector<g::weight_t> expected_distances = {0, 4, 12, 19, 21, 11, 9, 8, 14};
+    std::vector<g::vertex_t> expected_predecessors = { g::NO_PREDECESSOR, 0, 1, 2, 5, 6, 7, 0, 2};
+    std::vector<g::vertex_t> expected_path_to_8 = {0, 1, 2, 8};
+    std::vector<g::vertex_t> expected_path_to_5 = {0, 7, 6, 5};
+
+    TestType g(n_vertices, n_vertices, false);
+    g.set_edges(edges);
+    auto paths = g::all_shortest_paths(g, 0);
+
+    CHECK(paths._distances == expected_distances);
+    CHECK(paths._predecessors == expected_predecessors);
+    auto path_to_8 = paths.get_path(8);
+    CHECK(path_to_8 == expected_path_to_8);
+    auto path_to_5 = paths.get_path(5);
+    CHECK(path_to_5 == expected_path_to_5);
+}

@@ -1,0 +1,19 @@
+digraph test_network1 {
+    rankdir="TB"
+    node [fontsize=9, shape=ellipse, height=0.25]
+
+    0 -> 1 [dir = none, label="4"];
+    0 -> 7 [dir = none, label="8"];
+    1 -> 2 [dir = none, label="8"];
+    1 -> 7 [dir = none, label="11"];
+    2 -> 3 [dir = none, label="7"];
+    2 -> 5 [dir = none, label="4"];
+    2 -> 8 [dir = none, label="2"];
+    3 -> 4 [dir = none, label="9"];
+    3 -> 5 [dir = none, label="14"];
+    4 -> 5 [dir = none, label="10"];
+    5 -> 6 [dir = none, label="2"];
+    6 -> 7 [dir = none, label="1"];
+    6 -> 8 [dir = none, label="6"];
+    7 -> 8 [dir = none, label="7"];
+}

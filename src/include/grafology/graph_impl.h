@@ -32,8 +32,10 @@ public:
 
 //** the internal vertex type
 using vertex_t = unsigned;
+constexpr vertex_t NO_PREDECESSOR = std::numeric_limits<vertex_t>::max();
 //** the type for the edge weights
 using weight_t = int;
+constexpr weight_t D_INFINITY = std::numeric_limits<weight_t>::max();
 
 //** the edge type */
 struct edge_t {
