@@ -1,4 +1,10 @@
 project(Grafology-examples LANGUAGES C CXX)
+set(CMAKE_CXX_STANDARD 23)
+
+set(common_src
+    london_tube.h
+    london_tube.cpp
+)
 
 set (examples
     ex01-topological-sort-graph
@@ -9,6 +15,6 @@ set (examples
 )
 
 foreach(example ${examples})
-    add_executable(${example} ${example}.cpp)
+    add_executable(${example} ${example}.cpp ${common_src})
     target_link_libraries(${example} PRIVATE grafology) 
 endforeach()
