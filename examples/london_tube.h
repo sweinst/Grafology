@@ -28,6 +28,8 @@ namespace LondonTube {
     struct Station{
         g::vertex_t _id;
         std::string _name {};
+        double _latitude = 0;
+        double _longitude = 0;
 
         auto operator <=>(const Station& s) const noexcept {
             return _id <=> s._id;

@@ -71,7 +71,7 @@ namespace grafology {
                 continue;
             }
             for (const auto& edge : graph.get_neighbors(v)) {
-                if (edge.weight <= 0>) {
+                if (edge.weight <= 0) {
                     throw error("All shortest paths: negative weights are not allowed");
                 }
                 auto new_d = d + edge.weight;

@@ -1,3 +1,9 @@
+// example of the use of the all_shortest_paths algorithm (Djikstra's algorithm) 
+// it's try to find the shortest path between two stations in the London Tube network
+
+// the main issue is that there is only one edge/line between two vertices/stations
+// as many lines share the segments of the networks, the line indication can be misleading
+
 #include "london_tube.h"
 #include <grafology/algorithms/all_shortest_paths.h>
 #include <print>
@@ -12,7 +18,7 @@ int main() {
     tube.add_vertices(stations);
     tube.set_edges(connections);
 
-    auto s = Station::from_name("Amersham");
+    auto s = Station::from_name("Amersham"s);
     if (s) {
         auto paths= g::all_shortest_paths(tube, *s);
         for (const auto& dest: {"Baker Street"s, "Morden"s}) {
