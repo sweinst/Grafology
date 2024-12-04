@@ -43,10 +43,8 @@ int main() {
                         }
                         prev_station_id = v._id;
                     }
-                    {
-                        auto line = Line::from_id(prev_line)->_name;
-                        std::println("{} => {} ({})", initial_station, prev_station, line);
-                    }
+                    auto line = Line::from_id(prev_line)->_name;
+                    std::println("{} => {} ({})", initial_station, prev_station, line);
                 }
             }
         }
