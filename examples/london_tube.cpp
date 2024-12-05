@@ -290,7 +290,7 @@ namespace LondonTube
         {5, "Jubilee"},
         {6, "Northern"},
         {7, "Piccadilly"},
-        {8, "H & C"},
+        {8, "Hammersmith & City"},
         {9, "Circle"},
         {10, "District"},
         {11, "East London"},

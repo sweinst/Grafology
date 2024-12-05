@@ -16,12 +16,13 @@ int main(int argc, const char* argv[]) {
     using namespace LondonTube;
 
     std::string start = "Amersham"s;
-    std::vector<std::string> destinations = {"Baker Street"s, "Morden"s};
+    std::vector<std::string> destinations = {"Baker Street"s, "Morden", "Dagenham East"s};
     if (argc > 1)
     {
         start = argv[1];
         if (argc > 2)
         {
+            destinations.clear();
             for (int i = 2; i < argc; ++i)
             {
                 destinations.push_back(argv[i]);
