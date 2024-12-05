@@ -40,6 +40,8 @@ namespace LondonTube {
 
         static std::optional<Station> from_id(g::vertex_t id);
         static std::optional<Station> from_name(const std::string& name);
+
+        double distance_from(const Station& s) const;
     };
 
     extern std::set<Station> stations;

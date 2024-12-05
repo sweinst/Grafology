@@ -2,6 +2,7 @@
 // derived from data found at https://www.whatdotheyknow.com/request/station_to_station_journey_times
 
 #include "london_tube.h"
+#include <numbers>
 
 namespace LondonTube
 {
@@ -631,6 +632,22 @@ namespace LondonTube
         auto it = std::find_if(stations.begin(), stations.end(), [&name](const Station &s)
                                { return s._name == name; });
         return (it == stations.end()) ? std::optional<Station>{} : std::optional<Station>{*it};
+    }
+
+    double Station::distance_from(const Station &s) const
+    {
+        // Haversine formula
+        // see https://en.wikipedia.org/wiki/Haversine_formula
+
+        // Earth average radius in meters
+        constexpr double r = 6'371'000.0;
+        constexpr double to_rad = std::numbers::pi_v<double> / 180.0;
+        double lat1 = _latitude * to_rad;
+        double lat2 = s._latitude * to_rad;
+        double lon1 = _longitude * to_rad;
+        double lon2 = s._longitude * to_rad;
+        double h = std::sqrt((1 - std::cos(lat2 - lat1) + std::cos(lat1) * std::cos(lat2) * (1 - std::cos((lon2 - lon1))))/ 2.0);
+        return 2.0 * r * std::asin(std::min(1.0, h));
     }
 
     std::optional<Connection> Connection::from_id(g::vertex_t start, g::vertex_t end)
