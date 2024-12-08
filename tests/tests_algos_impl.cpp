@@ -4,6 +4,7 @@
 #include <grafology/algorithms/transitive_closure.h>
 #include <grafology/algorithms/minimum_spanning_tree.h>
 #include <grafology/algorithms/all_shortest_paths.h>
+//#include <grafology/algorithms/shortest_path.h>
 #include <catch2/catch_template_test_macros.hpp>
 #include <set>
 #include "test_vertex.h"
@@ -221,7 +222,7 @@ TEMPLATE_TEST_CASE("Impl - MST", "[impl-algos]",
 TEMPLATE_TEST_CASE("Impl - Dijkstra", "[impl-algos]", 
     g::DenseGraphImpl , g::SparseGraphImpl)
 {
-    int n_vertices=9;
+    int n_vertices=12;
     std::vector<g::edge_t> edges = {
         {0, 1, 4}, {0, 7, 8},
         {1, 2, 8}, {1, 7, 11},
@@ -231,12 +232,16 @@ TEMPLATE_TEST_CASE("Impl - Dijkstra", "[impl-algos]",
         {5, 6, 2},
         {6, 7, 1}, {6, 8, 6},
         {7, 8, 7},
+        {9, 10, 4},
+        {9, 11, 2},
+        {11, 10, 1},
         };
 
-    std::vector<g::weight_t> expected_distances = {0, 4, 12, 19, 21, 11, 9, 8, 14};
-    std::vector<g::vertex_t> expected_predecessors = { g::NO_PREDECESSOR, 0, 1, 2, 5, 6, 7, 0, 2};
+    std::vector<g::weight_t> expected_distances = {0, 4, 12, 19, 21, 11, 9, 8, 14, g::D_INFINITY, g::D_INFINITY, g::D_INFINITY};
+    std::vector<g::vertex_t> expected_predecessors = { g::NO_PREDECESSOR, 0, 1, 2, 5, 6, 7, 0, 2, g::NO_PREDECESSOR, g::NO_PREDECESSOR, g::NO_PREDECESSOR};
     std::vector<g::vertex_t> expected_path_to_8 = {0, 1, 2, 8};
     std::vector<g::vertex_t> expected_path_to_5 = {0, 7, 6, 5};
+    const std::set<g::vertex_t> unreachable {9, 10, 11};
 
     TestType g(n_vertices, n_vertices, false);
     g.set_edges(edges);
@@ -248,4 +253,10 @@ TEMPLATE_TEST_CASE("Impl - Dijkstra", "[impl-algos]",
     CHECK(path_to_8 == expected_path_to_8);
     auto path_to_5 = paths.get_path(5);
     CHECK(path_to_5 == expected_path_to_5);
+    for (g::vertex_t i = 0; i < n_vertices; ++i)
+    {
+        CAPTURE(i);
+        CHECK(paths.is_reachable(i) == !unreachable.contains(i));
+    }
+    
 }

@@ -16,4 +16,9 @@ digraph test_network1 {
     6 -> 7 [dir = none, label="1"];
     6 -> 8 [dir = none, label="6"];
     7 -> 8 [dir = none, label="7"];
+
+    9 -> 10 [dir = none, label="4"];
+    9 -> 11 [dir = none, label="2"];
+    11 -> 10 [dir = none, label="1"];
+
 }
