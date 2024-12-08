@@ -4,6 +4,9 @@ project(grafology VERSION 0.1.0 LANGUAGES C CXX)
 option(BUILD_TESTS "Build tests" ON)
 option(BUILD_EXAMPLES "Build examples" ON)
 
+message(STATUS "Build tests: ${BUILD_TESTS}")
+message(STATUS "Build examples: ${BUILD_EXAMPLES}")
+
 set(CMAKE_CXX_STANDARD 23)
 
 if (NOT CMAKE_BUILD_TYPE)
@@ -40,6 +43,7 @@ set(GRAFOLOGY_HDRS
     src/include/grafology/algorithms/breath_first_search.h
     src/include/grafology/algorithms/depth_first_search.h
     src/include/grafology/algorithms/minimum_spanning_tree.h
+    src/include/grafology/algorithms/shortest_path.h
     src/include/grafology/algorithms/topological_sort.h
     src/include/grafology/algorithms/transitive_closure.h
 )
@@ -60,6 +64,10 @@ set_target_properties(
 # Tests
 ##################################################
 if(BUILD_TESTS)
+    # this must be done before add_subdirectory (see enable_testing documentation)
+    include (CTest)
+    enable_testing()
+
     add_subdirectory(tests)
 endif(BUILD_TESTS)
 
