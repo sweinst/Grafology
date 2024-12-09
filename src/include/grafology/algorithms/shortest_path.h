@@ -61,7 +61,8 @@ namespace grafology {
       throw error("Shortest path works only on undirected graphs");
     }
     const auto n_vertices = graph.size();
-    std::priority_queue<std::pair<weight_t, vertex_t>> pq;
+    using cost_type = decltype(f(start, end));
+    std::priority_queue<std::pair<cost_type, vertex_t>> pq;
     ShortestPathsImpl res(n_vertices, end);
     std::vector<bool> visited(n_vertices, false);
 
