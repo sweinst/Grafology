@@ -4,9 +4,10 @@
 #include <grafology/algorithms/transitive_closure.h>
 #include <grafology/algorithms/minimum_spanning_tree.h>
 #include <grafology/algorithms/all_shortest_paths.h>
-//#include <grafology/algorithms/shortest_path.h>
+#include <grafology/algorithms/shortest_path.h>
 #include <catch2/catch_template_test_macros.hpp>
 #include <set>
+#include <print>
 #include "test_vertex.h"
 
 namespace g = grafology;
@@ -259,4 +260,46 @@ TEMPLATE_TEST_CASE("Impl - Dijkstra", "[impl-algos]",
         CHECK(paths.is_reachable(i) == !unreachable.contains(i));
     }
     
+}
+
+TEMPLATE_TEST_CASE("Impl - A*", "[impl-algos]", 
+    g::DenseGraphImpl , g::SparseGraphImpl)
+{
+    int n_vertices=12;
+    std::vector<g::edge_t> edges = {
+        {0, 1, 4}, {0, 7, 8},
+        {1, 2, 8}, {1, 7, 11},
+        {2, 3, 7}, {2, 5, 4}, {2, 8, 2},
+        {3, 4, 9}, {3, 5, 14},
+        {4, 5, 10},
+        {5, 6, 2},
+        {6, 7, 1}, {6, 8, 6},
+        {7, 8, 7},
+        {9, 10, 4},
+        {9, 11, 2},
+        {11, 10, 1},
+        };
+
+
+    TestType g(n_vertices, n_vertices, false);
+    g.set_edges(edges);
+
+    std::vector<std::tuple<g::vertex_t, g::vertex_t,std::vector<g::vertex_t>>> expected = {
+        {0, 8, {0, 1, 2, 8}},
+        {0, 5, {0, 7, 6, 5}},
+        {4, 2, {4, 5, 2}},
+        {0, 11, {}},
+    };
+    
+    for (auto [start, end, expected_path]: expected) {
+        CAPTURE(start, end);
+        // build our cost function from the real distances
+        auto paths_to_end = g::all_shortest_paths(g, end);
+        auto cost_function = [&paths_to_end](g::vertex_t i , g::vertex_t /* j */) {
+            return paths_to_end._distances[i];
+        };
+
+        auto path = g::shortest_path(g, start, end, cost_function);
+        CHECK(path == expected_path);
+    }
 }

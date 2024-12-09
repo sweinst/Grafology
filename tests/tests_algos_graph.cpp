@@ -214,7 +214,7 @@ TEMPLATE_TEST_CASE("Graphs - NST", "[graphs-algos]",
 TEMPLATE_TEST_CASE("Graphs - Dijkstra", "[graphs-algos]", 
     g::UndirectedDenseGraph<TestVertex> , g::UndirectedSparseGraph<TestVertex>) {
 
-    int n_vertices=9;
+    int n_vertices=12;
 
     std::vector<TestVertex> vertices_init {{ generate_test_vertices_list(n_vertices) }};
     std::vector<TestEdge> edges_init = {
@@ -226,12 +226,16 @@ TEMPLATE_TEST_CASE("Graphs - Dijkstra", "[graphs-algos]",
         {{5}, {6}, 2},
         {{6}, {7}, 1}, {{6}, {8}, 6},
         {{7}, {8}, 7},
+        {{9}, {10}, 4},
+        {{9}, {11}, 2},
+        {{11}, {10}, 1},
         };
 
-    std::vector<g::weight_t> expected_distances = {0, 4, 12, 19, 21, 11, 9, 8, 14};
-    std::vector<TestVertex> expected_predecessors = { /* starting at node 1 */{0}, {1}, {2}, {5}, {6}, {7}, {0}, {2}};
+    std::vector<g::weight_t> expected_distances = {0, 4, 12, 19, 21, 11, 9, 8, 14, g::D_INFINITY, g::D_INFINITY, g::D_INFINITY};
+    std::vector<TestVertex> expected_predecessors = { /* starting at node 1 */{0}, {1}, {2}, {5}, {6}, {7}, {0}, {2}, {-1}, {-1}, {-1}};
     std::vector<TestVertex> expected_path_to_8 = {{0}, {1}, {2}, {8}};
     std::vector<TestVertex> expected_path_to_5 = {{0}, {7}, {6}, {5}};
+    std::unordered_set<TestVertex> unreachable {{9}, {10}, {11}};
 
     TestType g(n_vertices);
     g.add_vertices(vertices_init);
@@ -242,8 +246,11 @@ TEMPLATE_TEST_CASE("Graphs - Dijkstra", "[graphs-algos]",
     for(int i = 0; i < n_vertices; ++i) {
         CAPTURE(i);
         CHECK(paths.get_distance(vertices_init[i]) == expected_distances[i]);
+        CHECK(paths.is_reachable(vertices_init[i]) == !unreachable.contains(vertices_init[i]));
         if (i != 0) {
-            CHECK(paths.get_predecessor(vertices_init[i]) == expected_predecessors[i-1]);
+            if (paths.is_reachable(vertices_init[i])) {
+                CHECK(paths.get_predecessor(vertices_init[i]) == expected_predecessors[i-1]);
+            }
         }
     }
 
@@ -257,3 +264,31 @@ TEMPLATE_TEST_CASE("Graphs - Dijkstra", "[graphs-algos]",
         CHECK(v == expected_path_to_5[idx]);
     }
 }
+
+// TEMPLATE_TEST_CASE("Graphs - A*", "[graphs-algos]", 
+//     g::UndirectedDenseGraph<TestVertex> , g::UndirectedSparseGraph<TestVertex>) {
+
+//     int n_vertices=12;
+
+//     std::vector<TestVertex> vertices_init {{ generate_test_vertices_list(n_vertices) }};
+//     std::vector<TestEdge> edges_init = {
+//         {{0}, {1}, 4}, {{0}, {7}, 8},
+//         {{1}, {2}, 8}, {{1}, {7}, 11},
+//         {{2}, {3}, 7}, {{2}, {5}, 4}, {{2}, {8}, 2},
+//         {{3}, {4}, 9}, {{3}, {5}, 14},
+//         {{4}, {5}, 10},
+//         {{5}, {6}, 2},
+//         {{6}, {7}, 1}, {{6}, {8}, 6},
+//         {{7}, {8}, 7},
+//         {{9}, {10}, 4},
+//         {{9}, {11}, 2},
+//         {{11}, {10}, 1},
+//         };
+
+//     TestType g(n_vertices);
+//     g.add_vertices(vertices_init);
+//     g.set_edges(edges_init);
+
+//     auto paths = g::all_shortest_paths(g, {0}, {8});
+
+// }
