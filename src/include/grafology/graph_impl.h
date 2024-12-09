@@ -36,6 +36,8 @@ constexpr vertex_t NO_PREDECESSOR = std::numeric_limits<vertex_t>::max();
 //** the type for the edge weights
 using weight_t = int;
 constexpr weight_t D_INFINITY = std::numeric_limits<weight_t>::max();
+//** a step on path  = (Vertex, distance from path) */
+using step_t = std::tuple<vertex_t, weight_t>;
 
 //** the edge type */
 struct edge_t {

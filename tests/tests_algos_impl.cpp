@@ -240,8 +240,8 @@ TEMPLATE_TEST_CASE("Impl - Dijkstra", "[impl-algos]",
 
     std::vector<g::weight_t> expected_distances = {0, 4, 12, 19, 21, 11, 9, 8, 14, g::D_INFINITY, g::D_INFINITY, g::D_INFINITY};
     std::vector<g::vertex_t> expected_predecessors = { g::NO_PREDECESSOR, 0, 1, 2, 5, 6, 7, 0, 2, g::NO_PREDECESSOR, g::NO_PREDECESSOR, g::NO_PREDECESSOR};
-    std::vector<g::vertex_t> expected_path_to_8 = {0, 1, 2, 8};
-    std::vector<g::vertex_t> expected_path_to_5 = {0, 7, 6, 5};
+    std::vector<g::step_t> expected_path_to_8 = {{0, 0}, {1, 4}, {2, 12}, {8, 14}};
+    std::vector<g::step_t> expected_path_to_5 = {{0, 0}, {7, 8}, {6, 9}, {5, 11}};
     const std::set<g::vertex_t> unreachable {9, 10, 11};
 
     TestType g(n_vertices, n_vertices, false);
@@ -290,7 +290,7 @@ TEMPLATE_TEST_CASE("Impl - A*", "[impl-algos]",
         // end
         g::vertex_t,
         // path = vector<vertex, distance from start>
-        std::vector<std::tuple<g::vertex_t, g::weight_t>>
+        std::vector<g::step_t>
         >> expected = {
         {0, 8, {{0, 0}, {1, 4}, {2, 12}, {8, 14}}},
         {0, 5, {{0, 0}, {7, 8}, {6, 9}, {5, 11}}},

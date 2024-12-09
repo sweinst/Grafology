@@ -6,6 +6,10 @@
 #include "bimap.h"
 
 namespace grafology {
+    /** @brief a step on a path:(Vertex, distance from start) */
+    template<VertexKey Vertex>
+    using Step = std::tuple<Vertex, weight_t>;
+
     /**
      * @brief The definition of an edge
      */

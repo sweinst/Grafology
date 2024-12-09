@@ -3,6 +3,7 @@
 #include <string>
 #include <format>
 #include <unordered_map>
+#include <tuple>
 
 namespace grafology {
     /*!
@@ -20,5 +21,4 @@ namespace grafology {
         { n == u } noexcept -> std::convertible_to<bool>;
         requires std::formattable<T, char>;
     };
-
 } // namespace grafology

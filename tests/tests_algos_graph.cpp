@@ -234,8 +234,8 @@ TEMPLATE_TEST_CASE("Graphs - Dijkstra", "[graphs-algos]",
 
     std::vector<g::weight_t> expected_distances = {0, 4, 12, 19, 21, 11, 9, 8, 14, g::D_INFINITY, g::D_INFINITY, g::D_INFINITY};
     std::vector<TestVertex> expected_predecessors = { /* starting at node 1 */{0}, {1}, {2}, {5}, {6}, {7}, {0}, {2}, {-1}, {-1}, {-1}};
-    std::vector<TestVertex> expected_path_to_8 = {{0}, {1}, {2}, {8}};
-    std::vector<TestVertex> expected_path_to_5 = {{0}, {7}, {6}, {5}};
+    std::vector<g::Step<TestVertex>> expected_path_to_8 = {{{0}, 0}, {{1}, 4}, {{2}, 12}, {{8}, 14}};
+    std::vector<g::Step<TestVertex>> expected_path_to_5 = {{{0}, 0}, {{7}, 8}, {{6}, 9}, {{5}, 11}};
     std::unordered_set<TestVertex> unreachable {{9}, {10}, {11}};
 
     TestType g(n_vertices);

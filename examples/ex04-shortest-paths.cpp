@@ -65,20 +65,20 @@ int main(int argc, const char* argv[]) {
 
   auto paths = g::all_shortest_paths(tube, *s);
 
-  for (const auto& dest : destinations) {
-    auto d = Station::from_name(dest);
-    if (d) {
-      std::println("===> {} to {}", s->_name, d->_name);
-      if (!paths.is_reachable(*d)) {
-        std::println("stderr: Cannot find a path to {}", d->_name);
-      } else {
-        std::println("Distance to {} is {:03} km(s)", d->_name, paths.get_distance(*d) / 1000.);
-        print_path(tube, paths.get_path(*d), *s);
-      }
-    } else {
-      std::println("Station '{}' not found", dest);
-    }
-  }
+//   for (const auto& dest : destinations) {
+//     auto d = Station::from_name(dest);
+//     if (d) {
+//       std::println("===> {} to {}", s->_name, d->_name);
+//       if (!paths.is_reachable(*d)) {
+//         std::println("stderr: Cannot find a path to {}", d->_name);
+//       } else {
+//         std::println("Distance to {} is {:03} km(s)", d->_name, paths.get_distance(*d) / 1000.);
+//         print_path(tube, paths.get_path(*d), *s);
+//       }
+//     } else {
+//       std::println("Station '{}' not found", dest);
+//     }
+//   }
 
   return 0;
 }

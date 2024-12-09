@@ -18,7 +18,7 @@ namespace grafology {
    * @param f The cost function
    */
   template <GraphImpl Graph, PathCostFunctionImpl F>
-  std::vector<std::tuple<vertex_t, weight_t>> shortest_path(const Graph& graph, vertex_t start, vertex_t end, F& f) {
+  std::vector<step_t> shortest_path(const Graph& graph, vertex_t start, vertex_t end, F& f) {
     // TODO: return a generator instead of a vector (for large graphs)
     if (graph.is_directed()) {
       throw error("Shortest path works only on undirected graphs");
@@ -30,7 +30,7 @@ namespace grafology {
     std::vector<bool> visited(n_vertices, false);
 
     auto reconstruct_path = [&] () {
-      std::vector<std::tuple<vertex_t, weight_t>> path;
+      std::vector<step_t> path;
       if (distances[end] == D_INFINITY) {
         return path;
       }
@@ -86,7 +86,7 @@ namespace grafology {
    * @param f The cost function
    */
   template <GraphImpl Impl, VertexKey Vertex, PathCostFunction<Vertex> F>
-  generator<std::tuple<Vertex, weight_t>> shortest_path(const Graph<Impl, Vertex, false>& graph, const Vertex& start, const Vertex& end, F& f) {
+  generator<Step<Vertex>> shortest_path(const Graph<Impl, Vertex, false>& graph, const Vertex& start, const Vertex& end, F& f) {
     auto cost_function = [&] (vertex_t u, vertex_t v) {
       return f(graph.get_vertex_from_internal_index(u), graph.get_vertex_from_internal_index(v));
     };
@@ -97,7 +97,7 @@ namespace grafology {
   }
 
   template <GraphImpl Impl, VertexKey Vertex, PathCostFunction<Vertex> F>
-  generator<std::tuple<Vertex, weight_t>> shortest_path(const Graph<Impl, Vertex, true>& graph, const Vertex& start, const Vertex& end, F& f) {
+  generator<Step<Vertex>> shortest_path(const Graph<Impl, Vertex, true>& graph, const Vertex& start, const Vertex& end, F& f) {
     static_assert(false, "Shortest paths works only on undirected graphs");
   }
 

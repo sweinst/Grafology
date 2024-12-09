@@ -25,17 +25,17 @@ namespace grafology {
 
     bool is_reachable(vertex_t end) const { return _distances[end] != D_INFINITY; }
 
-    std::vector<vertex_t> get_path(vertex_t end) const {
-      std::vector<vertex_t> path;
+    std::vector<step_t> get_path(vertex_t end) const {
+      std::vector<step_t> path;
       if (_distances[end] == D_INFINITY) {
         return path;
       }
       auto current = end;
       while (current != _start) {
-        path.push_back(current);
+        path.push_back(std::make_tuple(current, _distances[current]));
         current = _predecessors[current];
       }
-      path.push_back(_start);
+      path.push_back(std::make_tuple(_start, 0));
       std::ranges::reverse(path);
       return path;
     }
@@ -116,10 +116,10 @@ namespace grafology {
       );
     }
 
-    generator<Vertex> get_path(const Vertex& v) const {
+    generator<Step<Vertex>> get_path(const Vertex& v) const {
       auto sp = _shortest_paths.get_path(graph.get_internal_index(v));
-      for (auto v : sp) {
-        co_yield graph.get_vertex_from_internal_index(v);
+      for (const auto& [v, d] : sp) {
+        co_yield std::make_tuple(graph.get_vertex_from_internal_index(v), d);
       }
     }
 
