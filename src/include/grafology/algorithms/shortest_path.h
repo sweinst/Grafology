@@ -6,17 +6,20 @@
 namespace grafology {
   /**
    * @brief Compute the shortest path from one vertex to another
+   * @return a vector of tuples (vertex, distance from start)
    * @remark this is based on the A* algorithm
    * 
    * @tparam Graph The graph type
    * @tparam F The cost function type
+   * 
    * @param g The graph
    * @param start The start vertex
    * @param end The end vertex
    * @param f The cost function
    */
   template <GraphImpl Graph, PathCostFunctionImpl F>
-  std::vector<vertex_t> shortest_path(const Graph& graph, vertex_t start, vertex_t end, F& f) {
+  std::vector<std::tuple<vertex_t, weight_t>> shortest_path(const Graph& graph, vertex_t start, vertex_t end, F& f) {
+    // TODO: return a generator instead of a vector (for large graphs)
     if (graph.is_directed()) {
       throw error("Shortest path works only on undirected graphs");
     }
@@ -27,13 +30,13 @@ namespace grafology {
     std::vector<bool> visited(n_vertices, false);
 
     auto reconstruct_path = [&] () {
-      std::vector<vertex_t> path;
+      std::vector<std::tuple<vertex_t, weight_t>> path;
       if (distances[end] == D_INFINITY) {
         return path;
       }
       auto current = end;
       do {
-        path.push_back(current);
+        path.push_back(std::make_tuple(current, distances[current]));
         current = predecessors[current];
       }
       while (current != NO_PREDECESSOR);
@@ -45,11 +48,11 @@ namespace grafology {
     pq.push({f(start, end), start});
     while (!pq.empty()) {
       auto [_, v] = pq.top();
-      auto d = distances[v];
       pq.pop();
       if (v == end) {
         return reconstruct_path();
       }
+      auto d = distances[v];
       visited[v] = true;
       for (const auto& edge : graph.get_neighbors(v)) {
         if (edge.weight <= 0) {
@@ -69,19 +72,32 @@ namespace grafology {
     return {};
   }
 
+  /**
+   * @brief Compute the shortest path from one vertex to another
+   * @return a range of tuples (vertex, distance from start)
+   * @remark this is based on the A* algorithm
+   * 
+   * @tparam Graph The graph type
+   * @tparam F The cost function type
+   * 
+   * @param g The graph
+   * @param start The start vertex
+   * @param end The end vertex
+   * @param f The cost function
+   */
   template <GraphImpl Impl, VertexKey Vertex, PathCostFunction<Vertex> F>
-  generator<Vertex> shortest_path(const Graph<Impl, Vertex, false>& graph, const Vertex& start, const Vertex& end, F& f) {
+  generator<std::tuple<Vertex, weight_t>> shortest_path(const Graph<Impl, Vertex, false>& graph, const Vertex& start, const Vertex& end, F& f) {
     auto cost_function = [&] (vertex_t u, vertex_t v) {
       return f(graph.get_vertex_from_internal_index(u), graph.get_vertex_from_internal_index(v));
     };
     auto path = shortest_path(graph.impl(), graph.get_internal_index(start), graph.get_internal_index(end), cost_function);
-    for (const auto vertex: path) {
-      co_yield graph.get_vertex_from_internal_index(vertex);
+    for (const auto& [vertex, distance]: path) {
+      co_yield std::make_tuple(graph.get_vertex_from_internal_index(vertex), distance);
     }
   }
 
   template <GraphImpl Impl, VertexKey Vertex, PathCostFunction<Vertex> F>
-  generator<Vertex> shortest_path(const Graph<Impl, Vertex, true>& graph, const Vertex& start, const Vertex& end, F& f) {
+  generator<std::tuple<Vertex, weight_t>> shortest_path(const Graph<Impl, Vertex, true>& graph, const Vertex& start, const Vertex& end, F& f) {
     static_assert(false, "Shortest paths works only on undirected graphs");
   }
 

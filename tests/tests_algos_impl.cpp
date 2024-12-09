@@ -284,10 +284,17 @@ TEMPLATE_TEST_CASE("Impl - A*", "[impl-algos]",
     TestType g(n_vertices, n_vertices, false);
     g.set_edges(edges);
 
-    std::vector<std::tuple<g::vertex_t, g::vertex_t,std::vector<g::vertex_t>>> expected = {
-        {0, 8, {0, 1, 2, 8}},
-        {0, 5, {0, 7, 6, 5}},
-        {4, 2, {4, 5, 2}},
+    std::vector<std::tuple<
+        // start
+        g::vertex_t, 
+        // end
+        g::vertex_t,
+        // path = vector<vertex, distance from start>
+        std::vector<std::tuple<g::vertex_t, g::weight_t>>
+        >> expected = {
+        {0, 8, {{0, 0}, {1, 4}, {2, 12}, {8, 14}}},
+        {0, 5, {{0, 0}, {7, 8}, {6, 9}, {5, 11}}},
+        {4, 2, {{4, 0}, {5, 10}, {2, 14}}},
         {0, 11, {}},
     };
     

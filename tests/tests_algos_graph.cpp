@@ -290,10 +290,17 @@ TEMPLATE_TEST_CASE("Graphs - A*", "[graphs-algos]",
     g.add_vertices(vertices_init);
     g.set_edges(edges_init);
 
-    std::vector<std::tuple<TestVertex, TestVertex,std::vector<TestVertex>>> expected = {
-        {{0}, {8}, {{0}, {1}, {2}, {8}}},
-        {{0}, {5}, {{0}, {7}, {6}, {5}}},
-        {{4}, {2}, {{4}, {5}, {2}}},
+    std::vector<std::tuple<
+        // start
+        TestVertex, 
+        // end
+        TestVertex,
+        // path = vector<vertex, distance from start>
+        std::vector<std::tuple<TestVertex, g::weight_t>>
+        >> expected = {
+        {{0}, {8}, {{{0}, 0}, {{1}, 4}, {{2}, 12}, {{8}, 14}}},
+        {{0}, {5}, {{{0}, 0}, {{7}, 8}, {{6},9}, {{5}, 11}}},
+        {{4}, {2}, {{{4}, 0}, {{5}, 10}, {{2}, 14}}},
         {{0}, {11}, {}},
     };
 
@@ -305,7 +312,8 @@ TEMPLATE_TEST_CASE("Graphs - A*", "[graphs-algos]",
             return paths_to_end.get_distance(i);
         };
 
-        auto path = g::shortest_path(g, start, end, cost_function) | std::ranges::to<std::vector>();
-        CHECK(path == expected_path);
+        auto path = g::shortest_path(g, start, end, cost_function);
+        auto v_path = path | std::ranges::to<std::vector>();
+        CHECK(v_path == expected_path);
     }
 }
