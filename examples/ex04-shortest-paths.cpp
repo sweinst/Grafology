@@ -1,4 +1,4 @@
-// example of the use of the all_shortest_paths algorithm (Djikstra's algorithm)
+// example of the use of the all_shortest_paths algorithm (Dijkstra's algorithm)
 // it's try to find the shortest path between two stations in the London Tube network
 
 // the main issue is that there is only one edge/line between two vertices/stations
@@ -51,7 +51,7 @@ Program::Program(int argc, const char* argv[])
   if (s) {
     _start = *s;
   } else {
-    std::println("Unable to find the station '{}'", start);
+    std::println(stderr, "Unable to find the station '{}'", start);
     _ok = false;
   }
   for (const auto& dest : destinations) {
@@ -59,7 +59,7 @@ Program::Program(int argc, const char* argv[])
     if (d) {
       _destinations.push_back(*d);
     } else {
-      std::println("Unable to find the station '{}'", dest);
+      std::println(stderr, "Unable to find the station '{}'", dest);
       _ok = false;
     }
   }
@@ -70,11 +70,13 @@ Program::Program(int argc, const char* argv[])
 
 void Program::run_dijkstra() const {
   print_frame("Dijkstra's algorithm");
+
   auto paths = g::all_shortest_paths(_tube, _start);
+  
   for (const auto& dest : _destinations) {
     std::println("===> {} to {}", _start._name, dest._name);
     if (!paths.is_reachable(dest)) {
-      std::println("stderr: Cannot find a path to {}", dest._name);
+      std::println(stderr, "Cannot find a path to {}", dest._name);
     } else {
       auto g = paths.get_path(dest);
       print_path(g);
@@ -93,7 +95,7 @@ void Program::run_a_star() const {
     std::println("===> {} to {}", _start._name, dest._name);
     auto path = g::shortest_path(_tube, _start, dest, cost_function);
     if (!path.is_reachable()) {
-      std::println("stderr: Cannot find a path to {}", dest._name);
+      std::println(stderr, "Cannot find a path to {}", dest._name);
     } else {
       auto g = path.get_path();
       print_path(g);
