@@ -1,32 +1,13 @@
 #pragma once
 #include <functional>
 #include <queue>
-#include "../graph.h"
+#include "requirements.h"
 
-/**
- * @brief The requirement for the type T: it must implement the "<" operator
- */
 namespace grafology {
-  template <typename T>
-  concept HasLessThan = requires(T u, T v) {
-    { u < v } -> std::convertible_to<bool>;
-  };
-
-  /**
-   * @brief The requirements for the cost function used for shortest paths on GraphImpl
-   * @details The cost function must have the signature "double (*f)(vertex_t start, vertex_t end)"
-   * and must return a value that can be compared with the "<" operator
-   * @tparam F The function type
-   */
-  template <typename F>
-  concept PathCostFunctionImpl =
-      std::invocable<F&, vertex_t, vertex_t> && requires(F& f, vertex_t u, vertex_t v) {
-        { f(v, u) } -> HasLessThan;
-      };
-
   /**
    * @brief Compute the shortest path from one vertex to another
    * @remark this is based on the A* algorithm
+   * 
    * @tparam Graph The graph type
    * @tparam F The cost function type
    * @param g The graph
@@ -86,6 +67,22 @@ namespace grafology {
       }
     }
     return {};
+  }
+
+  template <GraphImpl Impl, VertexKey Vertex, PathCostFunction<Vertex> F>
+  generator<Vertex> shortest_path(const Graph<Impl, Vertex, false>& graph, const Vertex& start, const Vertex& end, F& f) {
+    auto cost_function = [&] (vertex_t u, vertex_t v) {
+      return f(graph.get_vertex_from_internal_index(u), graph.get_vertex_from_internal_index(v));
+    };
+    auto path = shortest_path(graph.impl(), graph.get_internal_index(start), graph.get_internal_index(end), cost_function);
+    for (const auto vertex: path) {
+      co_yield graph.get_vertex_from_internal_index(vertex);
+    }
+  }
+
+  template <GraphImpl Impl, VertexKey Vertex, PathCostFunction<Vertex> F>
+  generator<Vertex> shortest_path(const Graph<Impl, Vertex, true>& graph, const Vertex& start, const Vertex& end, F& f) {
+    static_assert(false, "Shortest paths works only on undirected graphs");
   }
 
 }  // namespace grafology

@@ -3,6 +3,7 @@
 #include <grafology/algorithms/breath_first_search.h>
 #include <grafology/algorithms/minimum_spanning_tree.h>
 #include <grafology/algorithms/all_shortest_paths.h>
+#include <grafology/algorithms/shortest_path.h>
 #include <catch2/catch_template_test_macros.hpp>
 #include <unordered_set>
 #include "test_vertex.h"
@@ -265,30 +266,46 @@ TEMPLATE_TEST_CASE("Graphs - Dijkstra", "[graphs-algos]",
     }
 }
 
-// TEMPLATE_TEST_CASE("Graphs - A*", "[graphs-algos]", 
-//     g::UndirectedDenseGraph<TestVertex> , g::UndirectedSparseGraph<TestVertex>) {
+TEMPLATE_TEST_CASE("Graphs - A*", "[graphs-algos]", 
+    g::UndirectedDenseGraph<TestVertex> , g::UndirectedSparseGraph<TestVertex>) {
 
-//     int n_vertices=12;
+    int n_vertices=12;
 
-//     std::vector<TestVertex> vertices_init {{ generate_test_vertices_list(n_vertices) }};
-//     std::vector<TestEdge> edges_init = {
-//         {{0}, {1}, 4}, {{0}, {7}, 8},
-//         {{1}, {2}, 8}, {{1}, {7}, 11},
-//         {{2}, {3}, 7}, {{2}, {5}, 4}, {{2}, {8}, 2},
-//         {{3}, {4}, 9}, {{3}, {5}, 14},
-//         {{4}, {5}, 10},
-//         {{5}, {6}, 2},
-//         {{6}, {7}, 1}, {{6}, {8}, 6},
-//         {{7}, {8}, 7},
-//         {{9}, {10}, 4},
-//         {{9}, {11}, 2},
-//         {{11}, {10}, 1},
-//         };
+    std::vector<TestVertex> vertices_init {{ generate_test_vertices_list(n_vertices) }};
+    std::vector<TestEdge> edges_init = {
+        {{0}, {1}, 4}, {{0}, {7}, 8},
+        {{1}, {2}, 8}, {{1}, {7}, 11},
+        {{2}, {3}, 7}, {{2}, {5}, 4}, {{2}, {8}, 2},
+        {{3}, {4}, 9}, {{3}, {5}, 14},
+        {{4}, {5}, 10},
+        {{5}, {6}, 2},
+        {{6}, {7}, 1}, {{6}, {8}, 6},
+        {{7}, {8}, 7},
+        {{9}, {10}, 4},
+        {{9}, {11}, 2},
+        {{11}, {10}, 1},
+        };
 
-//     TestType g(n_vertices);
-//     g.add_vertices(vertices_init);
-//     g.set_edges(edges_init);
+    TestType g(n_vertices);
+    g.add_vertices(vertices_init);
+    g.set_edges(edges_init);
 
-//     auto paths = g::all_shortest_paths(g, {0}, {8});
+    std::vector<std::tuple<TestVertex, TestVertex,std::vector<TestVertex>>> expected = {
+        {{0}, {8}, {{0}, {1}, {2}, {8}}},
+        {{0}, {5}, {{0}, {7}, {6}, {5}}},
+        {{4}, {2}, {{4}, {5}, {2}}},
+        {{0}, {11}, {}},
+    };
 
-// }
+    for (const auto& [start, end, expected_path]: expected) {
+        CAPTURE(start, end);
+        // build our cost function from the real distances
+        auto paths_to_end = g::all_shortest_paths(g, end);
+        auto cost_function = [&paths_to_end](const TestVertex& i , const TestVertex& /* j */) {
+            return paths_to_end.get_distance(i);
+        };
+
+        auto path = g::shortest_path(g, start, end, cost_function) | std::ranges::to<std::vector>();
+        CHECK(path == expected_path);
+    }
+}
