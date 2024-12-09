@@ -6,43 +6,36 @@
 // also some different routes can have the same distance and the less practical one can be chosen
 
 #include <grafology/algorithms/all_shortest_paths.h>
-#include <print>
+#include <grafology/algorithms/shortest_path.h>
 #include "london_tube.h"
+#include "utils.h"
 
 namespace g = grafology;
 namespace lt = LondonTube;
 using namespace std::string_literals;
-using Graph =   g::UndirectedSparseGraph<lt::Station>;
+using Graph = g::UndirectedSparseGraph<lt::Station>;
 
-void print_path(const Graph& g, generator<g::Step<lt::Station>>& path, const lt::Station& start) {
-  int prev_line = -1;
-  g::vertex_t prev_station_id = start._id;
-  std::string initial_station = start._name;
-  std::string prev_station = start._name;
-  double d_kms = 0.;
-  for (const auto& [v, d] : path) {
-    d_kms = d / 1000.;
-    if (v != start) {
-      auto connection = lt::Connection::from_id(prev_station_id, v._id);
-      if (connection->line != prev_line) {
-        auto line_details = lt::Line::from_id(prev_line);
-        if (prev_line != -1) {
-          std::println("{} => {} (line: {}, distance: {:.1f} km(s))", initial_station, prev_station, line_details->_name, d_kms);
-          initial_station = prev_station;
-        }
-        prev_line = connection->line;
-      }
-      prev_station = v._name;
-    }
-    prev_station_id = v._id;
-  }
-  auto line = lt::Line::from_id(prev_line)->_name;
-  std::println("{} => {} (line: {}, distance: {:.1f} km(s))", initial_station, prev_station, line, d_kms);
-}
+class Program {
+ public:
+  Program(int argc, const char* argv[]);
 
-int main(int argc, const char* argv[]) {
-  using namespace LondonTube;
+  operator bool() const { return _ok; }
 
+  void run_dijkstra() const;
+  void run_a_star() const;
+
+ private:
+  void print_path(generator<g::Step<lt::Station>>& path) const;
+
+  bool _ok = true;
+  lt::Station _start;
+  std::vector<lt::Station> _destinations;
+  g::UndirectedSparseGraph<lt::Station> _tube;
+};
+
+Program::Program(int argc, const char* argv[])
+    : _ok(true)
+    , _tube(lt::stations.size()) {
   std::string start = "Amersham"s;
   std::vector<std::string> destinations = {"Baker Street"s, "Morden", "Dagenham East"s};
   if (argc > 1) {
@@ -54,33 +47,99 @@ int main(int argc, const char* argv[]) {
       }
     }
   }
-
-  g::UndirectedSparseGraph<Station> tube(stations.size());
-  tube.add_vertices(stations);
-  tube.set_edges(connections);
-
-  auto s = Station::from_name(start);
-  if (!s) {
-    std::println("Station '{}' not found", start);
-    return 1;
+  auto s = lt::Station::from_name(start);
+  if (s) {
+    _start = *s;
+  } else {
+    std::println("Unable to find the station '{}'", start);
+    _ok = false;
   }
-
-  auto paths = g::all_shortest_paths(tube, *s);
-
   for (const auto& dest : destinations) {
-    auto d = Station::from_name(dest);
+    auto d = lt::Station::from_name(dest);
     if (d) {
-      std::println("===> {} to {}", s->_name, d->_name);
-      if (!paths.is_reachable(*d)) {
-        std::println("stderr: Cannot find a path to {}", d->_name);
-      } else {
-        auto g = paths.get_path(*d);
-        print_path(tube, g, *s);
-      }
+      _destinations.push_back(*d);
     } else {
-      std::println("Station '{}' not found", dest);
+      std::println("Unable to find the station '{}'", dest);
+      _ok = false;
     }
   }
 
+  _tube.add_vertices(lt::stations);
+  _tube.set_edges(lt::connections);
+}
+
+void Program::run_dijkstra() const {
+  print_frame("Dijkstra's algorithm");
+  auto paths = g::all_shortest_paths(_tube, _start);
+  for (const auto& dest : _destinations) {
+    std::println("===> {} to {}", _start._name, dest._name);
+    if (!paths.is_reachable(dest)) {
+      std::println("stderr: Cannot find a path to {}", dest._name);
+    } else {
+      auto g = paths.get_path(dest);
+      print_path(g);
+    }
+  }
+}
+
+void Program::run_a_star() const {
+  print_frame("A* algorithm");
+
+  auto cost_function = [](const lt::Station& a, const lt::Station& b) -> double {
+    return a.distance_from(b);
+  };
+
+  for (const auto& dest : _destinations) {
+    std::println("===> {} to {}", _start._name, dest._name);
+    auto path = g::shortest_path(_tube, _start, dest, cost_function);
+    if (!path.is_reachable()) {
+      std::println("stderr: Cannot find a path to {}", dest._name);
+    } else {
+      auto g = path.get_path();
+      print_path(g);
+    }
+  }
+}
+
+void Program::print_path(generator<g::Step<lt::Station>>& path) const {
+  int prev_line = -1;
+  g::vertex_t prev_station_id = _start._id;
+  std::string initial_station = _start._name;
+  std::string prev_station = _start._name;
+  double d_kms = 0.;
+  for (const auto& [v, d] : path) {
+    d_kms = d / 1000.;
+    if (v != _start) {
+      auto connection = lt::Connection::from_id(prev_station_id, v._id);
+      if (connection->line != prev_line) {
+        auto line_details = lt::Line::from_id(prev_line);
+        if (prev_line != -1) {
+          std::println(
+              "{} => {} (line: {}, distance: {:.1f} km(s))", initial_station, prev_station,
+              line_details->_name, d_kms
+          );
+          initial_station = prev_station;
+        }
+        prev_line = connection->line;
+      }
+      prev_station = v._name;
+    }
+    prev_station_id = v._id;
+  }
+  auto line = lt::Line::from_id(prev_line)->_name;
+  std::println(
+      "{} => {} (line: {}, distance: {:.1f} km(s))", initial_station, prev_station, line, d_kms
+  );
+  std::println();
+}
+
+int main(int argc, const char* argv[]) {
+  Program program(argc, argv);
+  if (!program) {
+    return 1;
+  }
+  program.run_dijkstra();
+  std::println();
+  program.run_a_star();
   return 0;
 }
