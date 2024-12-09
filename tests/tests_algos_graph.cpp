@@ -313,7 +313,7 @@ TEMPLATE_TEST_CASE("Graphs - A*", "[graphs-algos]",
         };
 
         auto path = g::shortest_path(g, start, end, cost_function);
-        auto v_path = path | std::ranges::to<std::vector>();
+        auto v_path = path.get_path() | std::ranges::to<std::vector>();
         CHECK(v_path == expected_path);
     }
 }

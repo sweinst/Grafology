@@ -307,6 +307,6 @@ TEMPLATE_TEST_CASE("Impl - A*", "[impl-algos]",
         };
 
         auto path = g::shortest_path(g, start, end, cost_function);
-        CHECK(path == expected_path);
+        CHECK(path.get_path() == expected_path);
     }
 }

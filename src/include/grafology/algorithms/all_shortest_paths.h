@@ -4,8 +4,8 @@
 
 namespace grafology {
   /**
-   * @brief This struct allows to process the results of the algorithm
-   * shortest_paths
+   * @brief This struct allows to process the results of the algorithm all_shortest_paths
+   * @remark it allows to save the results of the algorithm and so avoid to use dangling references
    */
   struct AllShortestPathsImpl {
     AllShortestPathsImpl(size_t n_vertices, vertex_t start)

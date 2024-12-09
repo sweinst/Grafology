@@ -14,18 +14,20 @@ namespace lt = LondonTube;
 using namespace std::string_literals;
 using Graph =   g::UndirectedSparseGraph<lt::Station>;
 
-void print_path(const Graph& g, generator<lt::Station> path, const lt::Station& start) {
+void print_path(const Graph& g, generator<g::Step<lt::Station>>& path, const lt::Station& start) {
   int prev_line = -1;
   g::vertex_t prev_station_id = start._id;
   std::string initial_station = start._name;
   std::string prev_station = start._name;
-  for (auto v : path) {
+  double d_kms = 0.;
+  for (const auto& [v, d] : path) {
+    d_kms = d / 1000.;
     if (v != start) {
       auto connection = lt::Connection::from_id(prev_station_id, v._id);
       if (connection->line != prev_line) {
         auto line_details = lt::Line::from_id(prev_line);
         if (prev_line != -1) {
-          std::println("{} => {} ({})", initial_station, prev_station, line_details->_name);
+          std::println("{} => {} (line: {}, distance: {:.1f} km(s))", initial_station, prev_station, line_details->_name, d_kms);
           initial_station = prev_station;
         }
         prev_line = connection->line;
@@ -35,7 +37,7 @@ void print_path(const Graph& g, generator<lt::Station> path, const lt::Station& 
     prev_station_id = v._id;
   }
   auto line = lt::Line::from_id(prev_line)->_name;
-  std::println(stderr, "{} => {} ({})", initial_station, prev_station, line);
+  std::println("{} => {} (line: {}, distance: {:.1f} km(s))", initial_station, prev_station, line, d_kms);
 }
 
 int main(int argc, const char* argv[]) {
@@ -65,20 +67,20 @@ int main(int argc, const char* argv[]) {
 
   auto paths = g::all_shortest_paths(tube, *s);
 
-//   for (const auto& dest : destinations) {
-//     auto d = Station::from_name(dest);
-//     if (d) {
-//       std::println("===> {} to {}", s->_name, d->_name);
-//       if (!paths.is_reachable(*d)) {
-//         std::println("stderr: Cannot find a path to {}", d->_name);
-//       } else {
-//         std::println("Distance to {} is {:03} km(s)", d->_name, paths.get_distance(*d) / 1000.);
-//         print_path(tube, paths.get_path(*d), *s);
-//       }
-//     } else {
-//       std::println("Station '{}' not found", dest);
-//     }
-//   }
+  for (const auto& dest : destinations) {
+    auto d = Station::from_name(dest);
+    if (d) {
+      std::println("===> {} to {}", s->_name, d->_name);
+      if (!paths.is_reachable(*d)) {
+        std::println("stderr: Cannot find a path to {}", d->_name);
+      } else {
+        auto g = paths.get_path(*d);
+        print_path(tube, g, *s);
+      }
+    } else {
+      std::println("Station '{}' not found", dest);
+    }
+  }
 
   return 0;
 }
