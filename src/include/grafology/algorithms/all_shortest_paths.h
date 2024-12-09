@@ -36,7 +36,7 @@ namespace grafology {
         current = _predecessors[current];
       }
       path.push_back(_start);
-      std::reverse(path.begin(), path.end());
+      std::ranges::reverse(path);
       return path;
     }
   };
