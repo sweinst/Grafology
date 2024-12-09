@@ -4,6 +4,8 @@ set(CMAKE_CXX_STANDARD 23)
 set(common_src
     london_tube.h
     london_tube.cpp
+    utils.cpp
+    utils.h
 )
 
 set (examples

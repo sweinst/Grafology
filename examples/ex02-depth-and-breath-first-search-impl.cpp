@@ -1,6 +1,6 @@
 #include <grafology/algorithms/breath_first_search.h>
 #include <grafology/algorithms/depth_first_search.h>
-#include <print>
+#include "utils.h"
 
 // Example: depth first search of a Graph
 
@@ -8,16 +8,6 @@ namespace g = grafology;
 // a directed sparse graph which uses strings as vertices identifiers
 using Graph = g::SparseGraphImpl;
 using Edge = g::edge_t;
-
-namespace 
-{
-    void print_frame(const std::string_view title) {
-        std::println("{:=^20}", "");
-        std::println("|{: ^18}|", title);
-        std::println("{:=^20}", "");
-    }
-    
-} // namespace 
 
 // this is the same graph than in ex01-topological-sort-graph.cpp (cake recipe)
 std::vector<Edge> edges {
