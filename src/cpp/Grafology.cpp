@@ -1,4 +1,4 @@
-#include <grafology/grafology.h>
+#include <grafology/graph.h>
 #include <print>
 
 namespace grafology {

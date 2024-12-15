@@ -1,4 +1,5 @@
-#include <grafology/grafology.h>
+#include <grafology/graph.h>
+#include <grafology/algorithms/topological_sort.h>
 #include <print>
 
 // Example: topological sort of a GraphImpl

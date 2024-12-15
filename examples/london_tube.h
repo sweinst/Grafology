@@ -1,5 +1,5 @@
 #pragma once
-#include <grafology/grafology.h>
+#include <grafology/graph.h>
 #include <map>
 #include <optional>
 #include <set>
