@@ -98,7 +98,7 @@
     {
       "name": "linux-x64",
       "displayName": "Linux X64",
-      "description": "Base target for Linux x64 clang.",
+      "description": "Base target for Linux x64.",
       "hidden": true,
       "generator": "Ninja",
       "inherits": "TopLevelIncludes",
@@ -109,7 +109,8 @@
       "vendor": {
         "microsoft.com/VisualStudioSettings/CMake/1.0": {
           "hostOS": [
-            "Linux"
+            "Linux",
+            "macOS"
           ]
         }
       },
@@ -122,7 +123,7 @@
     {
       "name": "linux-x64-Release",
       "displayName": "Linux X64 Release",
-      "description": "Release target for Linux x64 clang.",
+      "description": "Release target for Linux x64.",
       "inherits": "linux-x64",
       "binaryDir": "${sourceDir}/bin/linux/Release",
       "cacheVariables": {
@@ -132,7 +133,7 @@
     {
       "name": "linux-x64-RelWithDebInfo",
       "displayName": "Linux X64 RelWithDebInfo",
-      "description": "RelWithDebInfo target for Linux x64 clang.",
+      "description": "RelWithDebInfo target for Linux x64.",
       "inherits": "linux-x64",
       "binaryDir": "${sourceDir}/bin/linux/RelWithDebInfo",
       "vendor": {
