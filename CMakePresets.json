@@ -40,13 +40,6 @@
       "description": "Release target for x64 Windows Visual Studio.",
       "inherits": "windows-x64",
       "binaryDir": "${sourceDir}/bin/Windows/Release",
-      "vendor": {
-        "microsoft.com/VisualStudioSettings/CMake/1.0": {
-          "hostOS": [
-            "Linux"
-          ]
-        }
-      },
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release"
       }
@@ -57,13 +50,6 @@
       "description": "RelWithDebInfo target for x64 Windows Visual Studio.",
       "inherits": "windows-x64",
       "binaryDir": "${sourceDir}/bin/Windows/RelWithDebInfo",
-      "vendor": {
-        "microsoft.com/VisualStudioSettings/CMake/1.0": {
-          "hostOS": [
-            "Linux"
-          ]
-        }
-      },
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "RelWithDebInfo"
       }
@@ -74,13 +60,6 @@
       "description": "MinSizeRel target for x64 Windows Visual Studio.",
       "inherits": "windows-x64",
       "binaryDir": "${sourceDir}/bin/Windows/MinSizeRel",
-      "vendor": {
-        "microsoft.com/VisualStudioSettings/CMake/1.0": {
-          "hostOS": [
-            "Linux"
-          ]
-        }
-      },
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "MinSizeRel"
       }
@@ -136,13 +115,6 @@
       "description": "RelWithDebInfo target for Linux x64.",
       "inherits": "linux-x64",
       "binaryDir": "${sourceDir}/bin/linux/RelWithDebInfo",
-      "vendor": {
-        "microsoft.com/VisualStudioSettings/CMake/1.0": {
-          "hostOS": [
-            "Linux"
-          ]
-        }
-      },
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "RelWithDebInfo"
       }
@@ -153,13 +125,6 @@
       "description": "MinSizeRFel target for Linux x64 clang.",
       "inherits": "linux-x64",
       "binaryDir": "${sourceDir}/bin/linux/MinSizeRFel",
-      "vendor": {
-        "microsoft.com/VisualStudioSettings/CMake/1.0": {
-          "hostOS": [
-            "Linux"
-          ]
-        }
-      },
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "MinSizeRel"
       }
@@ -170,13 +135,70 @@
       "description": "Debug target for Linux x64 clang.",
       "inherits": "linux-x64",
       "binaryDir": "${sourceDir}/bin/linux/Debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "macOS-x64",
+      "displayName": "MacOS X64",
+      "description": "Base target for Linux x64.",
+      "hidden": true,
+      "generator": "Ninja",
+      "inherits": "TopLevelIncludes",
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      },
       "vendor": {
         "microsoft.com/VisualStudioSettings/CMake/1.0": {
           "hostOS": [
-            "Linux"
+            "macOS"
           ]
         }
       },
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "clang",
+        "CMAKE_CXX_COMPILER": "clang++",
+        "CMAKE_INSTALL_PREFIX": "${sourceDir}/dist/macOS"
+      }
+    },
+    {
+      "name": "macOS-x64-Release",
+      "displayName": "MacOS X64 Release",
+      "description": "Release target for MacOS x64.",
+      "inherits": "macOS-x64",
+      "binaryDir": "${sourceDir}/bin/macOS/Release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "macOS-x64-RelWithDebInfo",
+      "displayName": "MacOS X64 RelWithDebInfo",
+      "description": "RelWithDebInfo target for MacOS x64.",
+      "inherits": "macOS-x64",
+      "binaryDir": "${sourceDir}/bin/macOS/RelWithDebInfo",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+      }
+    },
+    {
+      "name": "macOS-x64-MinSizeRFel",
+      "displayName": "MacOS X64 MinSizeRFel",
+      "description": "MinSizeRFel target for MacOS x64 clang.",
+      "inherits": "macOS-x64",
+      "binaryDir": "${sourceDir}/bin/macOS/MinSizeRFel",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "MinSizeRel"
+      }
+    },
+    {
+      "name": "macOS-x64-Debug",
+      "displayName": "MacOS X64 Debug",
+      "description": "Debug target for MacOS x64 clang.",
+      "inherits": "macOS-x64",
+      "binaryDir": "${sourceDir}/bin/linux/Debug",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug"
       }
