@@ -19,7 +19,7 @@ namespace grafology {
 
     std::vector<weight_t> _distances;
     std::vector<vertex_t> _predecessors;
-    const vertex_t _start;
+    vertex_t _start;
 
     auto size() const { return _distances.size(); }
 

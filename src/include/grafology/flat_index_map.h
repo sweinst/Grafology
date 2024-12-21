@@ -18,7 +18,7 @@ namespace grafology {
             FlatIndexMap& operator=(const FlatIndexMap&) = default;
             FlatIndexMap& operator=(FlatIndexMap&&) = default;
             ~FlatIndexMap() = default;
-            auto operator<=>(const FlatIndexMap& other) const = default;
+            std::strong_ordering operator<=>(const FlatIndexMap& other) const = default;
 
             /**
              * @brief A map element
@@ -30,7 +30,7 @@ namespace grafology {
                 vertex_t vertex;
                 weight_t weight;
 
-                auto operator<=>(const MapEntry& other) const {
+                std::strong_ordering operator<=>(const MapEntry& other) const {
                     return vertex <=> other.vertex;
                 }
                 // strangely, MSVC doesn't use the spaceship operator when the operators == and != are used in other classes
