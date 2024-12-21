@@ -9,6 +9,7 @@ add_executable(
     tests_bimap.cpp
     tests_disjoint_set.cpp
     tests_flat_index_map.cpp
+    tests_generator.cpp
     tests_graph.cpp
     tests_graph_impl.cpp
 )

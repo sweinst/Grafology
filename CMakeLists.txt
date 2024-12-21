@@ -46,6 +46,8 @@ set(GRAFOLOGY_HDRS
     src/include/grafology/algorithms/shortest_path.h
     src/include/grafology/algorithms/topological_sort.h
     src/include/grafology/algorithms/transitive_closure.h
+    src/include/grafology/internal/generator.h
+    src/include/grafology/internal/generator_impl.h
 )
 
 add_library(${PROJECT_NAME} ${GRAFOLOGY_SRC} ${GRAFOLOGY_HDRS})
