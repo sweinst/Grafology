@@ -257,12 +257,12 @@ TEMPLATE_TEST_CASE("Graphs - Dijkstra", "[graphs-algos]",
 
     for(const auto& [idx, v]: std::views::enumerate(paths.get_path(vertices_init[8]))) {
         CAPTURE(idx, v, expected_path_to_8[idx]);
-        CHECK(v == expected_path_to_8[idx]);
+        CHECK((v == expected_path_to_8[idx]));
     }
 
     for(const auto& [idx, v]: std::views::enumerate(paths.get_path(vertices_init[5]))) {
         CAPTURE(idx, v, expected_path_to_8[idx]);
-        CHECK(v == expected_path_to_5[idx]);
+        CHECK((v == expected_path_to_5[idx]));
     }
 }
 
@@ -289,6 +289,9 @@ TEMPLATE_TEST_CASE("Graphs - A*", "[graphs-algos]",
     TestType g(n_vertices);
     g.add_vertices(vertices_init);
     g.set_edges(edges_init);
+
+
+    using Path = std::vector<std::tuple<TestVertex, g::weight_t>>;
 
     std::vector<std::tuple<
         // start
