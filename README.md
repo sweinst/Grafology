@@ -101,7 +101,7 @@ Group 5: 'Eat cake :-)'
 ## Platforms
 This code has been tested on:
 - Windows 11 - Visual Studio Tools 17.12
-- Linux (Ubuntu 24.04) - g++ 14.2
+- Linux (Ubuntu 24.04) - g++ 14.2 & clang-19
 
 
 See the **[documentation](docs/README.md)** for more details.
