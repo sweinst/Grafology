@@ -3,9 +3,20 @@ project(grafology VERSION 0.1.0 LANGUAGES C CXX)
 
 option(BUILD_TESTS "Build tests" ON)
 option(BUILD_EXAMPLES "Build examples" ON)
+option(CODE_COVERAGE "Set up code coverage" OFF)
 
 message(STATUS "Build tests: ${BUILD_TESTS}")
 message(STATUS "Build examples: ${BUILD_EXAMPLES}")
+message(STATUS "Code covergae: ${CODE_COVERAGE}")
+
+if (CODE_COVERAGE)
+    if (LINUX)
+        add_compile_options(--coverage)
+        add_link_options(--coverage)
+    else(LINUX)
+        message(FATAL_ERROR "Code coverage is not supported on this platform")
+    endif(LINUX)
+endif(CODE_COVERAGE)
 
 set(CMAKE_CXX_STANDARD 23)
 
