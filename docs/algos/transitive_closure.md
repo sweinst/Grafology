@@ -1,5 +1,6 @@
 <style>
     table {
+        align: center
         width: 100%;
     }
 </style>
