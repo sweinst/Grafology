@@ -8,11 +8,6 @@
 </div>
 <hr/>
 
-<script type="module">
-  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
-  mermaid.initialize({ startOnLoad: true });
-</script>
-
 # Transitive closure
 This algorithm transforms an existing graph $G(V,E)$ by adding edges between node which are indirectly connected.
 
