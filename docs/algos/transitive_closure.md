@@ -1,10 +1,3 @@
-<style>
-    table {
-        align: center
-        width: 100%;
-    }
-</style>
-
 <div align="center">
     <img 
         src="../imgs/logo.png" 
