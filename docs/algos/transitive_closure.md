@@ -59,5 +59,5 @@ graph LR;
 - the graph must be acyclic (no cycle allowed)
 
 ## Complexity
-- In a dense graph (highly connected), the complexity is $\lVert E \rVert^3$
-- But it tends to $\lVert E \rVert^2$, the sparser the graph is.
+- In a dense graph (highly connected), the complexity is $\lVert V \rVert^3$
+- But it tends to $\lVert V \rVert^2$, the sparser the graph is.
