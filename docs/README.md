@@ -25,4 +25,4 @@ In the following documentation:
 ### &nbsp;&nbsp;Depth first search
 ### &nbsp;&nbsp;Minimal spanning trees
 ### &nbsp;&nbsp;Topological sort
-### &nbsp;&nbsp;Transitive closure
+### &nbsp;&nbsp;[Transitive closure](algos/transitive_closure.md)
