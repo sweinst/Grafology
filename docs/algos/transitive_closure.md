@@ -13,7 +13,7 @@ This algorithm transforms an existing graph $G(V,E)$ by adding edges between nod
 
 So int the resulting graph $\forall{i,j,k}$, if $\exists\,G(i,k)$ and $\exists\,G(k,j)$, the edge $G(i,j)$ will be added if it doesn't exist.
 
-<table style="align: center">
+<table align="center">
 <tr>
     <th style="align: center"> Initial graph</th>
     <th style="align: center"> Resulting graph</th>
