@@ -16,8 +16,8 @@ So int the resulting graph $\forall{i,j,k}$, if $\exists\,G(i,k)$ and $\exists\,
 
 <table>
 <tr>
-    <th stule="align: center"> Initial graph</th>
-    <th> Resulting graph</th>
+    <th style="align: center"> Initial graph</th>
+    <th style="align: center"> Resulting graph</th>
 </tr>
 
 <tr>
