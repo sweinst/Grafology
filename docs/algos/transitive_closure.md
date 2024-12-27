@@ -13,14 +13,14 @@ This algorithm transforms an existing graph $G(V,E)$ by adding edges between nod
 
 So int the resulting graph $\forall{i,j,k}$, if $\exists\,G(i,k)$ and $\exists\,G(k,j)$, the edge $G(i,j)$ will be added if it doesn't exist.
 
-<table align="center">
+<table align="center" width="100%">
 <tr>
-    <th align="center"> Initial graph</th>
-    <th align="center"> Resulting graph</th>
+    <th align="center" width="50%"> Initial graph</th>
+    <th align="center" width="50%"> Resulting graph</th>
 </tr>
 
 <tr>
-    <td>
+    <td width="50%">
 <div>
 
 ```mermaid
@@ -34,7 +34,7 @@ graph LR;
 
 </div>
     </td>
-    <td>
+    <td width="50%">
         <div>
 
 ```mermaid
