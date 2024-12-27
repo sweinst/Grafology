@@ -24,11 +24,12 @@ So int the resulting graph $\forall{i,j,k}$, if $\exists\,G(i,k)$ and $\exists\,
 <div>
 
 ```mermaid
-%%{init: {'themeVariables': {'fontSize': 11,'sectionFontSize': 11}}}%%
 graph LR;
     A --> B
     A --> C
     C --> D
+    D --> E
+    E --> F
 ```
 
 </div>
@@ -37,15 +38,17 @@ graph LR;
         <div>
 
 ```mermaid
-%%{init: {'themeVariables': {'fontSize': 11,'sectionFontSize': 11}}}%%
 graph LR;
     A --> B
     A --> C
     A --> D
     A --> E
+    A --> F
     C --> D
     C --> E
+    C --> F
     D --> E
+    D --> F
 ```
 
 </div>
