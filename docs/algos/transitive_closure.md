@@ -31,6 +31,10 @@ graph LR;
     A --> C
     C --> D
     D --> E
+    E -->|hl| Hidden
+
+    linkStyle 4 display:none;
+    style Hidden display:none;
 ```
 
 </div>
