@@ -11,7 +11,7 @@
 # Transitive closure
 This algorithm transforms an existing graph $G(V,E)$ by adding edges between node which are indirectly connected.
 
-So in the resulting graph $\forall (i,j,k)$, if the edge $G(i,k)$ and $G(k,j)$ exist, the edge $G(i,j)$ will be added if it doesn't exist.
+So in the resulting graph $\forall (i,j,k)$, if the edges $G(i,k)$ and $G(k,j)$ exist, the edge $G(i,j)$ will be added if it doesn't exist.
 
 ```mermaid
 ---
