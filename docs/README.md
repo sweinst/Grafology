@@ -24,5 +24,5 @@ In the following documentation:
 ### &nbsp;&nbsp;Breath first search
 ### &nbsp;&nbsp;Depth first search
 ### &nbsp;&nbsp;Minimal spanning trees
-### &nbsp;&nbsp;Topological sort
+### &nbsp;&nbsp;[Topological sorting](algos/topological_sorting.md)
 ### &nbsp;&nbsp;[Transitive closure](algos/transitive_closure.md)

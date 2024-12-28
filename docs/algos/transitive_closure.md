@@ -68,17 +68,17 @@ graph LR;
 - No requirements
 
 ## Complexity
-- For a dense graph (highly connected), the complexity is $\lVert V \rVert^3$
-- But it tends to $\lVert V \rVert^2$, the sparser the graph is.
+- For a dense graph (highly connected), the complexity is $O(\lVert V \rVert^3)$
+- But it tends to $O(\lVert V \rVert^2)$, the sparser the graph is.
 
 ## Usage
 ```C++
     #include <grafology/algorithms/transitive_closure.h>
     namespace g = grafology;
 
-    g::SparseDirectedGraph g(20);
+    g::SparseDirectedGraph graph(20);
     // ....
-    g::transitive_closure(g);
+    g::transitive_closure(graph);
     // ....
 
 ```
