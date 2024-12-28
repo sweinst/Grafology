@@ -1,6 +1,6 @@
 <div align="center">
     <img 
-        src="logo.png" 
+        src="../imgs/logo.png" 
         alt="Répétiteur logo"
         height="113px"
         width="300px"
