@@ -41,13 +41,8 @@ namespace grafology {
      * @remark Its complexity is O(n^3) where n is the number of vertices for a densely connected graph 
      * but tends to O(n^2) as the graph becomes sparser.
      */
-    template<GraphImpl Impl, VertexKey Vertex>
-    void transitive_closure(Graph<Impl, Vertex, true>& graph) {     
+    template<GraphImpl Impl, VertexKey Vertex, bool IsDirected>
+    void transitive_closure(Graph<Impl, Vertex, IsDirected>& graph) {     
         transitive_closure(graph.get_impl());
-    }
-
-    template<GraphImpl Impl, VertexKey Vertex>
-    void transitive_closure(Graph<Impl, Vertex, false>& graph) {     
-        static_assert(false, "Transitive closure works only on directed graphs");
     }
 } // namespace grafology

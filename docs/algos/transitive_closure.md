@@ -65,11 +65,10 @@ graph LR;
 
 
 ## Requirements
-- the graph must be directed
-- the graph must be acyclic (no cycle allowed)
+- No requirements
 
 ## Complexity
-- In a dense graph (highly connected), the complexity is $\lVert V \rVert^3$
+- For a dense graph (highly connected), the complexity is $\lVert V \rVert^3$
 - But it tends to $\lVert V \rVert^2$, the sparser the graph is.
 
 ## Usage
