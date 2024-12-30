@@ -61,12 +61,12 @@ graph LR;
 
 ## Usage
 ```C++
-    #include <grafology/algorithms/transitive_closure.h>
+    #include <grafology/algorithms/minimum_spanning_tree.h>
     namespace g = grafology;
 
     g::SparseDirectedGraph graph(20);
     // ....
-    g::transitive_closure(graph);
+    auto mst = g::minimum_spanning_tree(graph);
     // ....
 
 ```
