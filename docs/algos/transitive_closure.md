@@ -20,6 +20,7 @@ config:
   themeVariables:
     fontSize: 10px
     sectionFontSize: 10px
+    edgeLabelBackground: transparent
 ---
 graph LR;
     A(A)
@@ -42,6 +43,7 @@ config:
   themeVariables:
     fontSize: 9px
     sectionFontSize: 9px
+    edgeLabelBackground: transparent
 ---
 graph LR;
     A(A)

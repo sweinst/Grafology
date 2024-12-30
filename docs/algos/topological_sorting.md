@@ -27,6 +27,7 @@ config:
   themeVariables:
     fontSize: 9px
     sectionFontSize: 9px
+    edgeLabelBackground: transparent
 ---
 graph LR;
     A(A)
@@ -59,6 +60,7 @@ config:
   themeVariables:
     fontSize: 10px
     sectionFontSize: 10px
+    edgeLabelBackground: transparent
 ---
 graph LR;
     Group0(A
@@ -77,6 +79,8 @@ graph LR;
     Group0 -- Group 1  --> Group1
     Group1 -- Group 2 --> Group2
     Group2 -- Group 3 --> Group3
+
+    linkStyle default font-size: 14px
 ```
 
 ## Requirements
