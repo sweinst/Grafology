@@ -23,6 +23,6 @@ In the following documentation:
 ## Algorithms
 ### &nbsp;&nbsp;Breath first search
 ### &nbsp;&nbsp;Depth first search
-### &nbsp;&nbsp;Minimal spanning trees
+### &nbsp;&nbsp;[Minimal spanning trees](algos/minimum_spanning_tree.md)
 ### &nbsp;&nbsp;[Topological sorting](algos/topological_sorting.md)
 ### &nbsp;&nbsp;[Transitive closure](algos/transitive_closure.md)
