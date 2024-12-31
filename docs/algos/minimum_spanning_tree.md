@@ -64,7 +64,7 @@ graph LR;
     #include <grafology/algorithms/minimum_spanning_tree.h>
     namespace g = grafology;
 
-    g::SparseDirectedGraph graph(20);
+    g::SparseUndirectedGraph graph(20);
     // ....
     auto mst = g::minimum_spanning_tree(graph);
     // ....
