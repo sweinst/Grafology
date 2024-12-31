@@ -2,6 +2,7 @@
 #include <grafology/algorithms/depth_first_search.h>
 #include <grafology/algorithms/breath_first_search.h>
 #include <grafology/algorithms/transitive_closure.h>
+#include <grafology/algorithms/maximum_flow.h>
 #include <grafology/algorithms/minimum_spanning_tree.h>
 #include <grafology/algorithms/all_shortest_paths.h>
 #include <grafology/algorithms/shortest_path.h>
@@ -309,4 +310,27 @@ TEMPLATE_TEST_CASE("Impl - A*", "[impl-algos]",
         auto path = g::shortest_path(g, start, end, cost_function);
         CHECK(path.get_path() == expected_path);
     }
+}
+
+TEMPLATE_TEST_CASE("Impl - Max Flow", "[impl-algos]", 
+    g::DenseGraphImpl , g::SparseGraphImpl)
+{
+    int n_vertices=6;
+    std::vector<g::edge_t> edges = {
+        {0, 1, 11},
+        {0, 2, 12},
+        {1, 3, 12},
+        {2, 1, 1},
+        {2, 4, 11},
+        {3, 5, 19},
+        {4, 3, 7},
+        {4, 5, 4},
+        };
+
+    TestType g(n_vertices, n_vertices, true);
+    g.set_edges(edges);
+
+    auto max_flow = g::maximum_flow(g, 0, 5);
+    CAPTURE(max_flow);
+    CHECK(max_flow == 23);
 }

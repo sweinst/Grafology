@@ -40,7 +40,11 @@ namespace grafology {
         bool has_edge(vertex_t i, vertex_t j) const { 
             return _adjacency_matrix[i*_n_max_vertices+j] != 0;
         }
-
+        
+        weight_t weight(vertex_t i, vertex_t j) const { 
+            return _adjacency_matrix[i*_n_max_vertices+j];
+        }
+        
         vertex_t add_vertex() {
             std::memset(_adjacency_matrix.data() + _n_vertices*_n_max_vertices, 0, _n_max_vertices);
             for (vertex_t i = 0; i < _n_max_vertices; i++) {

@@ -38,6 +38,10 @@ namespace grafology {
              return _adjacency_list[i].get(j) != 0;
         }
 
+        weight_t weight(vertex_t i, vertex_t j) const { 
+             return _adjacency_list[i].get(j);
+        }
+
         vertex_t add_vertex() {
             ++_n_vertices;
             return _n_vertices - 1;
