@@ -42,4 +42,24 @@ namespace grafology {
         return max_flow;
     }
 
+    /**
+     * @brief Compute the maximum flow of a graph. Edges weights are used as capacities.
+     * @tparam G The graph implementation
+     * @param graph The graph to compute the maximum flow from
+     * @param start The source vertex
+     * @param end The sink vertex
+     * @return The maximum flow
+     * @remark This is based on the Ford-Fulkerson algorithm
+     * @todo Investigate the Push Relabel algorithm which should be faster
+     */
+    template<GraphImpl Impl, VertexKey Vertex>
+    weight_t maximum_flow(const Graph<Impl, Vertex, true>& graph, const Vertex& start, const Vertex& end) {
+        return maximum_flow(graph.impl(), graph.get_internal_index(start), graph.get_internal_index(end));
+    }
+
+    template<GraphImpl Impl, VertexKey Vertex>
+   weight_t maximum_flow(const Graph<Impl, Vertex, false>& graph, const Vertex& start, const Vertex& end) {
+        static_assert(false, "Maximum flow works only on directed graphs");
+    }
+
 } // namespace grafology

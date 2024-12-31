@@ -1,6 +1,7 @@
 #include <grafology/algorithms/topological_sort.h>
 #include <grafology/algorithms/depth_first_search.h>
 #include <grafology/algorithms/breath_first_search.h>
+#include <grafology/algorithms/maximum_flow.h>
 #include <grafology/algorithms/minimum_spanning_tree.h>
 #include <grafology/algorithms/all_shortest_paths.h>
 #include <grafology/algorithms/shortest_path.h>
@@ -319,4 +320,29 @@ TEMPLATE_TEST_CASE("Graphs - A*", "[graphs-algos]",
         auto v_path = path.get_path() | std::ranges::to<std::vector>();
         CHECK(v_path == expected_path);
     }
+}
+
+TEMPLATE_TEST_CASE("Graphs - Max Flow", "[graphs-algos]", 
+    g::DirectedDenseGraph<TestVertex> , g::DirectedSparseGraph<TestVertex>) {
+
+    int n_vertices=6;
+    std::vector<TestVertex> vertices_init {{ generate_test_vertices_list(n_vertices) }};
+    std::vector<TestEdge> edges_init = {
+        {{0}, {1}, 11},
+        {{0}, {2}, 12},
+        {{1}, {3}, 12},
+        {{2}, {1}, 1},
+        {{2}, {4}, 11},
+        {{3}, {5}, 19},
+        {{4}, {3}, 7},
+        {{4}, {5}, 4},
+    };
+
+    TestType g(n_vertices);
+    g.add_vertices(vertices_init);
+    g.set_edges(edges_init);
+
+    auto max_flow = g::maximum_flow(g, {0}, {5});
+    CAPTURE(max_flow);
+    CHECK(max_flow == 23);
 }
