@@ -24,6 +24,7 @@ In the following documentation:
 ### &nbsp;&nbsp;Breath first search
 ### &nbsp;&nbsp;Depth first search
 ### &nbsp;&nbsp;[Minimal spanning trees](algos/minimum_spanning_tree.md)
+### &nbsp;&nbsp;[Maximal flow](algos/maximum_flow.md)
 ### &nbsp;&nbsp;[Shortest paths](algos/shortest_paths.md)
 ### &nbsp;&nbsp;[Topological sorting](algos/topological_sorting.md)
 ### &nbsp;&nbsp;[Transitive closure](algos/transitive_closure.md)

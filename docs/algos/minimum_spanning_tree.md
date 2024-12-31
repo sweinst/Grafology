@@ -9,7 +9,7 @@
 <hr/>
 
 # Minimum spanning tree
-For an undirected graph $G(V,R)$, a *spanning tree* is a subset of edges such as:
+For an undirected graph $G(V,E)$, a *spanning tree* is a subset of edges such as:
 - it touches all the vertices of the garph
 - it forms a tree (G is connected without cycles)
 

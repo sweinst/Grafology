@@ -50,7 +50,7 @@ for (const auto& [vertex, weight] : result.get_path()) {
 ```
 
 ### Complexity
-- The work case performance is  $O(\lVert E \rVert \log{(\lVert V \rVert)})$
+- The work case performance is $O(\lVert E \rVert \log{(\lVert V \rVert)})$
 
 ## Shortest paths from one vertex to all other vertices
 This algorithm find the shortest paths from one vertex to all the other vertices. The path distance is the sum of all the edge weights along the path.

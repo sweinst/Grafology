@@ -41,7 +41,8 @@ namespace grafology {
               _start(NO_PREDECESSOR),
               _end(NO_PREDECESSOR) {
             }
-            bool find(vertex_t start, vertex_t end) {
+
+            bool find(vertex_t start, vertex_t end)  {
                 std::stack<vertex_t> stack;
                 _start = start;
                 _end = end;
@@ -55,10 +56,12 @@ namespace grafology {
                     if (!_visited[current]) {
                         _visited[current] = true;
                         for (auto neighbour : _graph.get_raw_neighbors(current)) {
-                            stack.push(neighbour);
-                            _parent[neighbour] = current;
-                            if (neighbour == _end) {
-                                return true;
+                            if (!_visited[neighbour]) {
+                                stack.push(neighbour);
+                                _parent[neighbour] = current;
+                                if (neighbour == _end) {
+                                    return true;
+                                }
                             }
                         }
                     }

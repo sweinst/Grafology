@@ -328,14 +328,16 @@ TEMPLATE_TEST_CASE("Graphs - Max Flow", "[graphs-algos]",
     int n_vertices=6;
     std::vector<TestVertex> vertices_init {{ generate_test_vertices_list(n_vertices) }};
     std::vector<TestEdge> edges_init = {
-        {{0}, {1}, 11},
-        {{0}, {2}, 12},
-        {{1}, {3}, 12},
-        {{2}, {1}, 1},
-        {{2}, {4}, 11},
-        {{3}, {5}, 19},
-        {{4}, {3}, 7},
-        {{4}, {5}, 4},
+        {{0}, {1}, {16}},
+        {{0}, {2}, {13}},
+        {{1}, {2}, {10}},
+        {{1}, {3}, {12}},
+        {{2}, {1}, {4}},
+        {{2}, {4}, {14}},
+        {{3}, {2}, {9}},
+        {{3}, {5}, {20}},
+        {{4}, {3}, {7}},
+        {{4}, {5}, {4}},
     };
 
     TestType g(n_vertices);
