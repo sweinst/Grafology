@@ -13,7 +13,7 @@
 ## Shortest path from one vertex to another vertex
 This algorithm allows to find the path from one vertex to another. The path distance is the sum of all the edge weights along the path.
 
-The implementation is based on the [$A^*$ algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm#)
+The implementation is based on the [$A^{\star}$ algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm#)
 
 It requires a *cost function* which allows to estimate the distance from a vertex to the destination vertex
 
