@@ -58,7 +58,7 @@ if ($CPP) {
 
 $BuildTypes | ForEach-Object {
     $build_type = $_
-    if ($Clean) {
+    if ($Clean -and (Test-Path "${src_root}/bin/${os}/${build_type}")) {
         Write-Host "============> Cleaning $build_type"
         Remove-Item -Force -Recurse "${src_root}/bin/${os}/${build_type}"
     }

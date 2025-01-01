@@ -52,6 +52,10 @@ jobs:
             compiler: cl
 
     steps:
+    - name: init
+      run: |
+        sudo apt install ninja-build
+
     - uses: actions/checkout@v4
 
     # - name: Set reusable strings
