@@ -3,6 +3,10 @@
   Launch a build/install for one or more build types
 .PARAMETER BuildTypes
   Which build types to generate: Debug, Release, RelWithDebInfo or a combination? Use 'All' to build all types.
+.PARAMETER CC
+  Which C compiler to use? Default is defied in the preset.
+.PARAMETER CPP
+  Which C++ compiler to use? Default is defied in the preset.
 .PARAMETER Clean
   Remove build folder first?
 #>
@@ -12,7 +16,8 @@ param(
     [ValidateNotNullOrEmpty()]
     [ValidateSet('', 'Debug', 'Release', 'RelWithDebInfo', 'MinSizeRel', 'All')]
     [string[]] $BuildTypes,
-
+    [string] $CC = $null,
+    [string] $CPP = $null,
     [switch] $Clean
 )
 
@@ -34,6 +39,14 @@ $common_options = @(
     "-S${src_root}",
     "-G Ninja"
 )
+
+if ($CC) {
+    $common_options += "-DCMAKE_C_COMPILER=${CC}"
+}
+
+if ($CPP) {
+    $common_options += "-DCMAKE_CXX_COMPILER=${CPP}"
+}
 
 $BuildTypes | ForEach-Object {
     $build_type = $_
