@@ -29,6 +29,14 @@ Write-Host "Build Types: $BuildTypes"
 $src_root=${PSScriptRoot}
 $os = $IsWindows ? "windows" : ($IsLinux ? "linux" : "osx")
 
+if (-not $env:VCPKG_ROOT) {
+  if (-not $env:VCPKG_INSTALLATION_ROOT) {
+    Write-Host "VCPKG_ROOT or VCPKG_INSTALLATION_ROOT are not set. Exiting."
+    exit 1
+  }
+  $env:VCPKG_ROOT = $env:VCPKG_INSTALLATION_ROOT
+}
+
 $common_options = @(
     "-DCMAKE_INSTALL_PREFIX=${src_root}/dist/${os}",
     "-DVCPKG_APPLOCAL_DEPS=ON",
