@@ -7,8 +7,6 @@
   Which C compiler to use? Default is defied in the preset.
 .PARAMETER CPP
   Which C++ compiler to use? Default is defied in the preset.
-.PARAMETER RootDir
-  The directory where the main CMakeFile.txt is located.
 .PARAMETER Clean
   Remove build folder first?
 #>
@@ -20,7 +18,6 @@ param(
     [string[]] $BuildTypes,
     [string] $CC = $null,
     [string] $CPP = $null,
-    [string] $RootDir = $PWD,
     [switch] $Clean
 )
 
@@ -29,7 +26,7 @@ if ($BuildTypes -eq 'All') {
 }
 Write-Host "Build Types: $BuildTypes"
 
-$src_root=${PSScriptRoot}
+$src_root=${PWD}
 $os = $IsWindows ? "windows" : ($IsLinux ? "linux" : "osx")
 
 if (-not $env:VCPKG_ROOT) {
@@ -58,8 +55,6 @@ if ($CC) {
 if ($CPP) {
     $common_options += "-DCMAKE_CXX_COMPILER=${CPP}"
 }
-
-set-location $RootDir
 
 $BuildTypes | ForEach-Object {
     $build_type = $_
