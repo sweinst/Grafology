@@ -64,7 +64,11 @@ $BuildTypes | ForEach-Object {
     }
     $preset="${os}-x64-${build_type}"
     Write-Host "============> Building $preset"
-    & cmake --preset ${preset} $common_options || exit 1
-    & cmake --build "${src_root}/bin/${os}/${build_type}" || exit 1
-    & cmake --install "${src_root}/bin/${os}/${build_type}" || exit 1
+    # can't write "do_something || exit 1" in PowerShell due to a bug still not fixed in pwsh 7.4.1
+    & cmake --preset ${preset} $common_options
+    if ($LASTEXITCODE -ne 0) { exit 1 }
+    & cmake --build "${src_root}/bin/${os}/${build_type}"
+    if ($LASTEXITCODE -ne 0) { exit 1 }
+    & cmake --install "${src_root}/bin/${os}/${build_type}"
+    if ($LASTEXITCODE -ne 0) { exit 1 }
 }

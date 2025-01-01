@@ -72,7 +72,7 @@ jobs:
       run: |
         cd ${{github.workspace}}
         if ("${{ matrix.os }}".startsWith("windows")) {
-          ./scripts/vs-setup.ps1 -Version 2022 -Edition Community -Bits 64
+          ./scripts/vs-setup.ps1 -Version 2022 -Edition Enterprise -Bits 64
         }
         ./scripts/build.ps1 -BuildTypes ${{ matrix.build_type }} -CC ${{ matrix.c_compiler }} -CPP ${{ matrix.cpp_compiler }} -Clean
 
