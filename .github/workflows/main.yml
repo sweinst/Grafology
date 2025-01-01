@@ -22,10 +22,11 @@ jobs:
         # ubuntu-24.04 and not ubuntu-latest (22.04) as we need gcc-14
         os: [ubuntu-24.04, windows-latest]
         build_type: [Release]
-        c_compiler: [gcc, cl]
+        compiler: [gcc, cl]
         include:
           - os: windows-latest
             preset: windows-x64-Release
+            compiler: cl
             c_compiler: cl
             cpp_compiler: cl
             output_dir: bin/Windows/Release
@@ -36,7 +37,7 @@ jobs:
             cpp_compiler: g++-14
             output_dir: bin/Linux/Release
           # requires clang-19 which is not currently available on the GitHub images
-          # - os: ubuntu-latest
+          # - os: ubuntu-24.04
           #   preset: linux-x64-Release
           #   compiler: clang
           #   c_compiler: clang-19
@@ -63,6 +64,7 @@ jobs:
     - name: Build
       run: |
         cd ${{github.workspace}}
+        write-host "os=${{ matrix.os }} bt=${{ matrix.build_type }} c=${{ matrix.compiler }} cc=${{ matrix.c_compiler }} cpp=${{ matrix.cpp_compiler }} od${{ matrix.output_dir }}"
         pwsh -file ./build.ps1 -BuildTypes ${{ matrix.build_type }} -CC ${{ matrix.c_compiler }} -CPP ${{ matrix.cpp_compiler }} -Clean
 
     - name: Test
