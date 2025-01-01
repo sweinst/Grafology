@@ -72,7 +72,7 @@ namespace grafology {
             generator<vertex_t> get_path() {
                 std::vector<vertex_t> path;
                 if (_start == NO_PREDECESSOR || _end == NO_PREDECESSOR) {
-                    return path;
+                    co_return;
                 }
                 vertex_t neighbour = _end;
                 while (neighbour != NO_PREDECESSOR) {

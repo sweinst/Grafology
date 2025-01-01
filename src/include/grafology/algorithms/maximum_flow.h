@@ -60,6 +60,7 @@ namespace grafology {
     template<GraphImpl Impl, VertexKey Vertex>
    weight_t maximum_flow(const Graph<Impl, Vertex, false>& graph, const Vertex& start, const Vertex& end) {
         static_assert(false, "Maximum flow works only on directed graphs");
+        return 0;
     }
 
 } // namespace grafology
