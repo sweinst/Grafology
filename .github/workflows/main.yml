@@ -1,0 +1,74 @@
+name: Grafology
+
+defaults:
+  run:
+    shell: pwsh
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  VCPKG_ROOT: ${{ env.VCPKG_INSTALLATION_ROOT }}
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      # Set fail-fast to false to ensure that feedback is delivered for all matrix combinations. Consider changing this to true when your workflow is stable.
+      fail-fast: false
+
+      matrix:
+        # ubuntu-24.04 and not ubuntu-latest (22.04) as we need gcc-14
+        os: [ubuntu-24.04, windows-latest]
+        build_type: [Release]
+        c_compiler: [gcc, cl]
+        include:
+          - os: windows-latest
+            preset: windows-x64-Release
+            c_compiler: cl
+            cpp_compiler: cl
+            output_dir: bin/Windows/Release
+          - os: ubuntu-24.04
+            preset: linux-x64-Release
+            compiler: gcc
+            c_compiler: gcc-14
+            cpp_compiler: g++-14
+            output_dir: bin/Linux/Release
+          # requires clang-19 which is not currently available on the GitHub images
+          # - os: ubuntu-latest
+          #   preset: linux-x64-Release
+          #   compiler: clang
+          #   c_compiler: clang-19
+          #   cpp_compiler: clang++-19
+          #   output_dir: bin/Linux/Release
+        exclude:
+          - os: windows-latest
+            c_compiler: gcc
+          - os: windows-latest
+            c_compiler: clang
+          - os: ubuntu-24.04
+            c_compiler: cl
+
+    steps:
+    - uses: actions/checkout@v4
+
+    # - name: Set reusable strings
+    #   # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
+    #   id: strings
+    #   shell: bash
+    #   run: |
+    #     echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
+
+    - name: Build
+      run: |
+        cd ${{github.workspace}}
+        pwsh ./scripts.ps1 -BuildType ${{ matrix.build_type }} -CC ${{ matrix.c_compiler }} -CPP ${{ matrix.cpp_compiler }} -Clean
+
+    - name: Test
+      run: |
+        cd ${{github.workspace}}/${{ matrix.output_dir }}/tests
+        ./tests
