@@ -127,7 +127,7 @@ namespace grafology {
 
         void set_edge(const Vertex& start, const Vertex& end, weight_t weight, bool create_vertices_if_missing = false) {
             auto i = _vertex_map.get_index(start);
-            if (i == -1) {
+            if (i == INVALID_VERTEX) {
                 if (!create_vertices_if_missing)
                 {
                     throw error("Vertex '{}' not found", start);
@@ -135,7 +135,7 @@ namespace grafology {
                 i = add_vertex(start);
             }
             auto j = _vertex_map.get_index(end);
-            if (j == -1) {
+            if (j == INVALID_VERTEX) {
                 if (!create_vertices_if_missing)
                 {
                     throw error("Vertex '{}' not found", end);

@@ -41,7 +41,7 @@ namespace grafology
             auto i = _vertex_to_index.find(v);
             if (i == _vertex_to_index.end())
             {
-                return -1;
+                return INVALID_VERTEX;
             }
             return i->second;
         }

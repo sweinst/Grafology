@@ -24,6 +24,7 @@ public:
 
 //** the internal vertex type
 using vertex_t = unsigned;
+constexpr vertex_t INVALID_VERTEX = std::numeric_limits<vertex_t>::max();
 constexpr vertex_t NO_PREDECESSOR = std::numeric_limits<vertex_t>::max();
 //** the type for the edge weights
 using weight_t = int;
