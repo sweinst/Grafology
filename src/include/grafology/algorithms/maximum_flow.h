@@ -14,6 +14,7 @@ namespace grafology {
      */
     template <GraphImpl G>
     weight_t maximum_flow(const G& graph, vertex_t start, vertex_t end) {
+        assert(start < graph.size() && end < graph.size());
         if(!graph.is_directed()) {
             throw error("maximum_flow: the graph must be directed");
         }
@@ -54,6 +55,7 @@ namespace grafology {
      */
     template<GraphImpl Impl, VertexKey Vertex>
     weight_t maximum_flow(const Graph<Impl, Vertex, true>& graph, const Vertex& start, const Vertex& end) {
+        assert(graph.get_internal_index(start) != INVALID_VERTEX && graph.get_internal_index(end) != INVALID_VERTEX);
         return maximum_flow(graph.impl(), graph.get_internal_index(start), graph.get_internal_index(end));
     }
 

@@ -10,7 +10,6 @@ namespace grafology
      */
     template <VertexKey V>
     class BiMap {
-        // TODO: check bounds in debug builds
     public:
         BiMap(unsigned capacity) :
             _capacity(capacity), _size(0) {

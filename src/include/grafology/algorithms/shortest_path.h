@@ -12,7 +12,9 @@ namespace grafology {
     ShortestPathsImpl(size_t n_vertices, vertex_t end)
         : _distances(n_vertices, D_INFINITY)
         , _predecessors(n_vertices, NO_PREDECESSOR)
-        , _end(end) {}
+        , _end(end) {
+          assert(_end < n_vertices);
+        }
     ShortestPathsImpl(ShortestPathsImpl&&) = default;
     ShortestPathsImpl(const ShortestPathsImpl&) = default;
     ShortestPathsImpl& operator=(ShortestPathsImpl&&) = default;
@@ -57,6 +59,7 @@ namespace grafology {
    */
   template <GraphImpl Graph, PathCostFunctionImpl F>
   ShortestPathsImpl shortest_path(const Graph& graph, vertex_t start, vertex_t end, F& f) {
+    assert(start < graph.size() && end < graph.size());
     if (graph.is_directed()) {
       throw error("Shortest path works only on undirected graphs");
     }
@@ -144,8 +147,10 @@ namespace grafology {
   template <GraphImpl Impl, VertexKey Vertex, PathCostFunction<Vertex> F>
   ShortestPaths<Impl, Vertex, false> shortest_path(const Graph<Impl, Vertex, false>& graph, const Vertex& start, const Vertex& end, F& f) {
     auto cost_function = [&] (vertex_t u, vertex_t v) {
+      assert(u < graph.size() && v < graph.size());
       return f(graph.get_vertex_from_internal_index(u), graph.get_vertex_from_internal_index(v));
     };
+    assert(graph.get_internal_index(start) != INVALID_VERTEX && graph.get_internal_index(end)  != INVALID_VERTEX);
     auto sp_impl = shortest_path(graph.impl(), graph.get_internal_index(start), graph.get_internal_index(end), cost_function);
     return ShortestPaths<Impl, Vertex, false>(std::move(sp_impl), graph);
   }

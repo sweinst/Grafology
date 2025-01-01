@@ -23,9 +23,13 @@ namespace grafology {
 
     auto size() const { return _distances.size(); }
 
-    bool is_reachable(vertex_t end) const { return _distances[end] != D_INFINITY; }
+    bool is_reachable(vertex_t end) const { 
+      assert(end < _distances.size());
+      return _distances[end] != D_INFINITY; 
+    }
 
     std::vector<step_t> get_path(vertex_t end) const {
+      assert(end < _distances.size());
       std::vector<step_t> path;
       if (_distances[end] == D_INFINITY) {
         return path;
@@ -48,6 +52,8 @@ namespace grafology {
    */
   template <GraphImpl G>
   AllShortestPathsImpl all_shortest_paths(const G& graph, vertex_t start) {
+    assert(start < graph.size());
+
     if (graph.is_directed()) {
       throw error("Shortest paths works only on undirected graphs");
     }
@@ -103,20 +109,24 @@ namespace grafology {
     auto size() const { return _shortest_paths._distances.size(); }
 
     bool is_reachable(const Vertex& v) const {
+      assert(graph.get_internal_index(v) != INVALID_VERTEX);
       return _shortest_paths._distances[graph.get_internal_index(v)] != D_INFINITY;
     }
 
     weight_t get_distance(const Vertex& v) const {
+      assert(graph.get_internal_index(v) != INVALID_VERTEX);
       return _shortest_paths._distances[graph.get_internal_index(v)];
     }
 
     const Vertex& get_predecessor(const Vertex& v) const {
+      assert(graph.get_internal_index(v) != INVALID_VERTEX);
       return graph.get_vertex_from_internal_index(
           _shortest_paths._predecessors[graph.get_internal_index(v)]
       );
     }
 
     generator<Step<Vertex>> get_path(const Vertex& v) const {
+      assert(graph.get_internal_index(v) != INVALID_VERTEX);
       auto sp = _shortest_paths.get_path(graph.get_internal_index(v));
       for (const auto& [v, d] : sp) {
         co_yield std::make_tuple(graph.get_vertex_from_internal_index(v), d);
@@ -131,6 +141,7 @@ namespace grafology {
   template <GraphImpl Impl, VertexKey Vertex>
   AllShortestPaths<Impl, Vertex, false>
   all_shortest_paths(const Graph<Impl, Vertex, false>& graph, const Vertex& start) {
+    assert(graph.get_internal_index(start) != INVALID_VERTEX);
     auto sp_impl = all_shortest_paths(graph.impl(), graph.get_internal_index(start));
     return AllShortestPaths<Impl, Vertex, false>(std::move(sp_impl), graph);
   }

@@ -11,6 +11,7 @@ namespace grafology {
      */
     template <GraphImpl G>
     generator<vertex_t> depth_first_search(const G& graph, vertex_t start) {
+        assert(start < graph.size());
         std::vector<bool> visited(graph.size(), false);
         std::stack<vertex_t> stack;
         stack.push(start);
@@ -43,6 +44,7 @@ namespace grafology {
             }
 
             bool find(vertex_t start, vertex_t end)  {
+                assert(start < _graph.size() && end < _graph.size());
                 std::stack<vertex_t> stack;
                 _start = start;
                 _end = end;
@@ -100,11 +102,9 @@ namespace grafology {
      */
     template<GraphImpl Impl, VertexKey Vertex, bool IsDirected>
     generator<Vertex> depth_first_search(const Graph<Impl, Vertex, IsDirected>& graph, const Vertex& start) {
+        assert(graph.get_internal_index(start) != INVALID_VERTEX);
         const auto impl = graph.impl();
         auto idx_start = graph.get_internal_index(start);
-        if (idx_start == -1) {
-            throw error("depth_first_search: Initial vertex '{}' not found", start);
-        }
         for (auto vertex : depth_first_search(impl, idx_start)) {
             co_yield graph.get_vertex_from_internal_index(vertex);
         }
