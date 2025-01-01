@@ -14,6 +14,7 @@ namespace grafology {
           _n_max_vertices(n_max_vertices), 
           _n_vertices(n_vertices),
           _adjacency_list(_n_max_vertices) {
+            assert(n_vertices <= n_max_vertices);
             _adjacency_list.reserve(_n_max_vertices);
         }
 
@@ -31,18 +32,22 @@ namespace grafology {
         bool is_directed() const { return _is_directed; }
 
         weight_t operator()(vertex_t i, vertex_t j) const { 
+            assert(i < _n_vertices && j < _n_vertices);
              return _adjacency_list[i].get(j);
         }
 
         bool has_edge(vertex_t i, vertex_t j) const { 
+            assert(i < _n_vertices && j < _n_vertices);
              return _adjacency_list[i].get(j) != 0;
         }
 
         weight_t weight(vertex_t i, vertex_t j) const { 
+            assert(i < _n_vertices && j < _n_vertices);
              return _adjacency_list[i].get(j);
         }
 
         vertex_t add_vertex() {
+            assert(_n_vertices < _n_max_vertices);
             ++_n_vertices;
             return _n_vertices - 1;
         }
@@ -59,6 +64,7 @@ namespace grafology {
         }
 
         void set_edge(vertex_t start, vertex_t end, weight_t weight) {
+            assert(start < _n_vertices && end < _n_vertices);
             if (weight == 0 && _adjacency_list[start].get(end) != 0) {
                 _adjacency_list[start].remove(end);
                 if (!_is_directed) {
@@ -73,6 +79,7 @@ namespace grafology {
         }
 
         void set_edge(const edge_t& edge) {
+            assert(edge.start < _n_vertices && edge.end < _n_vertices);
             set_edge(edge.start, edge.end, edge.weight);
         }
         
@@ -89,10 +96,12 @@ namespace grafology {
         }
 
         std::size_t degree(vertex_t vertex) const {
+            assert(vertex < _n_vertices);
             return _adjacency_list[vertex].size();
         }
 
         std::size_t in_degree(vertex_t vertex) const {
+            assert(vertex < _n_vertices);
             if (!is_directed()) {
                 return degree(vertex);
             }
@@ -108,6 +117,7 @@ namespace grafology {
         }
 
         generator<vertex_t> get_raw_neighbors(vertex_t vertex) const {
+            assert(vertex < _n_vertices);
             for (const auto& edge : _adjacency_list[vertex]) {
                 if (edge.vertex != vertex) {
                     co_yield edge.vertex;
@@ -116,6 +126,7 @@ namespace grafology {
         }
 
         generator<edge_t> get_neighbors(vertex_t vertex) const {
+            assert(vertex < _n_vertices);
             for (const auto& edge : _adjacency_list[vertex])
             {
                 if (edge.vertex != vertex) {
@@ -125,6 +136,7 @@ namespace grafology {
         }
 
         generator<vertex_t> get_raw_in_neighbors(vertex_t vertex) const {
+            assert(vertex < _n_vertices);
             for (unsigned i = 0; i < size(); ++i) {
                 if (i == vertex) {
                     continue;
@@ -138,6 +150,7 @@ namespace grafology {
         }
 
         generator<edge_t> get_in_neighbors(vertex_t vertex) const {
+            assert(vertex < _n_vertices);
             for (unsigned i = 0; i < size(); ++i) {
                 if (i == vertex) {
                     continue;

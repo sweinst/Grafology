@@ -4,6 +4,7 @@
 #include <string>
 #include <stdexcept>
 #include <format>
+#include <cassert>
 #include "internal/generator.h"
 
 namespace grafology {

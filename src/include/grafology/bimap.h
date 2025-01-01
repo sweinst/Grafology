@@ -1,6 +1,7 @@
 #pragma once
 #include "vertex.h"
 #include <unordered_map>
+#include <cassert>
 
 namespace grafology
 {
@@ -32,6 +33,7 @@ namespace grafology
         }
 
         const V& get_vertex(unsigned i) const {
+            assert(i < _size);
             return _index_to_vertex[i];
         }
 
@@ -50,6 +52,7 @@ namespace grafology
             if (it != _vertex_to_index.end()) {
                 return it->second;
             }
+            assert(_size < _capacity);
             _vertex_to_index[v] = _size;
             _index_to_vertex.push_back(std::move(v));
             return _size++;

@@ -1,5 +1,6 @@
 #include "graph_impl.h"
 #include <vector>
+#include <cassert>
 
 namespace grafology {
     /**
@@ -14,6 +15,7 @@ namespace grafology {
             : _parent(size, NPOS) {}
 
             vertex_t find(vertex_t v) {
+                assert(v < _parent.size());
                 if (_parent[v] == NPOS)
                 {
                     return v;
@@ -26,6 +28,7 @@ namespace grafology {
             }
 
             bool merge(vertex_t v1, vertex_t v2) {
+                assert(v1 < _parent.size() && v2 < _parent.size());
                 vertex_t root1 = find(v1);
                 vertex_t root2 = find(v2);
                 if (root1 != root2) {
