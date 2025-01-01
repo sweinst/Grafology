@@ -63,7 +63,7 @@ jobs:
     - name: Build
       run: |
         cd ${{github.workspace}}
-        pwsh -file ./build.ps1 -BuildType ${{ matrix.build_type }} -CC ${{ matrix.c_compiler }} -CPP ${{ matrix.cpp_compiler }} -Clean
+        pwsh -file ./build.ps1 -BuildTypes ${{ matrix.build_type }} -CC ${{ matrix.c_compiler }} -CPP ${{ matrix.cpp_compiler }} -Clean
 
     - name: Test
       run: |
