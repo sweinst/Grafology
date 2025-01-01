@@ -10,9 +10,6 @@ on:
   pull_request:
     branches: [ "main" ]
 
-env:
-  VCPKG_ROOT: ${{ env.VCPKG_INSTALLATION_ROOT }}
-
 jobs:
   build:
     runs-on: ${{ matrix.os }}
