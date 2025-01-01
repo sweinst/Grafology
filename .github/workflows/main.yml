@@ -54,9 +54,9 @@ jobs:
     steps:
     - name: init
       run: |
-      if ("${{ matrix.os }}".startsWith("ubuntu")) {
-        sudo apt install ninja-build
-      }
+        if ("${{ matrix.os }}".startsWith("ubuntu")) {
+          sudo apt install ninja-build
+        }
 
     - uses: actions/checkout@v4
 
