@@ -52,13 +52,11 @@ jobs:
             compiler: cl
 
     steps:
-    - name: init
-      run: |
-        if ("${{ matrix.os }}".startsWith("ubuntu")) {
-          sudo apt install ninja-build
-        }
+    - name: Install Ninja
+      uses: turtlesec-no/get-ninja@main
 
-    - uses: actions/checkout@v4
+    - name: Checkout
+      uses: actions/checkout@v4
 
     # - name: Set reusable strings
     #   # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
@@ -70,7 +68,6 @@ jobs:
     - name: Build
       run: |
         cd ${{github.workspace}}
-        write-host "os=${{ matrix.os }} bt=${{ matrix.build_type }} c=${{ matrix.compiler }} cc=${{ matrix.c_compiler }} cpp=${{ matrix.cpp_compiler }} od${{ matrix.output_dir }}"
         pwsh -file ./build.ps1 -BuildTypes ${{ matrix.build_type }} -CC ${{ matrix.c_compiler }} -CPP ${{ matrix.cpp_compiler }} -Clean
 
     - name: Test
