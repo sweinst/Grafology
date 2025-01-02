@@ -44,7 +44,7 @@ graph LR;
 
 ```mermaid
 ---
-title: Maximum flow 23
+title: Maximum flow => 23 (weights now represent the actual flows)
 config:
   themeVariables:
     fontSize: 10px
