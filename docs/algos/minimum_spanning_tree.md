@@ -10,7 +10,7 @@
 
 # Minimum spanning tree
 For an undirected graph $G(V,E)$, a *spanning tree* is a subset of edges such as:
-- it touches all the vertices of the garph
+- it touches all the vertices of the graph
 - it forms a tree (G is connected without cycles)
 
 A minimum *spanning tree (MST)* or *minimum weight spanning tree* is the spanning tree with the least total edge cost.
@@ -19,7 +19,7 @@ The code is an implementation of [Kruskal's algorithm](https://en.wikipedia.org/
 
 ```mermaid
 ---
-title: Minimum spanning tree
+title: Input graph
 config:
   themeVariables:
     fontSize: 10px
@@ -34,22 +34,60 @@ graph LR;
     E(E)
     F(F)
     G(G)
-    A -- 7 --- B
-    A -- 5 --- D
+    H(H)
+    I(I)
+    A -- 4 --- B
+    A -- 8 --- G
     B -- 8 --- C
-    B -- 9 --- D
-    B -- 7 --- E
-    C -- 5 --- E
-    D -- 15 --- E
-    D -- 6 --- F
-    F -- 8 --- E
-    F -- 11 --- G
-    E -- 9 --- G
+    B -- 11 --- G
+    C -- 7 --- D
+    C -- 2 --- I
+    C -- 4 --- F
+    D -- 9 --- E
+    D -- 14 --- F
+    E -- 10 --- F
+    F -- 2 --- H
+    G -- 1 --- H
+    G -- 7 --- I
+    I -- 6 --- H
 
     linkStyle default font-size: 15px
-    linkStyle 0,1,4,5,7,10 stroke-width:2px, stroke:red, fill: none
+    linkStyle 0,2,4,5,6,7,10,11 stroke-width:2px, stroke:red, fill: none
 ```
 
+
+```mermaid
+---
+title: Minimum spanning tree
+config:
+  themeVariables:
+    fontSize: 10px
+    sectionFontSize: 10px
+    edgeLabelBackground: transparent
+---
+graph LR;
+A(A)
+    B(B)
+    C(C)
+    D(D)
+    E(E)
+    F(F)
+    G(G)
+    H(H)
+    I(I)
+    A -- 4 --- B
+    B -- 8 --- C
+    C -- 7 --- D
+    C -- 2 --- I
+    C -- 4 --- F
+    D -- 9 --- E
+    F -- 2 --- H
+    H -- 1 --- G
+
+    linkStyle default font-size: 15px, fill: none
+```
+
+*NB: a bug in Mermaid shows "undirected" edges as "directed". So all the arrows should not been drawn.*
 
 ## Requirements
 - The graph must be undirected
