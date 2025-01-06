@@ -64,6 +64,10 @@ namespace grafology {
                 return 0;
             }
 
+            edge_t get_edge(vertex_t start, vertex_t end) const {
+                return {start, end, get(end)};
+            }
+
             void remove(vertex_t vertex) {
                 auto it = std::lower_bound(_flat_map.begin(), _flat_map.end(), MapEntry{vertex, 0});
                 if (it != _flat_map.end() && it->vertex == vertex) {

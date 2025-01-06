@@ -42,6 +42,11 @@ namespace grafology {
             assert(i < _n_vertices && j < _n_vertices);
             return _adjacency_matrix[i*_n_max_vertices+j] != 0;
         }
+
+        edge_t get_edge(vertex_t i, vertex_t j) const { 
+            assert(i < _n_vertices && j < _n_vertices);
+            return {.start = i, .end = j, .weight = _adjacency_matrix[i*_n_max_vertices+j]};
+        }
         
         weight_t weight(vertex_t i, vertex_t j) const { 
             assert(i < _n_vertices && j < _n_vertices);

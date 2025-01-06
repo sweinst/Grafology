@@ -5,4 +5,7 @@ AlignAfterOpenBracket: BlockIndent
 BreakConstructorInitializers: BeforeComma
 ColumnLimit: 100
 ConstructorInitializerAllOnOneLineOrOnePerLine: false
+UseTab: Never
+IndentWidth: 4
+TabWidth: 4
 ...

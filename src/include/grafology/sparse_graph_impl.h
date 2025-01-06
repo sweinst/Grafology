@@ -40,6 +40,10 @@ namespace grafology {
              return _adjacency_list[i].get(j) != 0;
         }
 
+        edge_t get_edge(vertex_t i, vertex_t j) const { 
+            assert(i < _n_vertices && j < _n_vertices);
+            return _adjacency_list[i].get_edge(i, j);
+        }
         weight_t weight(vertex_t i, vertex_t j) const { 
             assert(i < _n_vertices && j < _n_vertices);
              return _adjacency_list[i].get(j);
