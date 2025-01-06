@@ -68,4 +68,16 @@ namespace grafology {
         }
     }
 
+    template<GraphImpl Impl, VertexKey Vertex>
+    generator<EdgeDefinition<Vertex>> bridges(const Graph<Impl, Vertex, false>& graph) {
+        for (auto edge : bridges(graph.impl())) {
+            co_yield EdgeDefinition<Vertex>{graph.get_vertex_from_internal_index(edge.start), graph.get_vertex_from_internal_index(edge.end), edge.weight};
+        }
+    }
+
+    template<GraphImpl Impl, VertexKey Vertex>
+    generator<EdgeDefinition<Vertex>> bridges(const Graph<Impl, Vertex, true>& graph, const Vertex& start, const Vertex& end) {
+        static_assert(false, "Bridges works only on directed graphs");
+    }
+
 }  // namespace grafology

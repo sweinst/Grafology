@@ -5,6 +5,7 @@
 #include <grafology/algorithms/minimum_spanning_tree.h>
 #include <grafology/algorithms/all_shortest_paths.h>
 #include <grafology/algorithms/shortest_path.h>
+#include <grafology/algorithms/bridges.h>
 #include <catch2/catch_template_test_macros.hpp>
 #include <unordered_set>
 #include "test_vertex.h"
@@ -347,4 +348,32 @@ TEMPLATE_TEST_CASE("Graphs - Max Flow", "[graphs-algos]",
     auto max_flow = g::maximum_flow(g, {0}, {5});
     CAPTURE(max_flow);
     CHECK(max_flow == 23);
+}
+
+TEMPLATE_TEST_CASE("Graphs - Bridges", "[graphs-algos]", 
+    g::UndirectedDenseGraph<TestVertex> , g::UndirectedSparseGraph<TestVertex>) {
+
+    int n_vertices=13;
+    std::vector<TestVertex> vertices_init {{ generate_test_vertices_list(n_vertices) }};
+    std::vector<TestEdge> edges_init = {
+        {{0}, {1}}, {{0}, {2}}, {{1}, {2}}, {{1}, {4}},  {{2}, {3}},   {{3}, {7}},  {{4}, {5}},
+        {{5}, {6}}, {{6}, {4}}, {{7}, {8}}, {{9}, {10}}, {{10}, {11}}, {{11}, {9}}, {{11}, {12}},
+    };
+
+    std::unordered_set<TestEdge> expected_bridges = {
+        {{1}, {4}}, {{4}, {1}}, {{2}, {3}}, {{3}, {2}}, {{3}, {7}}, {{7}, {3}}, {{7}, {8}}, {{8}, {7}}, {{11}, {12}}, {{12}, {11}},
+    };
+
+    TestType g(n_vertices);
+    g.add_vertices(vertices_init);
+    g.set_edges(edges_init);
+
+    std::unordered_set<TestEdge> result;
+    for (auto [start, end, _] : g::bridges(g)) {
+        result.emplace(start, end);
+        result.emplace(end, start);
+    }
+
+    CAPTURE(expected_bridges.size(), result.size());
+    CHECK(expected_bridges == result);
 }
