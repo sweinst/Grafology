@@ -1,218 +1,229 @@
 {
-  "version": 8,
-  "configurePresets": [
-    {
-      "name": "TopLevelIncludes",
-      "displayName": "Top Level Includes",
-      "description": "Specify top level includes to use.",
-      "hidden": true,
-      "cacheVariables": {
-        "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
-      }
-    },
-    {
-      "name": "windows-x64",
-      "displayName": "Windows x64",
-      "description": "Base target for x64 Windows Visual Studio.",
-      "inherits": "TopLevelIncludes",
-      "hidden": true,
-      "generator": "Ninja",
-      "architecture": {
-        "value": "x64",
-        "strategy": "external"
-      },
-      "vendor": {
-        "microsoft.com/VisualStudioSettings/CMake/1.0": {
-          "hostOS": [
-            "Windows"
-          ]
+    "version": 8,
+    "configurePresets": [
+        {
+            "name": "TopLevelIncludes",
+            "displayName": "Top Level Includes",
+            "description": "Specify top level includes to use.",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+                "VCPKG_APPLOCAL_DEPS": "ON",
+                "X_VCPKG_APPLOCAL_DEPS_INSTALL": "ON",
+                "VCPKG_MANIFEST_MODE": "ON"
+            }
+        },
+        {
+            "name": "windows-x64",
+            "displayName": "Windows x64",
+            "description": "Base target for x64 Windows Visual Studio.",
+            "inherits": "TopLevelIncludes",
+            "hidden": true,
+            "generator": "Ninja",
+            "architecture": {
+                "value": "x64",
+                "strategy": "external"
+            },
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            },
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "cl",
+                "CMAKE_CXX_COMPILER": "cl",
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/dist/Windows",
+                "VCPKG_TARGET_TRIPLET": "windows-x64"
+            }
+        },
+        {
+            "name": "windows-x64-Release",
+            "displayName": "Windows x64 Release",
+            "description": "Release target for x64 Windows Visual Studio.",
+            "inherits": "windows-x64",
+            "binaryDir": "${sourceDir}/bin/Windows/Release",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "name": "windows-x64-RelWithDebInfo",
+            "displayName": "Windows x64 RelWithDebInfo",
+            "description": "RelWithDebInfo target for x64 Windows Visual Studio.",
+            "inherits": "windows-x64",
+            "binaryDir": "${sourceDir}/bin/Windows/RelWithDebInfo",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+            }
+        },
+        {
+            "name": "windows-x64-MinSizeRel",
+            "displayName": "Windows x64 MinSizeRel",
+            "description": "MinSizeRel target for x64 Windows Visual Studio.",
+            "inherits": "windows-x64",
+            "binaryDir": "${sourceDir}/bin/Windows/MinSizeRel",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "MinSizeRel"
+            }
+        },
+        {
+            "name": "windows-x64-Debug",
+            "displayName": "Windows x64 Debug",
+            "description": "Debug target for x64 Windows Visual Studio.",
+            "inherits": "windows-x64",
+            "binaryDir": "${sourceDir}/bin/Windows/Debug",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "linux-x64",
+            "displayName": "Linux X64",
+            "description": "Base target for Linux x64.",
+            "hidden": true,
+            "generator": "Ninja",
+            "inherits": "TopLevelIncludes",
+            "architecture": {
+                "value": "x64",
+                "strategy": "external"
+            },
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Linux"
+            },
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "gcc",
+                "CMAKE_CXX_COMPILER": "g++",
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/dist/linux",
+                "VCPKG_TARGET_TRIPLET": "linux-x64"
+            }
+        },
+        {
+            "name": "linux-x64-Release",
+            "displayName": "Linux X64 Release",
+            "description": "Release target for Linux x64.",
+            "inherits": "linux-x64",
+            "binaryDir": "${sourceDir}/bin/linux/Release",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "name": "linux-x64-RelWithDebInfo",
+            "displayName": "Linux X64 RelWithDebInfo",
+            "description": "RelWithDebInfo target for Linux x64.",
+            "inherits": "linux-x64",
+            "binaryDir": "${sourceDir}/bin/linux/RelWithDebInfo",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+            }
+        },
+        {
+            "name": "linux-x64-MinSizeRFel",
+            "displayName": "Linux X64 MinSizeRFel",
+            "description": "MinSizeRFel target for Linux x64 clang.",
+            "inherits": "linux-x64",
+            "binaryDir": "${sourceDir}/bin/linux/MinSizeRFel",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "MinSizeRel"
+            }
+        },
+        {
+            "name": "linux-x64-Debug",
+            "displayName": "Linux X64 Debug",
+            "description": "Debug target for Linux x64 g++.",
+            "inherits": "linux-x64",
+            "binaryDir": "${sourceDir}/bin/linux/Debug",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "linux-x64-gcov",
+            "displayName": "Linux X64 gcov",
+            "description": "Debug target for Linux x64 gcov.",
+            "inherits": "linux-x64",
+            "binaryDir": "${sourceDir}/bin/linux/Gcov",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CODE_COVERAGE": "ON"
+            }
+        },
+        {
+            "name": "osx-arm64",
+            "displayName": "MacOS X64",
+            "description": "Base target for MacOS arm64.",
+            "hidden": true,
+            "generator": "Ninja",
+            "inherits": "TopLevelIncludes",
+            "architecture": {
+                "value": "arm64",
+                "strategy": "external"
+            },
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Darwin"
+            },
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "clang",
+                "CMAKE_CXX_COMPILER": "clang++",
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/dist/macOS",
+                "VCPKG_TARGET_TRIPLET": "osx-arm64"
+            }
+        },
+        {
+            "name": "osx-arm64-Release",
+            "displayName": "MacOS X64 Release",
+            "description": "Release target for MacOS arm64.",
+            "inherits": "osx-arm64",
+            "binaryDir": "${sourceDir}/bin/macOS/Release",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "name": "osx-arm64-RelWithDebInfo",
+            "displayName": "MacOS X64 RelWithDebInfo",
+            "description": "RelWithDebInfo target for MacOS arm64.",
+            "inherits": "osx-arm64",
+            "binaryDir": "${sourceDir}/bin/macOS/RelWithDebInfo",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+            }
+        },
+        {
+            "name": "osx-arm64-MinSizeRFel",
+            "displayName": "MacOS X64 MinSizeRFel",
+            "description": "MinSizeRFel target for MacOS arm64 clang.",
+            "inherits": "osx-arm64",
+            "binaryDir": "${sourceDir}/bin/macOS/MinSizeRFel",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "MinSizeRel"
+            }
+        },
+        {
+            "name": "osx-arm64-Debug",
+            "displayName": "MacOS X64 Debug",
+            "description": "Debug target for MacOS arm64 clang.",
+            "inherits": "osx-arm64",
+            "binaryDir": "${sourceDir}/bin/linux/Debug",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "Configure preset using toolchain file",
+            "displayName": "Configure preset using toolchain file",
+            "description": "Sets Ninja generator, build and install directory",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/out/build/${presetName}",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_TOOLCHAIN_FILE": "",
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}"
+            }
         }
-      },
-      "cacheVariables": {
-        "CMAKE_C_COMPILER": "cl",
-        "CMAKE_CXX_COMPILER": "cl",
-        "CMAKE_INSTALL_PREFIX": "${sourceDir}/dist/Windows"
-      }
-    },
-    {
-      "name": "windows-x64-Release",
-      "displayName": "Windows x64 Release",
-      "description": "Release target for x64 Windows Visual Studio.",
-      "inherits": "windows-x64",
-      "binaryDir": "${sourceDir}/bin/Windows/Release",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
-      }
-    },
-    {
-      "name": "windows-x64-RelWithDebInfo",
-      "displayName": "Windows x64 RelWithDebInfo",
-      "description": "RelWithDebInfo target for x64 Windows Visual Studio.",
-      "inherits": "windows-x64",
-      "binaryDir": "${sourceDir}/bin/Windows/RelWithDebInfo",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
-      }
-    },
-    {
-      "name": "windows-x64-MinSizeRel",
-      "displayName": "Windows x64 MinSizeRel",
-      "description": "MinSizeRel target for x64 Windows Visual Studio.",
-      "inherits": "windows-x64",
-      "binaryDir": "${sourceDir}/bin/Windows/MinSizeRel",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "MinSizeRel"
-      }
-    },
-    {
-      "name": "windows-x64-Debug",
-      "displayName": "Windows x64 Debug",
-      "description": "Debug target for x64 Windows Visual Studio.",
-      "inherits": "windows-x64",
-      "binaryDir": "${sourceDir}/bin/Windows/Debug",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug"
-      }
-    },
-    {
-      "name": "linux-x64",
-      "displayName": "Linux X64",
-      "description": "Base target for Linux x64.",
-      "hidden": true,
-      "generator": "Ninja",
-      "inherits": "TopLevelIncludes",
-      "architecture": {
-        "value": "x64",
-        "strategy": "external"
-      },
-      "vendor": {
-        "microsoft.com/VisualStudioSettings/CMake/1.0": {
-          "hostOS": [
-            "Linux",
-            "macOS"
-          ]
-        }
-      },
-      "cacheVariables": {
-        "CMAKE_C_COMPILER": "gcc",
-        "CMAKE_CXX_COMPILER": "g++",
-        "CMAKE_INSTALL_PREFIX": "${sourceDir}/dist/linux"
-      }
-    },
-    {
-      "name": "linux-x64-Release",
-      "displayName": "Linux X64 Release",
-      "description": "Release target for Linux x64.",
-      "inherits": "linux-x64",
-      "binaryDir": "${sourceDir}/bin/linux/Release",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
-      }
-    },
-    {
-      "name": "linux-x64-RelWithDebInfo",
-      "displayName": "Linux X64 RelWithDebInfo",
-      "description": "RelWithDebInfo target for Linux x64.",
-      "inherits": "linux-x64",
-      "binaryDir": "${sourceDir}/bin/linux/RelWithDebInfo",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
-      }
-    },
-    {
-      "name": "linux-x64-MinSizeRFel",
-      "displayName": "Linux X64 MinSizeRFel",
-      "description": "MinSizeRFel target for Linux x64 clang.",
-      "inherits": "linux-x64",
-      "binaryDir": "${sourceDir}/bin/linux/MinSizeRFel",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "MinSizeRel"
-      }
-    },
-    {
-      "name": "linux-x64-Debug",
-      "displayName": "Linux X64 Debug",
-      "description": "Debug target for Linux x64 g++.",
-      "inherits": "linux-x64",
-      "binaryDir": "${sourceDir}/bin/linux/Debug",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug"
-      }
-    },
-    {
-      "name": "linux-x64-gcov",
-      "displayName": "Linux X64 gcov",
-      "description": "Debug target for Linux x64 gcov.",
-      "inherits": "linux-x64",
-      "binaryDir": "${sourceDir}/bin/linux/Gcov",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug",
-        "CODE_COVERAGE": "ON"
-      }
-    },
-    {
-      "name": "macOS-x64",
-      "displayName": "MacOS X64",
-      "description": "Base target for Linux x64.",
-      "hidden": true,
-      "generator": "Ninja",
-      "inherits": "TopLevelIncludes",
-      "architecture": {
-        "value": "x64",
-        "strategy": "external"
-      },
-      "vendor": {
-        "microsoft.com/VisualStudioSettings/CMake/1.0": {
-          "hostOS": [
-            "macOS"
-          ]
-        }
-      },
-      "cacheVariables": {
-        "CMAKE_C_COMPILER": "clang",
-        "CMAKE_CXX_COMPILER": "clang++",
-        "CMAKE_INSTALL_PREFIX": "${sourceDir}/dist/macOS"
-      }
-    },
-    {
-      "name": "macOS-x64-Release",
-      "displayName": "MacOS X64 Release",
-      "description": "Release target for MacOS x64.",
-      "inherits": "macOS-x64",
-      "binaryDir": "${sourceDir}/bin/macOS/Release",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
-      }
-    },
-    {
-      "name": "macOS-x64-RelWithDebInfo",
-      "displayName": "MacOS X64 RelWithDebInfo",
-      "description": "RelWithDebInfo target for MacOS x64.",
-      "inherits": "macOS-x64",
-      "binaryDir": "${sourceDir}/bin/macOS/RelWithDebInfo",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
-      }
-    },
-    {
-      "name": "macOS-x64-MinSizeRFel",
-      "displayName": "MacOS X64 MinSizeRFel",
-      "description": "MinSizeRFel target for MacOS x64 clang.",
-      "inherits": "macOS-x64",
-      "binaryDir": "${sourceDir}/bin/macOS/MinSizeRFel",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "MinSizeRel"
-      }
-    },
-    {
-      "name": "macOS-x64-Debug",
-      "displayName": "MacOS X64 Debug",
-      "description": "Debug target for MacOS x64 clang.",
-      "inherits": "macOS-x64",
-      "binaryDir": "${sourceDir}/bin/linux/Debug",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug"
-      }
-    }
-  ]
+    ]
 }

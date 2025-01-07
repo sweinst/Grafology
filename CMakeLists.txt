@@ -7,7 +7,7 @@ option(CODE_COVERAGE "Set up code coverage" OFF)
 
 message(STATUS "Build tests: ${BUILD_TESTS}")
 message(STATUS "Build examples: ${BUILD_EXAMPLES}")
-message(STATUS "Code covergae: ${CODE_COVERAGE}")
+message(STATUS "Code coverage: ${CODE_COVERAGE}")
 
 if (CODE_COVERAGE)
     if (LINUX)

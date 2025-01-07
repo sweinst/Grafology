@@ -29,7 +29,22 @@ if ($BuildTypes -eq 'All') {
 }
 Write-Host "Build Types: $BuildTypes"
 
-$os = $IsWindows ? "windows" : ($IsLinux ? "linux" : "osx")
+if ($IsWindows) {
+  $os = "windows"
+  $arch = "x64"
+}
+elseif ($IsLinux) {
+  $os = "linux"
+  $arch = "x64"
+}
+elseif ($IsMacOS) {
+  $os = "osx"
+  $arch = "arm64"
+}
+else {
+  Write-Host "Unsupported OS. Exiting."
+  exit 1
+}
 
 if (-not $env:VCPKG_ROOT) {
   if (-not $env:VCPKG_INSTALLATION_ROOT) {
@@ -43,7 +58,7 @@ $common_options = @(
     "-DCMAKE_INSTALL_PREFIX=${RootDir}/dist/${os}",
     "-DVCPKG_APPLOCAL_DEPS=ON",
     "-DX_VCPKG_APPLOCAL_DEPS_INSTALL=ON",
-    "-DVCPKG_TARGET_TRIPLET=x64-${os}",
+    "-DVCPKG_TARGET_TRIPLET=${arch}-${os}",
     "-DVCPKG_MANIFEST_MODE=ON",
     "-DCMAKE_TOOLCHAIN_FILE=${env:VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
     "-S${RootDir}",
@@ -51,11 +66,13 @@ $common_options = @(
 )
 
 if ($CC) {
+    #${CC} = (Get-Command ${CC}).Source
     $common_options += "-DCMAKE_C_COMPILER=${CC}"
 }
 
 if ($CPP) {
-    $common_options += "-DCMAKE_CXX_COMPILER=${CPP}"
+  #${CPP} = (Get-Command ${CPP}).Source
+  $common_options += "-DCMAKE_CXX_COMPILER=${CPP}"
 }
 
 set-location $RootDir
@@ -66,7 +83,7 @@ $BuildTypes | ForEach-Object {
         Write-Host "============> Cleaning $build_type"
         Remove-Item -Force -Recurse "${RootDir}/bin/${os}/${build_type}"
     }
-    $preset="${os}-x64-${build_type}"
+    $preset="${os}-${arch}-${build_type}"
     Write-Host "============> Building $preset"
     # can't write "do_something || exit 1" in PowerShell due to a bug still not fixed in pwsh 7.4.1
     & cmake --preset ${preset} $common_options
