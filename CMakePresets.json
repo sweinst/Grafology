@@ -10,7 +10,8 @@
                 "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
                 "VCPKG_APPLOCAL_DEPS": "ON",
                 "X_VCPKG_APPLOCAL_DEPS_INSTALL": "ON",
-                "VCPKG_MANIFEST_MODE": "ON"
+                "VCPKG_MANIFEST_MODE": "ON",
+                "CMAKE_WARN_DEPRECATED": "OFF"
             }
         },
         {
@@ -33,7 +34,7 @@
                 "CMAKE_C_COMPILER": "cl",
                 "CMAKE_CXX_COMPILER": "cl",
                 "CMAKE_INSTALL_PREFIX": "${sourceDir}/dist/Windows",
-                "VCPKG_TARGET_TRIPLET": "windows-x64"
+                "VCPKG_TARGET_TRIPLET": "x64-windows"
             }
         },
         {
@@ -96,7 +97,7 @@
                 "CMAKE_C_COMPILER": "gcc",
                 "CMAKE_CXX_COMPILER": "g++",
                 "CMAKE_INSTALL_PREFIX": "${sourceDir}/dist/linux",
-                "VCPKG_TARGET_TRIPLET": "linux-x64"
+                "VCPKG_TARGET_TRIPLET": "x64-linux"
             }
         },
         {
@@ -170,7 +171,7 @@
                 "CMAKE_C_COMPILER": "clang",
                 "CMAKE_CXX_COMPILER": "clang++",
                 "CMAKE_INSTALL_PREFIX": "${sourceDir}/dist/osx",
-                "VCPKG_TARGET_TRIPLET": "osx-arm64"
+                "VCPKG_TARGET_TRIPLET": "arm64-osx"
             }
         },
         {
