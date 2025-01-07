@@ -169,7 +169,7 @@
             "cacheVariables": {
                 "CMAKE_C_COMPILER": "clang",
                 "CMAKE_CXX_COMPILER": "clang++",
-                "CMAKE_INSTALL_PREFIX": "${sourceDir}/dist/macOS",
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/dist/osx",
                 "VCPKG_TARGET_TRIPLET": "osx-arm64"
             }
         },
@@ -178,7 +178,7 @@
             "displayName": "MacOS X64 Release",
             "description": "Release target for MacOS arm64.",
             "inherits": "osx-arm64",
-            "binaryDir": "${sourceDir}/bin/macOS/Release",
+            "binaryDir": "${sourceDir}/bin/osx/Release",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release"
             }
@@ -188,7 +188,7 @@
             "displayName": "MacOS X64 RelWithDebInfo",
             "description": "RelWithDebInfo target for MacOS arm64.",
             "inherits": "osx-arm64",
-            "binaryDir": "${sourceDir}/bin/macOS/RelWithDebInfo",
+            "binaryDir": "${sourceDir}/bin/osx/RelWithDebInfo",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "RelWithDebInfo"
             }
@@ -198,7 +198,7 @@
             "displayName": "MacOS X64 MinSizeRFel",
             "description": "MinSizeRFel target for MacOS arm64 clang.",
             "inherits": "osx-arm64",
-            "binaryDir": "${sourceDir}/bin/macOS/MinSizeRFel",
+            "binaryDir": "${sourceDir}/bin/osx/MinSizeRFel",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "MinSizeRel"
             }
@@ -208,21 +208,9 @@
             "displayName": "MacOS X64 Debug",
             "description": "Debug target for MacOS arm64 clang.",
             "inherits": "osx-arm64",
-            "binaryDir": "${sourceDir}/bin/linux/Debug",
+            "binaryDir": "${sourceDir}/bin/osx/Debug",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug"
-            }
-        },
-        {
-            "name": "Configure preset using toolchain file",
-            "displayName": "Configure preset using toolchain file",
-            "description": "Sets Ninja generator, build and install directory",
-            "generator": "Ninja",
-            "binaryDir": "${sourceDir}/out/build/${presetName}",
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug",
-                "CMAKE_TOOLCHAIN_FILE": "",
-                "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}"
             }
         }
     ]
