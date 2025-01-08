@@ -153,7 +153,7 @@
         },
         {
             "name": "osx-arm64",
-            "displayName": "MacOS X64",
+            "displayName": "MacOS arm64",
             "description": "Base target for MacOS arm64.",
             "hidden": true,
             "generator": "Ninja",
@@ -176,7 +176,7 @@
         },
         {
             "name": "osx-arm64-Release",
-            "displayName": "MacOS X64 Release",
+            "displayName": "MacOS arm64 Release",
             "description": "Release target for MacOS arm64.",
             "inherits": "osx-arm64",
             "binaryDir": "${sourceDir}/bin/osx/Release",
@@ -186,7 +186,7 @@
         },
         {
             "name": "osx-arm64-RelWithDebInfo",
-            "displayName": "MacOS X64 RelWithDebInfo",
+            "displayName": "MacOS arm64 RelWithDebInfo",
             "description": "RelWithDebInfo target for MacOS arm64.",
             "inherits": "osx-arm64",
             "binaryDir": "${sourceDir}/bin/osx/RelWithDebInfo",
@@ -196,7 +196,7 @@
         },
         {
             "name": "osx-arm64-MinSizeRFel",
-            "displayName": "MacOS X64 MinSizeRFel",
+            "displayName": "MacOS arm64 MinSizeRFel",
             "description": "MinSizeRFel target for MacOS arm64 clang.",
             "inherits": "osx-arm64",
             "binaryDir": "${sourceDir}/bin/osx/MinSizeRFel",
@@ -206,7 +206,7 @@
         },
         {
             "name": "osx-arm64-Debug",
-            "displayName": "MacOS X64 Debug",
+            "displayName": "MacOS arm64 Debug",
             "description": "Debug target for MacOS arm64 clang.",
             "inherits": "osx-arm64",
             "binaryDir": "${sourceDir}/bin/osx/Debug",
