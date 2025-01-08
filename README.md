@@ -102,6 +102,7 @@ Group 5: 'Eat cake :-)'
 This code has been tested on:
 - Windows 11 - Visual Studio Tools 17.12
 - Linux (Ubuntu 24.04) - g++ 14.2 & clang-19
+- MacOS (15.1) - g++ 14.2
 
 
 See the **[documentation](docs/README.md)** for more details.

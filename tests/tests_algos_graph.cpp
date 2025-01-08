@@ -1,12 +1,13 @@
-#include <grafology/algorithms/topological_sort.h>
-#include <grafology/algorithms/depth_first_search.h>
+#include <catch2/catch_template_test_macros.hpp>
+#include <grafology/algorithms/all_shortest_paths.h>
+#include <grafology/algorithms/articulation_points.h>
 #include <grafology/algorithms/breath_first_search.h>
+#include <grafology/algorithms/bridges.h>
+#include <grafology/algorithms/depth_first_search.h>
 #include <grafology/algorithms/maximum_flow.h>
 #include <grafology/algorithms/minimum_spanning_tree.h>
-#include <grafology/algorithms/all_shortest_paths.h>
 #include <grafology/algorithms/shortest_path.h>
-#include <grafology/algorithms/bridges.h>
-#include <catch2/catch_template_test_macros.hpp>
+#include <grafology/algorithms/topological_sort.h>
 #include <unordered_set>
 #include "test_vertex.h"
 using namespace std::string_literals;
@@ -376,4 +377,31 @@ TEMPLATE_TEST_CASE("Graphs - Bridges", "[graphs-algos]",
 
     CAPTURE(expected_bridges.size(), result.size());
     CHECK(expected_bridges == result);
+}
+
+TEMPLATE_TEST_CASE("Graphs - Articulation Points", "[graphs-algos]", 
+    g::UndirectedDenseGraph<TestVertex> , g::UndirectedSparseGraph<TestVertex>) {
+
+    int n_vertices=14;
+    std::vector<TestVertex> vertices_init {{ generate_test_vertices_list(n_vertices) }};
+    std::vector<TestEdge> edges_init = {
+        {{0}, {1}},  {{0}, {2}}, {{1}, {2}}, {{2}, {3}}, {{2}, {4}},  {{3}, {4}},   {{4}, {5}},  {{4}, {6}},   {{4}, {7}},   {{4}, {9}},
+        {{4}, {10}}, {{5}, {6}}, {{5}, {6}}, {{7}, {8}}, {{9}, {10}}, {{10}, {11}}, {{11}, {9}}, {{11}, {12}}, {{12}, {13}},
+    };
+
+    std::unordered_set<TestVertex> expected_articulation_points = {
+        {2}, {4}, {7}, {11}, {12},
+    };
+
+    TestType g(n_vertices);
+    g.add_vertices(vertices_init);
+    g.set_edges(edges_init);
+
+    std::unordered_set<TestVertex> result;
+    for (auto vertex : g::articulation_points(g)) {
+        result.emplace(vertex);
+    }
+
+    CAPTURE(expected_articulation_points.size(), result.size());
+    CHECK(expected_articulation_points == result);
 }

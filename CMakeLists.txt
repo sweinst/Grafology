@@ -50,6 +50,7 @@ set(GRAFOLOGY_HDRS
     src/include/grafology/sparse_graph_impl.h
     src/include/grafology/vertex.h 
     src/include/grafology/algorithms/all_shortest_paths.h
+    src/include/grafology/algorithms/articulation_points.h
     src/include/grafology/algorithms/breath_first_search.h
     src/include/grafology/algorithms/bridges.h
     src/include/grafology/algorithms/depth_first_search.h

@@ -10,14 +10,16 @@
  */
 namespace grafology {
     template <GraphImpl G>
-    generator<edge_t> bridges(const G& graph) {
+    generator<vertex_t> articulation_points(const G& graph) {
         if (graph.is_directed()) {
-            throw error("Bridges works only on undirected graphs");
+            throw error("Articulation_points works only on undirected graphs");
         }
         auto V = graph.size();
         std::vector<bool> visited(V, false);
+        std::vector<bool> is_articulation(V, false);
         std::vector<int> discovery_time(V, std::numeric_limits<int>::max());
         std::vector<int> lowest_time(V, std::numeric_limits<int>::max());
+        std::vector<int> n_children(V, std::numeric_limits<int>::max());
         std::vector<vertex_t> parent(V, NO_PREDECESSOR);
         int timer = 0;
 
@@ -57,27 +59,40 @@ namespace grafology {
                         // v has been updated, so one can now update the parent
                         auto p = parent[v];
                         if (p != NO_PREDECESSOR) {
+                            n_children[p]++;
                             lowest_time[p] = std::min(lowest_time[p], lowest_time[v]);
-                            if (lowest_time[v] > discovery_time[p]) {
-                                co_yield edge_t{p, v};
+                            if (parent[p] == NO_PREDECESSOR) {
+                                if (n_children[p] > 1) {
+                                    if (!is_articulation[p]) {
+                                        is_articulation[p] = true;
+                                        co_yield p;
+                                    }
+                                }
+                            } else {
+                                if (lowest_time[v] >= discovery_time[p]) {
+                                    if (!is_articulation[p]) {
+                                        is_articulation[p] = true;
+                                        co_yield p;
+                                    }
+                                }
                             }
                         }
-                    }
+                    }  
                 }
             }
         }
     }
 
     template<GraphImpl Impl, VertexKey Vertex>
-    generator<EdgeDefinition<Vertex>> bridges(const Graph<Impl, Vertex, false>& graph) {
-        for (auto edge : bridges(graph.impl())) {
-            co_yield EdgeDefinition<Vertex>{graph.get_vertex_from_internal_index(edge.start), graph.get_vertex_from_internal_index(edge.end), edge.weight};
+    generator<Vertex> articulation_points(const Graph<Impl, Vertex, false>& graph) {
+        for (auto vertex : articulation_points(graph.impl())) {
+            co_yield graph.get_vertex_from_internal_index(vertex);
         }
     }
 
     template<GraphImpl Impl, VertexKey Vertex>
-    generator<EdgeDefinition<Vertex>> bridges(const Graph<Impl, Vertex, true>& graph, const Vertex& start, const Vertex& end) {
-        static_assert(false, "Bridges works only on undirected graphs");
+    generator<Vertex> articulation_points(const Graph<Impl, Vertex, true>& graph, const Vertex& start, const Vertex& end) {
+        static_assert(false, "Articulation_points works only on undirected graphs");
     }
 
 }  // namespace grafology

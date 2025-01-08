@@ -29,26 +29,22 @@ jobs:
             compiler: cl
             c_compiler: cl
             cpp_compiler: cl
-            output_dir: bin/windows/Release
           - os: macos-15
             preset: osx-arm64-Release
             compiler: gcc
             c_compiler: gcc-14
             cpp_compiler: g++-14
-            output_dir: bin/osx/Release
           - os: ubuntu-24.04
             preset: linux-x64-Release
             compiler: gcc
             c_compiler: gcc-14
             cpp_compiler: g++-14
-            output_dir: bin/linux/Release
           # requires clang-19 which is not currently available on the GitHub images
           # - os: ubuntu-24.04
           #   preset: linux-x64-Release
           #   compiler: clang
           #   c_compiler: clang-19
           #   cpp_compiler: clang++-19
-          #   output_dir: bin/linux/Release
         exclude:
           - os: windows-latest
             compiler: gcc

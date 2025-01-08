@@ -1,4 +1,5 @@
 #include <grafology/algorithms/all_shortest_paths.h>
+#include <grafology/algorithms/articulation_points.h>
 #include <grafology/algorithms/breath_first_search.h>
 #include <grafology/algorithms/bridges.h>
 #include <grafology/algorithms/depth_first_search.h>
@@ -286,4 +287,32 @@ TEMPLATE_TEST_CASE("Impl - Bridges", "[impl-algos]", g::DenseGraphImpl, g::Spars
 
     CAPTURE(expected_bridges.size(), result.size());
     CHECK(expected_bridges == result);
+}
+
+TEMPLATE_TEST_CASE(
+    "Impl - Articulations Points",
+    "[impl-algos]",
+    g::DenseGraphImpl,
+    g::SparseGraphImpl
+) {
+    int n_vertices = 14;
+    std::vector<g::edge_t> edges = {
+        {0, 1},  {0, 2}, {1, 2}, {2, 3}, {2, 4},  {3, 4},   {4, 5},  {4, 6},   {4, 7},   {4, 9},
+        {4, 10}, {5, 6}, {5, 6}, {7, 8}, {9, 10}, {10, 11}, {11, 9}, {11, 12}, {12, 13},
+    };
+
+    std::unordered_set<g::vertex_t> expected_articulations_points = {
+        2, 4, 7, 11, 12,
+    };
+
+    TestType g(n_vertices, n_vertices, false);
+    g.set_edges(edges);
+
+    std::unordered_set<g::vertex_t> result;
+    for (auto ap : g::articulation_points(g)) {
+        result.emplace(ap);
+    }
+
+    CAPTURE(expected_articulations_points.size(), result.size());
+    CHECK(expected_articulations_points == result);
 }
