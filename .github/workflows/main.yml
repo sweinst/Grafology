@@ -78,8 +78,8 @@ jobs:
           ./scripts/vs-setup.ps1 -Version 2022 -Edition Enterprise -Bits 64
         }
         if ("${{ matrix.os }}".startsWith("macos")) {
-          write-host "VCPKG ->" (get-command vcpkg).Source
-          $env:VCPKG_ROOT = (Split-Path -Parent (get-command vcpkg).Source))
+          write-host "vcpkg -> " (get-command vcpkg).Source
+          $env:VCPKG_ROOT = (Split-Path -Parent (get-command vcpkg).Source)
           write-host "h -> ${env:VCPKG_ROOT}"
           dir ${env:VCPKG_ROOT}
           write-host "+==================+"
