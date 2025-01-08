@@ -27,9 +27,9 @@ In the following documentation:
     1.  All graphs
         1. Breath first search
         2. Depth first search
-        3. [Transitive closure](algos/bridges.md)
+        3. [Transitive closure](algos/transitive_closure.md)
     2.  Undirected graphs
-        1. [Bridges](algos/minimum_spanning_tree.md)
+        1. [Bridges & Articulation Points](algos/bridges_and_AP.md)
         1. [Minimal spanning trees](algos/minimum_spanning_tree.md)
         2. [Shortest paths](algos/shortest_paths.md)
     3.  Directed graphs

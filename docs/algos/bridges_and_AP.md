@@ -8,7 +8,8 @@
 </div>
 <hr/>
 
-# Bridges
+# Bridges and Articulation Points
+## Bridges
 A *bridge* of a graph $G(E,V)$ is an edge such as if the edge is removed, then number of disconnected components is increased.
 
 The code is an implementation of [Tarjan's bridge-finding algorithm](https://www.geeksforgeeks.org/bridge-in-a-graph)
