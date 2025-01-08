@@ -58,6 +58,9 @@ jobs:
             compiler: cl
 
     steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
     - name: Install missing dependencies
       run: |
         if ("${{ matrix.os }}".startsWith("ubuntu")) {
@@ -70,9 +73,6 @@ jobs:
           git clone https://github.com/microsoft/vcpkg $VCPKG_ROOT
         }
 
-    - name: Checkout
-      uses: actions/checkout@v4
-
     - name: Build
       run: |
         cd ${{github.workspace}}
@@ -81,7 +81,6 @@ jobs:
         }
         elseif ("${{ matrix.os }}".startsWith("macos")) {
           $env:VCPKG_ROOT="${{ github.workspace }}/tmp/vcpkg"
-          dir env:VCPKG*
         }
         ./scripts/build.ps1 -BuildTypes ${{ matrix.build_type }} -CC ${{ matrix.c_compiler }} -CPP ${{ matrix.cpp_compiler }} -Clean -RootDir "${{ github.workspace }}"
 
