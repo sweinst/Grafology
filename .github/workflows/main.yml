@@ -63,7 +63,7 @@ jobs:
         if ("${{ matrix.os }}".startsWith("ubuntu")) {
           sudo apt install ninja-build
         }
-        else if ("${{ matrix.os }}".startsWith("macos")) {
+        elseif ("${{ matrix.os }}".startsWith("macos")) {
           brew install ninja
         }
 
