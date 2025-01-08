@@ -58,13 +58,14 @@ jobs:
             compiler: cl
 
     steps:
-    - name: Install Ninja
+    - name: Install missing dependencies
       run: |
         if ("${{ matrix.os }}".startsWith("ubuntu")) {
           sudo apt install ninja-build
         }
-        else if ("${{ matrix.os }}".startsWith("macos")) {
+        elseif ("${{ matrix.os }}".startsWith("macos")) {
           brew install ninja
+          brew install vcpkg
         }
 
     - name: Checkout
