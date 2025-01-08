@@ -4,7 +4,7 @@
         {
             "name": "TopLevelIncludes",
             "displayName": "Top Level Includes",
-            "description": "Specify settings common to all configurations.",
+            "description": "Specify settings shared by all configurations.",
             "hidden": true,
             "cacheVariables": {
                 "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
