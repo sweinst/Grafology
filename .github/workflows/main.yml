@@ -66,6 +66,9 @@ jobs:
         elseif ("${{ matrix.os }}".startsWith("macos")) {
           brew install ninja
           brew install vcpkg
+          $VCPKG_ROOT="${{ github.workspace }}/tmp/vcpkg"
+          git clone https://github.com/microsoft/vcpkg $VCPKG_ROOT
+          echo "VCPKG_ROOT=${VCPKG_ROOT}" >> $GITHUB_ENV
         }
 
     - name: Checkout
@@ -76,13 +79,6 @@ jobs:
         cd ${{github.workspace}}
         if ("${{ matrix.os }}".startsWith("windows")) {
           ./scripts/vs-setup.ps1 -Version 2022 -Edition Enterprise -Bits 64
-        }
-        if ("${{ matrix.os }}".startsWith("macos")) {
-          write-host "vcpkg -> " (get-command vcpkg).Source
-          $env:VCPKG_ROOT = (Split-Path -Parent (get-command vcpkg).Source)
-          write-host "h -> ${env:VCPKG_ROOT}"
-          dir ${env:VCPKG_ROOT}
-          write-host "+==================+"
         }
         dir env:
         ./scripts/build.ps1 -BuildTypes ${{ matrix.build_type }} -CC ${{ matrix.c_compiler }} -CPP ${{ matrix.cpp_compiler }} -Clean -RootDir "${{ github.workspace }}"
