@@ -65,13 +65,16 @@ $common_options = @(
     "-G Ninja"
 )
 
+if ($isMacOS) {
+    $common_options += "-DVCPKG_TARGET_TRIPLET=arm64-osx-gcc"
+}
+
+
 if ($CC) {
-    #${CC} = (Get-Command ${CC}).Source
     $common_options += "-DCMAKE_C_COMPILER=${CC}"
 }
 
 if ($CPP) {
-  #${CPP} = (Get-Command ${CPP}).Source
   $common_options += "-DCMAKE_CXX_COMPILER=${CPP}"
 }
 
@@ -86,6 +89,7 @@ $BuildTypes | ForEach-Object {
     $preset="${os}-${arch}-${build_type}"
     Write-Host "============> Building $preset"
     # can't write "do_something || exit 1" in PowerShell due to a bug still not fixed in pwsh 7.4.1
+    write-host "cmake --preset ${preset} $common_options"
     & cmake --preset ${preset} $common_options
     if ($LASTEXITCODE -ne 0) { exit 1 }
     & cmake --build "${RootDir}/bin/${os}/${build_type}"
