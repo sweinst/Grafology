@@ -68,7 +68,6 @@ jobs:
           brew install vcpkg
           $VCPKG_ROOT="${{ github.workspace }}/tmp/vcpkg"
           git clone https://github.com/microsoft/vcpkg $VCPKG_ROOT
-          write-output "VCPKG_ROOT=${VCPKG_ROOT}" >> $GITHUB_ENV
         }
 
     - name: Checkout
@@ -81,9 +80,8 @@ jobs:
           ./scripts/vs-setup.ps1 -Version 2022 -Edition Enterprise -Bits 64
         }
         elseif ("${{ matrix.os }}".startsWith("macos")) {
-          dir variable:V*
-          dir env:V*
-          $env:VCPKG_ROOT=$VCPKG_ROOT
+          $env:VCPKG_ROOT="${{ github.workspace }}/tmp/vcpkg"
+          dir env:VCPKG*
         }
         ./scripts/build.ps1 -BuildTypes ${{ matrix.build_type }} -CC ${{ matrix.c_compiler }} -CPP ${{ matrix.cpp_compiler }} -Clean -RootDir "${{ github.workspace }}"
 
