@@ -4,7 +4,7 @@
         {
             "name": "TopLevelIncludes",
             "displayName": "Top Level Includes",
-            "description": "Specify top level includes to use.",
+            "description": "Specify settings common to all configurations.",
             "hidden": true,
             "cacheVariables": {
                 "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
@@ -168,10 +168,11 @@
                 "rhs": "Darwin"
             },
             "cacheVariables": {
-                "CMAKE_C_COMPILER": "clang",
-                "CMAKE_CXX_COMPILER": "clang++",
+                "CMAKE_C_COMPILER": "gcc-14",
+                "CMAKE_CXX_COMPILER": "g++-14",
                 "CMAKE_INSTALL_PREFIX": "${sourceDir}/dist/osx",
-                "VCPKG_TARGET_TRIPLET": "arm64-osx"
+                "VCPKG_TARGET_TRIPLET": "arm64-osx-gcc",
+                "VCPKG_OVERLAY_TRIPLETS": "${sourceDir}/vcpkg/mac"
             }
         },
         {
