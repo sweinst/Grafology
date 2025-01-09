@@ -18,7 +18,7 @@ Both implementations are slight variations on the [Tarjan's bridge-finding algor
 
 ```mermaid
 ---
-title: Bridges
+title: Bridges & Articulation Points
 config:
   themeVariables:
     fontSize: 10px
