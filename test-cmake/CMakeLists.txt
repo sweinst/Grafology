@@ -10,7 +10,6 @@ elseif ("${CMAKE_HOST_SYSTEM_NAME}" STREQUAL "Darwin")
     set(DIST_OS "osx")
 endif()
 
-set(OS_PREFIX ${})
 list (APPEND CMAKE_PREFIX_PATH "${CMAKE_SOURCE_DIR}/../dist/${DIST_OS}/cmake")
 message(STATUS "=> ${CMAKE_PREFIX_PATH}")
 

@@ -23,11 +23,11 @@ The code has been tested with the following configurations:
 
 # Installation
 
-# VCPKG
+## VCPKG
 
 An installation with *vcpkg* will be provided soon.
 
-This will be the recommended way for installing the library/
+**This will be the recommended way for installing the library.**
 
 ## Manual installation
 
@@ -41,3 +41,26 @@ If you want a *"manual"* cmake compatible installation, you need to build the li
 
 The installation will create a "dist" folder which can be used with cmake. Cmake will need to know where to look for the configuration files.
 
+Add the following lines to your "CMakeLists.txt":
+```cmake
+if ("${CMAKE_HOST_SYSTEM_NAME}" STREQUAL "Windows")
+    set(DIST_OS "windows")
+elseif ("${CMAKE_HOST_SYSTEM_NAME}" STREQUAL "Linux")
+    set(DIST_OS "linux")
+elseif ("${CMAKE_HOST_SYSTEM_NAME}" STREQUAL "Darwin")
+    set(DIST_OS "osx")
+endif()
+list (APPEND CMAKE_PREFIX_PATH "${DIST_LOCATION}/../dist/${DIST_OS}/cmake")
+```
+
+Where *DIST_LOCATION* is the location of the *"dist"* folder created by the cmake installation.
+
+If you are working with only one OS (for example WIndows), just add:
+```cmake
+list (APPEND CMAKE_PREFIX_PATH "${DIST_LOCATION}/../dist/Windows/cmake")
+```
+
+Then, you will able to find the library with cmake:
+```cmake
+find_package(grafology CONFIG REQUIRED)
+```
