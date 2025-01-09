@@ -52,7 +52,7 @@ graph LR;
     I -- 6 --- H
 
     linkStyle default font-size: 15px
-    linkStyle 0,2,4,5,6,7,10,11 stroke-width:2px, stroke:red, fill: none
+    linkStyle 0,2,4,5,6,7,10,11 stroke-width:3px, stroke:red, fill: none
 ```
 
 

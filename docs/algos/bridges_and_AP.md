@@ -55,9 +55,9 @@ graph LR;
     11 --- 9
     11 --- 12
 
-    classDef AP stroke:teal
+    classDef AP stroke:teal,stroke-width:3px
     linkStyle default font-size: 15px
-    linkStyle 3,5,9,13 stroke-width:2px, stroke:red, fill: none
+    linkStyle 3,5,9,13 stroke-width:3px, stroke:red, fill: none
 ```
 
 *NB: a bug in Mermaid shows "undirected" edges as "directed". So all the arrows should not been drawn.*

@@ -70,7 +70,7 @@ graph LR;
     4 -- 4 --> 5
 
     linkStyle default font-size: 15px
-    linkStyle 0,1,3,4,5,7,8,9 stroke-width:2px, stroke:red, fill: none
+    linkStyle 0,1,3,4,5,7,8,9 stroke-width:3px, stroke:red, fill: none
 ```
 
 ## Requirements
