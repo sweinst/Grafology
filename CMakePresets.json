@@ -210,7 +210,7 @@
             "displayName": "MacOS arm64 Debug",
             "description": "Debug target for MacOS arm64 clang.",
             "inherits": "osx-arm64",
-            "binaryDir": "${sourceDir}/bin/osx/Debug",
+            "binaryDir": "${sourceDir}/bin/Darwin/Debug",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug"
             }

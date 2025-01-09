@@ -1,7 +1,7 @@
 <div align="center">
     <img 
         src="imgs/logo.png" 
-        alt="Répétiteur logo"
+        alt="Grafology logo"
         height="150px"
         width="400px"
         />
@@ -18,12 +18,12 @@ In the following documentation:
 - $E(i,j)$ is the edge from vertex $i$ to vertex $j$.
 
 ## Table of contents
-1.  Graph classes
+1. [Installation](installation.md)
+2.  Graph classes
     1. [Graph implementations](graph_implementations.md)
     2. Graphs
     3. API
-    4. &nbsp;&nbsp;Installation
-2. Algorithms
+3. Algorithms
     1.  All graphs
         1. Breath first search
         2. Depth first search

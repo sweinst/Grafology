@@ -1,7 +1,7 @@
 <div align="center">
     <img 
         src="imgs/logo.png" 
-        alt="Répétiteur logo"
+        alt="Grafology logo"
         height="113px"
         width="300px"
         />

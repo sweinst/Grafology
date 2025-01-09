@@ -35,7 +35,7 @@ jobs:
             compiler: gcc
             c_compiler: gcc-14
             cpp_compiler: g++-14
-            output_dir: bin/osx/Release
+            output_dir: bin/Darwin/Release
           - os: ubuntu-24.04
             preset: linux-x64-Release
             compiler: gcc
