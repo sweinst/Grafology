@@ -25,3 +25,8 @@ The code has been tested with the following configurations:
 
 ## Manual installation
 
+At the moment, the library is a headers only library. So adding "src/include" to your compiling options should be enough.
+
+## Cmake compatible installation
+
+If you want a cmake compatible installation 
