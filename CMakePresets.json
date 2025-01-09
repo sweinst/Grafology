@@ -165,7 +165,7 @@
             "condition": {
                 "type": "equals",
                 "lhs": "${hostSystemName}",
-                "rhs": "osx"
+                "rhs": "Darwin"
             },
             "cacheVariables": {
                 "CMAKE_C_COMPILER": "gcc-14",

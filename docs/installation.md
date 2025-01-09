@@ -23,10 +23,21 @@ The code has been tested with the following configurations:
 
 # Installation
 
+# VCPKG
+
+An installation with *vcpkg* will be provided soon.
+
+This will be the recommended way for installing the library/
+
 ## Manual installation
+
+### Without cmake support
 
 At the moment, the library is a headers only library. So adding "src/include" to your compiling options should be enough.
 
-## Cmake compatible installation
+## With cmake support
 
-If you want a cmake compatible installation 
+If you want a *"manual"* cmake compatible installation, you need to build the library and install it.
+
+The installation will create a "dist" folder which can be used with cmake. Cmake will need to know where to look for the configuration files.
+
