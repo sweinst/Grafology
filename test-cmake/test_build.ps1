@@ -1,33 +1,25 @@
-$wd = $PWD
 $src_root=${PSScriptRoot}
-$os = "windows"
-$common_options = @(
-    "-DVCPKG_APPLOCAL_DEPS=ON",
-    "-DX_VCPKG_APPLOCAL_DEPS_INSTALL=ON",
-    "-DVCPKG_TARGET_TRIPLET=x64-${os}",
-    "-DVCPKG_MANIFEST_MODE=ON",
-    "-DCMAKE_TOOLCHAIN_FILE=${env:VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
-    "-S${src_root}"
-)
+$tmp_dir="${src_root}/bin"
+$os = $IsWindows ? "Windows" : ( $IsLinux ? "Linux" : ( $IsMacOS ? "MacOS" : "Unknown" ) )
 
+
+Push-Location .
 try {
+    Set-location ${src_root}
     # remove any left over
-    Remove-Item -force -recurse ${PSScriptRoot}/tmp -ErrorAction Ignore
+    Remove-Item -force -recurse ${tmp_dir} -ErrorAction Ignore
     # run cmake
-    $nd = mkdir ${PSScriptRoot}/tmp
-    Set-Location $nd
-    & cmake -G 'Visual Studio 17 2022' -A x64 -DCMAKE_BUILD_TYPE=Debug -B . $common_options || exit 1
-    cmake --build . || exit 1
+    cmake --preset ${os} || exit 1
+    cmake --build bin/Debug || exit 1
     # cleaning
-    Set-location $wd
     Remove-Item -force -recurse ${PSScriptRoot}/tmp -ErrorAction Ignore
     Write-Host "Done."
 }
 catch {
-    Write-Host $_.Excption.Message
+    Write-Host $_.Exception.Message
     exit 1
 }
 finally {
-    Set-location $wd
+    Pop-Location
     Remove-Item -force -recurse ${PSScriptRoot}/tmp -ErrorAction Ignore
 }

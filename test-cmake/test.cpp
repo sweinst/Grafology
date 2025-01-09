@@ -1,9 +1,12 @@
-#include <grafology/grafology.h>
+#include <grafology/graph.h>
+#include <print>
 
 namespace g = grafology;
 
 int main()
 {
-    g::test();
+    g::SparseGraphImpl graph(10, 10, true);
+    std::println("Graph capacity: {}", graph.capacity());
     return 0;
 }
+

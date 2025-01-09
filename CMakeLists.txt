@@ -102,7 +102,13 @@ install(
     TARGETS ${PROJECT_NAME}
     EXPORT ${PROJECT_NAME}Targets
     ARCHIVE DESTINATION lib/${CMAKE_BUILD_TYPE}
-    PUBLIC_HEADER DESTINATION include/${PROJECT_NAME}
+)
+
+# NB: the final slash is important as it will allow to preserve the directory structure
+install(DIRECTORY "${CMAKE_SOURCE_DIR}/src/include/" # source directory
+        DESTINATION "include" # target directory
+        FILES_MATCHING # install only matched files
+        PATTERN "*.h" # select header files
 )
 
 install(
