@@ -73,16 +73,20 @@ This is only required if you want to modify the library or generate a distributi
 
 ### Git & cmake
 
-These tools come nowadays with any development framework.
+These tools come nowadays with any C++ development framework.
+
+They can be found installed with:
+- Windows: Visual Studio 2022, CLion, chocolatey, scoop, ...
+- Ubuntu/Linux: Linux repositories
+- Mac: XCode, Homebrew, ...
+
 
 ### Ninja
 
-Ninja is the build system used on all platforms.
-
-It can be downloaded from the [github releases](https://github.com/ninja-build/ninja/releases).
+Ninja is the build system used on all platforms. It can be downloaded from the [github releases](https://github.com/ninja-build/ninja/releases).
 
 Alternatively, it can be installed from different sources:
-- Windows: Chocolatey, scoop, ....
+- Windows: Visual Studio 2022, Chocolatey, scoop, ....
 - Ubuntu: Ubuntu repositories (ninja-build)
 - Mac: Homebrew
 
@@ -103,6 +107,17 @@ I use [vcpkg](https://vcpkg.io/en/) as the C++ package manager. The only externa
 Follow the [instructions](https://learn.microsoft.com/en-gb/vcpkg/get_started/get-started?pivots=shell-powershell#1---set-up-vcpkg) on their website for the installation.
 
 ## Build
+
+You need first to launch a terminal running PoweShell:
+```powershell
+> pwsh
+```
+
+**On Windows**, you need first to setup the path to the Visual Studio 2022 compiler and other tools. 
+```powershell
+> ./scripts/vs-setup.ps1  -Version 2022 -Edition Community
+```
+*Edition* can be "Community" or "Enterprise" depending on your Visual Studio installation
 
 Run with PowerShell the build.ps1 script:
 ```powershell
