@@ -35,9 +35,6 @@ endif(BUILD_TESTS)
 ##################################################
 set(GRAFOLOGY_SRC 
     src/cpp/Grafology.cpp
-    src/cpp/sparse_graph_impl.cpp
-    src/cpp/dense_graph_impl.cpp
-    src/cpp/flat_index_map.cpp
 )
 
 set(GRAFOLOGY_HDRS 
