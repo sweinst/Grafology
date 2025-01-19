@@ -30,8 +30,9 @@ In the following documentation:
         3. [Transitive closure](algos/transitive_closure.md)
     2.  Undirected graphs
         1. [Bridges & Articulation Points](algos/bridges_and_AP.md)
-        1. [Minimal spanning trees](algos/minimum_spanning_tree.md)
-        2. [Shortest paths](algos/shortest_paths.md)
+        2. [Minimal spanning trees](algos/minimum_spanning_tree.md)
+        3. [Shortest paths](algos/shortest_paths.md)
     3.  Directed graphs
         1. [Maximal flow](algos/maximum_flow.md)
-        2. [Topological sorting](algos/topological_sorting.md)
+        2. [Strongly Connected Components](algos/strongly_connected_components.md)
+        3. [Topological sorting](algos/topological_sorting.md)

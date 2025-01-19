@@ -47,6 +47,7 @@ namespace grafology {
                                     stack.push({w, false});
                                     stack.push({w, true});
                                 } else if (stack_member[w]) {
+                                    /// it's a back edge
                                     lowest_time[v] = std::min(lowest_time[v], discovery_time[w]);
                                 }
                             }
@@ -59,9 +60,8 @@ namespace grafology {
                             lowest_time[p] = std::min(lowest_time[p], lowest_time[v]);
                         }
                         // at this stage, all the children vertices has been processed
-                        // check if the component is the start of an SCC
                         if (discovery_time[v] == lowest_time[v]) {
-                            // head node found
+                            // A vertex starting an SCC has been found
                             std::vector<vertex_t> component;
                             vertex_t w = NO_PREDECESSOR;
                             while (w != v) {

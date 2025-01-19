@@ -1,5 +1,3 @@
-#include <grafology/algorithms/strongly_connected_components.h>
-
 #include <grafology/algorithms/all_shortest_paths.h>
 #include <grafology/algorithms/articulation_points.h>
 #include <grafology/algorithms/breath_first_search.h>
