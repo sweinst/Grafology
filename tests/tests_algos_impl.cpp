@@ -326,7 +326,6 @@ TEMPLATE_TEST_CASE(
     g::DenseGraphImpl,
     g::SparseGraphImpl
 ) {
-    int n_vertices = 14;
     std::vector<std::tuple<int, std::vector<g::edge_t>, std::vector<std::set<g::vertex_t>>>>
         graph_defs{
             {

@@ -77,5 +77,21 @@ namespace grafology {
             }
         }
     }
+
+    template<GraphImpl Impl, VertexKey Vertex>
+    generator<std::vector<Vertex>> strongly_connected_components(const Graph<Impl, Vertex, true>& graph) {
+        for (auto scc : strongly_connected_components(graph.impl())) {
+            auto vertices = scc | 
+                std::views::transform([&](auto v) { return graph.get_vertex_from_internal_index(v); }) | 
+                std::ranges::to<std::vector<Vertex>>();
+            co_yield vertices;
+        }
+    }
+
+    template<GraphImpl Impl, VertexKey Vertex>
+    generator<std::vector<Vertex>> strongly_connected_components(const Graph<Impl, Vertex, false>& graph) {
+        static_assert(false, "Bridges works only on directed graphs");
+    }
+
 } // namespace grafology
 

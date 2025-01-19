@@ -35,7 +35,7 @@ namespace grafology {
   //** the edge type */
   struct edge_t {
     vertex_t start;
-    vertex_t end;
+    vertex_t end = INVALID_VERTEX;
     int weight = 1;
 
     bool operator==(const edge_t& other) const {
