@@ -14,8 +14,8 @@
 In the following documentation:
 - $V$ is the set of vertices. The number of vertices is $\lVert V \rVert$
 - $E$ is the set of edges. The number of edges is $\lVert E \rVert$
-- $G = (V, E)$ is the graph defined by the vertices $V$ and the edges $E$.
 - $E(i,j)$ is the edge from vertex $i$ to vertex $j$.
+- $G = (V, E)$ is the graph defined by the vertices $V$ and the edges $E$.
 
 ## Table of contents
 1. [Installation](installation.md)

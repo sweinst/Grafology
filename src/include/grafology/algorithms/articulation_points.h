@@ -15,11 +15,12 @@ namespace grafology {
             throw error("Articulation_points works only on undirected graphs");
         }
         auto V = graph.size();
+        constexpr int UNDEFINED = std::numeric_limits<int>::max();
         std::vector<bool> visited(V, false);
         std::vector<bool> is_articulation(V, false);
-        std::vector<int> discovery_time(V, std::numeric_limits<int>::max());
-        std::vector<int> lowest_time(V, std::numeric_limits<int>::max());
-        std::vector<int> n_children(V, std::numeric_limits<int>::max());
+        std::vector<int> discovery_time(V, UNDEFINED);
+        std::vector<int> lowest_time(V, UNDEFINED);
+        std::vector<int> n_children(V, 0);
         std::vector<vertex_t> parent(V, NO_PREDECESSOR);
         int timer = 0;
 
@@ -45,7 +46,7 @@ namespace grafology {
                         auto p = parent[v];
                         discovery_time[v] = lowest_time[v] = time;
                         visited[v] = true;
-                        time++;
+                        ++time;
                         for (auto w : graph.get_raw_neighbors(v)) {
                             if (!visited[w]) {
                                 parent[w] = v;

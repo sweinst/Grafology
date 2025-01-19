@@ -1,3 +1,5 @@
+#include <grafology/algorithms/strongly_connected_components.h>
+
 #include <grafology/algorithms/all_shortest_paths.h>
 #include <grafology/algorithms/articulation_points.h>
 #include <grafology/algorithms/breath_first_search.h>
@@ -6,6 +8,7 @@
 #include <grafology/algorithms/maximum_flow.h>
 #include <grafology/algorithms/minimum_spanning_tree.h>
 #include <grafology/algorithms/shortest_path.h>
+#include <grafology/algorithms/strongly_connected_components.h>
 #include <grafology/algorithms/topological_sort.h>
 #include <grafology/algorithms/transitive_closure.h>
 #include <catch2/catch_template_test_macros.hpp>
@@ -315,4 +318,61 @@ TEMPLATE_TEST_CASE(
 
     CAPTURE(expected_articulations_points.size(), result.size());
     CHECK(expected_articulations_points == result);
+}
+
+TEMPLATE_TEST_CASE(
+    "Impl - Strongly Connected Components",
+    "[impl-algos]",
+    g::DenseGraphImpl,
+    g::SparseGraphImpl
+) {
+    int n_vertices = 14;
+    std::vector<std::tuple<int, std::vector<g::edge_t>, std::vector<std::set<g::vertex_t>>>>
+        graph_defs{
+            {
+                // n vertices
+                5,
+                // edges
+                {{1, 0}, {0, 2}, {2, 1}, {0, 3}, {3, 4}},
+                // expected SCCs
+                {{4}, {3}, {1, 2, 0}},
+            },
+            {
+                4,
+                {{0, 1}, {1, 2}, {2, 3}},
+                {{0}, {1}, {2}, {3}},
+            },
+            {
+                7,
+                {{0, 1}, {1, 2}, {2, 0}, {1, 3}, {1, 4}, {1, 6}, {3, 5}, {4, 5}},
+                {{5}, {4}, {3}, {6}, {2, 1, 0}},
+            },
+            {
+                11,
+                {{0, 1}, {0, 3}, {1, 2}, {1, 4}, {2, 0}, {2, 6}, {3, 2}, {4, 5}, {4, 6}, {5, 6}, {5, 7}, {5, 8}, {5, 9}, {6, 4}, {7, 9}, {8, 9}, {9, 8}},
+                {{8, 9}, {7}, {5, 4, 6}, {3, 2, 1, 0}, {10}},
+            },
+            {
+                5,
+                {{0, 1}, {1, 2}, {2, 3}, {2, 4}, {3, 0}, {4, 2}},
+                {{4, 3, 2, 1, 0}},
+            },
+        };
+
+    for (const auto& [n_vertices, edges, expected] : graph_defs) {
+        TestType g(n_vertices, n_vertices, true);
+        g.set_edges(edges);
+
+        std::vector<std::set<g::vertex_t>> sccs;
+        for (const auto& scc : g::strongly_connected_components(g)) {
+            sccs.push_back(std::set(scc.begin(), scc.end()));
+        }
+        CAPTURE(n_vertices);
+        CAPTURE(sccs, expected);
+        REQUIRE(sccs.size() == expected.size());
+        for (const auto& scc : sccs) {
+            CAPTURE(scc);
+            CHECK(std::ranges::find(expected, scc) != expected.end());
+        }
+    }
 }
