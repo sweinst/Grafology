@@ -36,3 +36,7 @@ In the following documentation:
         1. [Maximal flow](algos/maximum_flow.md)
         2. [Strongly Connected Components](algos/strongly_connected_components.md)
         3. [Topological sorting](algos/topological_sorting.md)
+4. Graph generators
+    1. R3Mat
+5. Parallel algorithms
+    1. Breath first search
