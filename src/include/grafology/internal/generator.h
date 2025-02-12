@@ -1,7 +1,7 @@
 #pragma once
 
 // this header allow to use std::generator with compilers which doesn't provide it
-// VisualStudio 2022 17.12.3: in experimental 
+// Before VisualStudio 2022 17.3.0, the <generator> header was in "experimental"
 // g++ > 14.0 is required
 // Clang > 19.0 is required
 
