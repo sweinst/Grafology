@@ -6,7 +6,7 @@ namespace grafology {
     template <GraphImpl G>
     generator<std::vector<vertex_t>> strongly_connected_components(const G& graph) {
         if (!graph.is_directed()) {
-            throw error("Strongly_connected_components works only on directed graphs");
+            throw error("Strongly connected components works only on directed graphs");
         }
         auto V = graph.size();
         constexpr int UNDEFINED = -1;
@@ -90,7 +90,7 @@ namespace grafology {
 
     template<GraphImpl Impl, VertexKey Vertex>
     generator<std::vector<Vertex>> strongly_connected_components(const Graph<Impl, Vertex, false>& graph) {
-        static_assert(false, "Bridges works only on directed graphs");
+        static_assert(false, "Strongly connected components works only on directed graphs");
     }
 
 } // namespace grafology
