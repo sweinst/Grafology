@@ -35,6 +35,7 @@ endif(BUILD_TESTS)
 ##################################################
 set(GRAFOLOGY_SRC 
     src/cpp/Grafology.cpp
+    src/cpp/r3mat_generator.cpp
 )
 
 set(GRAFOLOGY_HDRS 
@@ -53,6 +54,7 @@ set(GRAFOLOGY_HDRS
     src/include/grafology/algorithms/depth_first_search.h
     src/include/grafology/algorithms/maximum_flow.h
     src/include/grafology/algorithms/minimum_spanning_tree.h
+    src/include/grafology/generators/r3mat_generator.h
     src/include/grafology/algorithms/requirements.h
     src/include/grafology/algorithms/shortest_path.h
     src/include/grafology/algorithms/strongly_connected_components.h
