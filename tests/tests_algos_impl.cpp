@@ -15,6 +15,8 @@
 #include <unordered_set>
 #include "test_vertex.h"
 
+#include <grafology/generators/r3mat_generator.h>
+
 namespace g = grafology;
 
 namespace {
