@@ -6,8 +6,7 @@ namespace grafology {
     /**
      * @brief A generator that allows the creation of large random graph which try to emulate graphs
      * found in real networks.
-     * @see [R3MAT: A Rapid and Robust Graph
-     * Generator](https://ieeexplore.ieee.org/document/9141251) for more details
+     * @see [R3MAT: A Rapid and Robust Graph Generator](https://ieeexplore.ieee.org/document/9141251) for more details
      */
     class R3MatGenerator {
        public:

@@ -37,6 +37,6 @@ In the following documentation:
         2. [Strongly Connected Components](algos/strongly_connected_components.md)
         3. [Topological sorting](algos/topological_sorting.md)
 4. Graph generators
-    1. R3Mat
+    1. [R3Mat](generators/R3Mat.md)
 5. Parallel algorithms
     1. Breath first search
