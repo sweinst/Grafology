@@ -98,6 +98,12 @@ namespace grafology {
             set_edges(std::begin(r), std::end(r));
         }
 
+        void set_edges(generator<edge_t>& g) {
+            for (const auto& edge : g) {
+                set_edge(edge);
+            }
+        }
+
         std::size_t degree(vertex_t vertex) const {
             assert(vertex < _n_vertices);
             return _adjacency_list[vertex].size();

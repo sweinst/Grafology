@@ -9,14 +9,14 @@ namespace grafology {
      * @see [R3MAT: A Rapid and Robust Graph
      * Generator](https://ieeexplore.ieee.org/document/9141251) for more details
      */
-    class R3MatGeneratorBase {
+    class R3MatGenerator {
        public:
-        R3MatGeneratorBase(unsigned seed = 0) {
+        R3MatGenerator(unsigned seed = 0) {
             if (seed != 0) {
                 _rd.seed(seed);
             }
         }
-        ~R3MatGeneratorBase() = default;
+        ~R3MatGenerator() = default;
 
         /**]
          * @brief generates the degree distribution of the graph
@@ -34,10 +34,11 @@ namespace grafology {
         /**
          * @brief generates the edges of an undirected graph
          * 
+         * @param preserve_distribution if true, the array giving the distribution of the degrees is preserved
          * @return a generator for the edges
          * @warning generate_degree_distribution must be called first
          */
-        generator<edge_t> generate_undirected_edges();
+        generator<edge_t> generate_undirected_edges(bool preserve_distribution = false);
 
         /**
          * @brief Get the vertex degrees distribution
@@ -67,4 +68,21 @@ namespace grafology {
         double _offset4;
     };
 
+    template <GraphImpl Impl>
+    Impl generate_r3mat_graph(unsigned n_max_vertices, unsigned n_vertices, bool is_directed, unsigned seed = 0) {
+        R3MatGenerator gen(seed);
+        gen.generate_degree_distribution(is_directed, n_vertices);
+        auto edges = is_directed ? gen.generate_directed_edges() : gen.generate_undirected_edges();
+        Impl g(n_max_vertices, n_vertices, is_directed);
+        g.set_edges(edges);
+        return g;
+    }
+
+    inline SparseGraphImpl generate_r3mat_sparse_graph(unsigned n_max_vertices, unsigned n_vertices, bool is_directed, unsigned seed = 0) {
+        return generate_r3mat_graph<SparseGraphImpl>(n_max_vertices, n_vertices, is_directed, seed);
+    }
+
+    inline DenseGraphImpl generate_r3mat_dense_graph(unsigned n_max_vertices, unsigned n_vertices, bool is_directed, unsigned seed = 0) {
+        return generate_r3mat_graph<DenseGraphImpl>(n_max_vertices, n_vertices, is_directed, seed);
+    }
 }  // namespace grafology

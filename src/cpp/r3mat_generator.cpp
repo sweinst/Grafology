@@ -2,7 +2,7 @@
 #include <cmath>
 
 namespace grafology {
-    void R3MatGeneratorBase::generate_degree_distribution(bool is_directed, unsigned n_vertices) {
+    void R3MatGenerator::generate_degree_distribution(bool is_directed, unsigned n_vertices) {
         double pa, pb, pc, pd;
         unsigned n_edges =
             (unsigned)(2. / 3. * n_vertices * std::log(n_vertices) + 0.38481 * n_vertices);
@@ -10,13 +10,12 @@ namespace grafology {
         _degrees.clear();
         _degrees.resize(n_vertices, 1);
         // adjust the remaining number of edges to generate
-        if (is_directed) {
-            n_edges -= n_vertices;
-        } else {
+        n_edges -= n_vertices;
+        if (!is_directed) {
             if (n_vertices % 2 == 0) {
                 _degrees[0] = 2;
             }
-            n_edges -= (n_vertices + 1) / 2;
+            --n_edges;
         }
         // R3-MAT probabilities
         if (is_directed) {
@@ -40,13 +39,16 @@ namespace grafology {
         for (unsigned i = 0; i < n_edges; i++) {
             do {
                 e = choose_edge(0, 0, n_vertices - 1, n_vertices - 1, pa, pb, pc, pd);
-            } while (_degrees[e.start] >= n_vertices - 1 || _degrees[e.end] >= n_vertices - 1);
+            } while (_degrees[e.start] >= n_vertices - 1 ||(!is_directed &&  _degrees[e.end] >= n_vertices - 1));
             _degrees[e.start]++;
-            _degrees[e.end]++;
+            if (!is_directed)
+            {
+                _degrees[e.end]++;
+            }            
         }
     }
 
-    edge_t R3MatGeneratorBase::choose_edge(
+    edge_t R3MatGenerator::choose_edge(
         unsigned x1,
         unsigned y1,
         unsigned xn,
@@ -111,7 +113,7 @@ namespace grafology {
         return choose_edge(half_x, half_y, xn, yn, new_a, new_b, new_c, new_d);
     }
     
-    generator<edge_t> R3MatGeneratorBase::generate_directed_edges() {
+    generator<edge_t> R3MatGenerator::generate_directed_edges() {
         unsigned n_vertices = _degrees.size();
         for (vertex_t start = 0; start < n_vertices; ++start) {
             auto degree = _degrees[start];
@@ -131,22 +133,39 @@ namespace grafology {
         }
     }
     
-    generator<edge_t> R3MatGeneratorBase::generate_undirected_edges() {
+    generator<edge_t> R3MatGenerator::generate_undirected_edges(bool preserve_distribution) {
         unsigned n_vertices = _degrees.size();
+        std::vector<unsigned> degrees_copy;
+        if (preserve_distribution) {
+            degrees_copy = _degrees;
+        }
         for (vertex_t start = 0; start < n_vertices; ++start) {
             auto end = start + 1;
             while (end < n_vertices) {
                 if (_degrees[start] == 0) {
                     break;
                 }
-                co_yield {start, end};
-                _degrees[start]--;
-                co_yield {end, start};
-                _degrees[end]--;
+                if (_degrees[end] > 0)
+                {
+                    co_yield {start, end};
+                    _degrees[start]--;
+                    co_yield {end, start};
+                    _degrees[end]--;
+                    }                
                 ++end;
             }
-            assert(_degrees[start] == 0);
+            // as we assigned the edges not only for the source node but also for the target node
+            // we may not be able to assign all the edges of the distribution
+            // assert(_degrees[start] == 0);
+            if (preserve_distribution)
+            {
+                for (vertex_t start = 0; start < n_vertices; ++start) {
+                    degrees_copy[start] -= _degrees[start];
+                }
+                std::swap(_degrees, degrees_copy);
+            }
         }
     }
+
 } // namespace grafology
 
