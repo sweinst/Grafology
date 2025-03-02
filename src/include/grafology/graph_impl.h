@@ -26,8 +26,11 @@ namespace grafology {
   using vertex_t = unsigned;
   constexpr vertex_t INVALID_VERTEX = std::numeric_limits<vertex_t>::max();
   constexpr vertex_t NO_PREDECESSOR = std::numeric_limits<vertex_t>::max();
-  //** the type for the edge weights
-  using weight_t = int;
+  //** the type for the edge weights (can be overriden by defining the macro GRAFOLOGY_WEIGHT_TYPE) */
+  #if !defined(GRAFOLOGY_WEIGHT_TYPE)
+  #define GRAFOLOGY_WEIGHT_TYPE int
+  #endif
+  using weight_t = GRAFOLOGY_WEIGHT_TYPE;
   constexpr weight_t D_INFINITY = std::numeric_limits<weight_t>::max();
   //** a step on path  = (Vertex, distance from path) */
   using step_t = std::tuple<vertex_t, weight_t>;
@@ -36,7 +39,7 @@ namespace grafology {
   struct edge_t {
     vertex_t start;
     vertex_t end = INVALID_VERTEX;
-    int weight = 1;
+    weight_t weight = 1;
 
     bool operator==(const edge_t& other) const {
       return start == other.start && end == other.end;
