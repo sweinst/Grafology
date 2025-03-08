@@ -12,6 +12,7 @@
 #include <unordered_set>
 #include "test_vertex.h"
 using namespace std::string_literals;
+#include <grafology/graph_traits.h>
 
 namespace g = grafology;
 using TestEdge = g::EdgeDefinition<TestVertex>;
