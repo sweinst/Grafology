@@ -7,8 +7,8 @@
 
 namespace g = grafology;
 // a directed sparse graph which uses strings as vertices identifiers
-using Graph = g::SparseGraphImpl;
-using Edge = g::edge_t;
+using Graph = g::SparseGraphImpl<int>;
+using Edge = Graph::edge_lt;
 
 // this is the same graph than in ex01-topological-sort-graph.cpp (cake recipe)
 std::vector<Edge> edges {

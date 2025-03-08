@@ -6,7 +6,7 @@
 
 namespace g = grafology;
 // a directed sparse graph which uses strings as vertices identifiers
-using Graph = g::DirectedSparseGraph<std::string>;
+using Graph = g::DirectedSparseGraph<std::string, int>;
 using Edge = Graph::Edge;
 
 std::vector<Edge> edges {

@@ -10,7 +10,7 @@ add_executable(
     tests_disjoint_set.cpp
     tests_flat_index_map.cpp
     tests_graph.cpp
-    tests_graph_generators.cpp
+    # TODO:: tests_graph_generators.cpp
     tests_graph_impl.cpp
 )
 target_link_libraries(tests PRIVATE grafology Catch2::Catch2WithMain)

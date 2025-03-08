@@ -6,7 +6,7 @@ namespace g = grafology;
 TEST_CASE("Test DisjointSet", "[disjointset]")
 {
     constexpr size_t n_vertices = 15;
-    const std::vector <g::edge_t> edges = {
+    const std::vector <g::edge_t<int>> edges = {
         {0, 1}, {0, 2}, {1, 2}, {1, 4}, {1, 3},
         {4, 5}, {3,5}, {4, 6}, {6, 7}, {7, 8},
         {14, 13}, {13, 11}, {11, 12}, {11, 10,}, {12, 10},

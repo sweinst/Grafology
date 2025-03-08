@@ -7,7 +7,11 @@ namespace grafology {
    * @brief This struct allows to process the results of the algorithm all_shortest_paths
    * @remark it allows to save the results of the algorithm and so avoid to use dangling references
    */
+  template <typename weight_t>
   struct AllShortestPathsImpl {
+    using D_INFINITY = edge_t<weight_t>::D_INFINITY;
+    using step_lt = std::tuple<vertex_t, weight_t>;
+
     AllShortestPathsImpl(size_t n_vertices, vertex_t start)
         : _distances(n_vertices, D_INFINITY)
         , _predecessors(n_vertices, NO_PREDECESSOR)
@@ -28,9 +32,9 @@ namespace grafology {
       return _distances[end] != D_INFINITY; 
     }
 
-    std::vector<step_t> get_path(vertex_t end) const {
+    std::vector<step_lt> get_path(vertex_t end) const {
       assert(end < _distances.size());
-      std::vector<step_t> path;
+      std::vector<step_lt> path;
       if (_distances[end] == D_INFINITY) {
         return path;
       }
