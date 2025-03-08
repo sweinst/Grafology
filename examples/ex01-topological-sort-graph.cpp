@@ -5,11 +5,12 @@
 // Example: topological sort of a Graph
 
 namespace g = grafology;
-// a directed sparse graph which uses strings as vertices identifiers
+// a directed sparse graph which uses strings as vertices identifiers and integers as edges weights
 using Graph = g::DirectedSparseGraph<std::string, int>;
 using Edge = Graph::Edge;
 
 std::vector<Edge> edges {
+        //  weights are set to 1 by default
         {.start="Mix ingredients", .end="Add batter to pan"}, 
         {"Grease/Flour pan", "Add batter to pan"}, 
         {"Add batter to pan", "Bake cake"}, 
