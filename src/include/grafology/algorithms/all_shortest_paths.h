@@ -55,9 +55,9 @@ namespace grafology {
    * @remark this is based on the Dijkstra's algorithm
    */
   template <typename G>
-  requires GraphImpl<G, typename G::weight_t>
+  requires GraphImpl<G, typename G::weight_lt>
   AllShortestPathsImpl<typename G::weight_lt> all_shortest_paths(const G& graph, vertex_t start) {
-    using weight_lt = typename G::weight_t;
+    using weight_lt = typename G::weight_lt;
 
     assert(start < graph.size());
 
@@ -66,7 +66,7 @@ namespace grafology {
     }
 
     const auto n_vertices = graph.size();
-    AllShortestPathsImpl res(n_vertices, start);
+    AllShortestPathsImpl<weight_lt> res(n_vertices, start);
     std::priority_queue<std::pair<weight_lt, vertex_t>> pq;
 
     res._distances[start] = 0;
@@ -101,15 +101,15 @@ namespace grafology {
    * @remark this is based on the Dijkstra's algorithm
    */
   template <typename Impl, VertexKey Vertex, bool IsDirected>
-  requires GraphImpl<Impl, typename Impl::weight_t>
+  requires GraphImpl<Impl, typename Impl::weight_lt>
   struct AllShortestPaths {
-    using weight_lt = typename Impl::weight_t;
+    using weight_lt = typename Impl::weight_lt;
     using step_lt = Step<Vertex, weight_lt>;
     static constexpr auto D_INFINITY = edge_t<weight_lt>::D_INFINITY;
 
     AllShortestPaths(
         AllShortestPathsImpl<weight_lt>&& shortest_paths,
-        const Graph<Impl, Vertex, IsDirected, typename Impl::weight_t>& graph
+        const Graph<Impl, Vertex, IsDirected, typename Impl::weight_lt>& graph
     )
         : _shortest_paths(std::move(shortest_paths))
         , graph(graph) {}
@@ -151,18 +151,18 @@ namespace grafology {
   };
 
   template <typename Impl, VertexKey Vertex>
-  requires GraphImpl<Impl, typename Impl::weight_t>
+  requires GraphImpl<Impl, typename Impl::weight_lt>
   AllShortestPaths<Impl, Vertex, false>
-  all_shortest_paths2(const Graph<Impl, Vertex, false, typename Impl::weight_t>& graph, const Vertex& start) {
+  all_shortest_paths(const Graph<Impl, Vertex, false, typename Impl::weight_lt>& graph, const Vertex& start) {
     assert(graph.get_internal_index(start) != INVALID_VERTEX);
     auto sp_impl = all_shortest_paths(graph.impl(), graph.get_internal_index(start));
     return AllShortestPaths<Impl, Vertex, false>(std::move(sp_impl), graph);
   }
 
   template <typename Impl, VertexKey Vertex>
-  requires GraphImpl<Impl, typename Impl::weight_t>
+  requires GraphImpl<Impl, typename Impl::weight_lt>
   AllShortestPaths<Impl, Vertex, true>
-  all_shortest_paths2(const Graph<Impl, Vertex, true, typename Impl::weight_t>& graph, const Vertex& start) {
+  all_shortest_paths(const Graph<Impl, Vertex, true, typename Impl::weight_lt>& graph, const Vertex& start) {
     static_assert(false, "Shortest paths works only on undirected graphs");
   }
 }  // namespace grafology

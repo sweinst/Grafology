@@ -15,8 +15,6 @@
 #include <unordered_set>
 #include "test_vertex.h"
 
-#include <grafology/generators/r3mat_generator.h>
-
 namespace g = grafology;
 using weight_t = int;
 using edge_t = g::edge_t<weight_t>;
@@ -211,7 +209,7 @@ TEMPLATE_TEST_CASE("Impl - Dijkstra", "[impl-algos]", DenseGraphImpl, SparseGrap
 
     TestType g(n_vertices, n_vertices, false);
     g.set_edges(edges);
-    auto paths = g::all_shortest_paths(g, 0);
+    auto paths = g::all_shortest_paths(g, (vertex_t)0);
 
     CHECK(paths._distances == expected_distances);
     CHECK(paths._predecessors == expected_predecessors);
