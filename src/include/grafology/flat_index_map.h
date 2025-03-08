@@ -8,7 +8,6 @@ namespace grafology {
     /** @brief A very simple flat map for mapping vertex destination index to weight
      * @details This is simple a sorted vector .
      */
-    template <Number weight_t>
     class FlatIndexMap {
         // TODO: batch initialization
         // TODO: batch insertion (using Tim or Smooth Sort (as data are almost sorted) ?)
@@ -65,7 +64,7 @@ namespace grafology {
                 return 0;
             }
 
-            edge_t<weight_t> get_edge(vertex_t start, vertex_t end) const {
+            edge_t get_edge(vertex_t start, vertex_t end) const {
                 return {start, end, get(end)};
             }
 

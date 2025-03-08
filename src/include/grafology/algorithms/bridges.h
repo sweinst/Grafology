@@ -9,8 +9,8 @@
  * @tparam G the type of the graph implementation
  */
 namespace grafology {
-    template <GraphImpl G, Number weight_t>
-    generator<edge_t<weight_t>> bridges(const G& graph) {
+    template <GraphImpl G>
+    generator<edge_t> bridges(const G& graph) {
         if (graph.is_directed()) {
             throw error("Bridges works only on undirected graphs");
         }
@@ -58,7 +58,7 @@ namespace grafology {
                         if (p != NO_PREDECESSOR) {
                             lowest_time[p] = std::min(lowest_time[p], lowest_time[v]);
                             if (lowest_time[v] > discovery_time[p]) {
-                                co_yield edge_t<weight_t>{p, v};
+                                co_yield edge_t{p, v};
                             }
                         }
                     }

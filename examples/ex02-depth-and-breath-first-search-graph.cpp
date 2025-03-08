@@ -7,7 +7,7 @@ using namespace std::string_literals;
 
 namespace g = grafology;
 // a directed sparse graph which uses strings as vertices identifiers
-using Graph = g::UndirectedSparseGraph<std::string, int>;
+using Graph = g::UndirectedSparseGraph<std::string>;
 using Edge = Graph::Edge;
 
 std::vector<Edge> edges {

@@ -56,8 +56,8 @@ namespace grafology {
     * @brief Perform a topological sort on a directed graph
     * @remark This is an implementation of Kahn's algorithm
     */
-    template<GraphImpl Impl, VertexKey Vertex, typename weight_t>
-    generator<std::pair<unsigned, Vertex>> topological_sort(const Graph<Impl, Vertex, true, weight_t>& graph) {
+    template<GraphImpl Impl, VertexKey Vertex>
+    generator<std::pair<unsigned, Vertex>> topological_sort(const Graph<Impl, Vertex, true>& graph) {
         const auto impl = graph.impl();
         for (auto [group, vertex] : topological_sort(impl)) {
             co_yield std::make_pair(group, graph.get_vertex_from_internal_index(vertex));
@@ -67,8 +67,8 @@ namespace grafology {
     /**
     * @brief Prevent topological sorts on undirected graphs
     */
-    template<GraphImpl Impl, VertexKey Vertex, typename weight_t>
-    generator<std::pair<unsigned, Vertex>> topological_sort(const Graph<Impl, Vertex, false, , typename weight_t>& graph) {
+    template<GraphImpl Impl, VertexKey Vertex>
+    generator<std::pair<unsigned, Vertex>> topological_sort(const Graph<Impl, Vertex, false>& graph) {
         static_assert(false, "Topological sort works only on directed graphs");
     }
 
