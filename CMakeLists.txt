@@ -35,7 +35,7 @@ endif(BUILD_TESTS)
 ##################################################
 set(GRAFOLOGY_SRC 
     src/cpp/Grafology.cpp
-    # TODO: src/cpp/r3mat_generator.cpp
+    src/cpp/r3mat_generator.cpp
 )
 
 set(GRAFOLOGY_HDRS 
