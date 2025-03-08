@@ -14,7 +14,8 @@ namespace grafology {
     // TODO: should we put directly this code in the graph class? Especially when using an adjacency matrix?
     // TODO: investigate the use of symmetry for undirected graphs
     // TODO: investigate faster algorithms
-    template <GraphImpl G>
+    template <typename G>
+    requires GraphImpl<G, typename G::weight_lt>
     void transitive_closure(G& graph) {
         const auto n_vertices = graph.size();
         for (vertex_t k = 0; k < n_vertices; ++k) {
@@ -41,8 +42,15 @@ namespace grafology {
      * @remark Its complexity is O(n^3) where n is the number of vertices for a densely connected graph 
      * but tends to O(n^2) as the graph becomes sparser.
      */
-    template<GraphImpl Impl, VertexKey Vertex, bool IsDirected>
-    void transitive_closure(Graph<Impl, Vertex, IsDirected>& graph) {     
+    template<typename Impl, VertexKey Vertex>
+    requires GraphImpl<Impl, typename Impl::weight_lt>
+    void transitive_closure(Graph<Impl, Vertex, true, typename Impl::weight_lt>& graph) {     
         transitive_closure(graph.get_impl());
+    }
+
+    template<typename Impl, VertexKey Vertex>
+    requires GraphImpl<Impl, typename Impl::weight_lt>
+    void transitive_closure(Graph<Impl, Vertex, false, typename Impl::weight_lt>& graph) {     
+        static_assert(false, "Transitive closure works only on directed graphs");
     }
 } // namespace grafology

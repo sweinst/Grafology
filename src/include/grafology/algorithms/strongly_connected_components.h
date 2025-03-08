@@ -3,7 +3,8 @@
 #include <stack>
 
 namespace grafology {
-    template <GraphImpl G>
+    template <typename G>
+    requires GraphImpl<G, typename G::weight_lt>
     generator<std::vector<vertex_t>> strongly_connected_components(const G& graph) {
         if (!graph.is_directed()) {
             throw error("Strongly connected components works only on directed graphs");
@@ -78,8 +79,9 @@ namespace grafology {
         }
     }
 
-    template<GraphImpl Impl, VertexKey Vertex>
-    generator<std::vector<Vertex>> strongly_connected_components(const Graph<Impl, Vertex, true>& graph) {
+    template<typename Impl, VertexKey Vertex>
+    requires GraphImpl<Impl, typename Impl::weight_lt>
+    generator<std::vector<Vertex>> strongly_connected_components(const Graph<Impl, Vertex, true, typename Impl::weight_lt>& graph) {
         for (auto scc : strongly_connected_components(graph.impl())) {
             auto vertices = scc | 
                 std::views::transform([&](auto v) { return graph.get_vertex_from_internal_index(v); }) | 
@@ -88,8 +90,9 @@ namespace grafology {
         }
     }
 
-    template<GraphImpl Impl, VertexKey Vertex>
-    generator<std::vector<Vertex>> strongly_connected_components(const Graph<Impl, Vertex, false>& graph) {
+    template<typename Impl, VertexKey Vertex>
+    requires GraphImpl<Impl, typename Impl::weight_lt>
+    generator<std::vector<Vertex>> strongly_connected_components(const Graph<Impl, Vertex, false, typename Impl::weight_lt>& graph) {
         static_assert(false, "Strongly connected components works only on directed graphs");
     }
 

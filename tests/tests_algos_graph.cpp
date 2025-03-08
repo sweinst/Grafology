@@ -15,7 +15,7 @@ using namespace std::string_literals;
 #include <grafology/graph_traits.h>
 
 namespace g = grafology;
-using TestEdge = g::EdgeDefinition<TestVertex>;
+using TestEdge = g::EdgeDefinition<TestVertex, int>;
 
 namespace {
     std::vector<TestVertex> generate_test_vertices_list(int n_vertices) {

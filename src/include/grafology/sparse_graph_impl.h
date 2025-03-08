@@ -175,7 +175,7 @@ namespace grafology {
             }
         }
 
-        SparseGraphImpl invert() const {
+        SparseGraphImpl<weight_t> invert() const {
             SparseGraphImpl inverted(_n_max_vertices, _n_vertices, _is_directed);
             for (unsigned i = 0; i < _n_vertices; i++) {
                 for (const auto& edge : _adjacency_list[i]) {
@@ -210,8 +210,6 @@ namespace grafology {
         unsigned _n_max_vertices;
         unsigned _n_vertices;
         std::vector<FlatIndexMap<weight_t>> _adjacency_list;
-
-        static_assert(GraphImpl<SparseGraphImpl, weight_t>);
     };
 
 } // namespace grafology

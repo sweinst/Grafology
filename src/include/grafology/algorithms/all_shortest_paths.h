@@ -9,7 +9,7 @@ namespace grafology {
    */
   template <typename weight_t>
   struct AllShortestPathsImpl {
-    using D_INFINITY = edge_t<weight_t>::D_INFINITY;
+    static constexpr auto D_INFINITY = edge_t<weight_t>::D_INFINITY;
     using step_lt = std::tuple<vertex_t, weight_t>;
 
     AllShortestPathsImpl(size_t n_vertices, vertex_t start)
@@ -54,8 +54,11 @@ namespace grafology {
    * graph
    * @remark this is based on the Dijkstra's algorithm
    */
-  template <GraphImpl G>
-  AllShortestPathsImpl all_shortest_paths(const G& graph, vertex_t start) {
+  template <typename G>
+  requires GraphImpl<G, typename G::weight_t>
+  AllShortestPathsImpl<typename G::weight_lt> all_shortest_paths(const G& graph, vertex_t start) {
+    using weight_lt = typename G::weight_t;
+
     assert(start < graph.size());
 
     if (graph.is_directed()) {
@@ -64,7 +67,7 @@ namespace grafology {
 
     const auto n_vertices = graph.size();
     AllShortestPathsImpl res(n_vertices, start);
-    std::priority_queue<std::pair<weight_t, vertex_t>> pq;
+    std::priority_queue<std::pair<weight_lt, vertex_t>> pq;
 
     res._distances[start] = 0;
     pq.push({0, start});
@@ -97,11 +100,16 @@ namespace grafology {
    * graph
    * @remark this is based on the Dijkstra's algorithm
    */
-  template <GraphImpl Impl, VertexKey Vertex, bool IsDirected>
+  template <typename Impl, VertexKey Vertex, bool IsDirected>
+  requires GraphImpl<Impl, typename Impl::weight_t>
   struct AllShortestPaths {
+    using weight_lt = typename Impl::weight_t;
+    using step_lt = Step<Vertex, weight_lt>;
+    static constexpr auto D_INFINITY = edge_t<weight_lt>::D_INFINITY;
+
     AllShortestPaths(
-        AllShortestPathsImpl&& shortest_paths,
-        const Graph<Impl, Vertex, IsDirected>& graph
+        AllShortestPathsImpl<weight_lt>&& shortest_paths,
+        const Graph<Impl, Vertex, IsDirected, typename Impl::weight_t>& graph
     )
         : _shortest_paths(std::move(shortest_paths))
         , graph(graph) {}
@@ -117,7 +125,7 @@ namespace grafology {
       return _shortest_paths._distances[graph.get_internal_index(v)] != D_INFINITY;
     }
 
-    weight_t get_distance(const Vertex& v) const {
+    weight_lt get_distance(const Vertex& v) const {
       assert(graph.get_internal_index(v) != INVALID_VERTEX);
       return _shortest_paths._distances[graph.get_internal_index(v)];
     }
@@ -129,7 +137,7 @@ namespace grafology {
       );
     }
 
-    generator<Step<Vertex>> get_path(const Vertex& v) const {
+    generator<step_lt> get_path(const Vertex& v) const {
       assert(graph.get_internal_index(v) != INVALID_VERTEX);
       auto sp = _shortest_paths.get_path(graph.get_internal_index(v));
       for (const auto& [v, d] : sp) {
@@ -138,21 +146,23 @@ namespace grafology {
     }
 
    private:
-    const AllShortestPathsImpl _shortest_paths;
-    const Graph<Impl, Vertex, IsDirected>& graph;
+    const AllShortestPathsImpl<weight_lt>_shortest_paths;
+    const Graph<Impl, Vertex, IsDirected, weight_lt>& graph;
   };
 
-  template <GraphImpl Impl, VertexKey Vertex>
+  template <typename Impl, VertexKey Vertex>
+  requires GraphImpl<Impl, typename Impl::weight_t>
   AllShortestPaths<Impl, Vertex, false>
-  all_shortest_paths(const Graph<Impl, Vertex, false>& graph, const Vertex& start) {
+  all_shortest_paths(const Graph<Impl, Vertex, false, typename Impl::weight_t>& graph, const Vertex& start) {
     assert(graph.get_internal_index(start) != INVALID_VERTEX);
     auto sp_impl = all_shortest_paths(graph.impl(), graph.get_internal_index(start));
     return AllShortestPaths<Impl, Vertex, false>(std::move(sp_impl), graph);
   }
 
-  template <GraphImpl Impl, VertexKey Vertex>
+  template <typename Impl, VertexKey Vertex>
+  requires GraphImpl<Impl, typename Impl::weight_t>
   AllShortestPaths<Impl, Vertex, true>
-  all_shortest_paths(const Graph<Impl, Vertex, true>& graph, const Vertex& start) {
+  all_shortest_paths(const Graph<Impl, Vertex, true, typename Impl::weight_t>& graph, const Vertex& start) {
     static_assert(false, "Shortest paths works only on undirected graphs");
   }
 }  // namespace grafology

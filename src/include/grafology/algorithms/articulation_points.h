@@ -9,7 +9,8 @@
  * @tparam G the type of the graph implementation
  */
 namespace grafology {
-    template <GraphImpl G>
+    template <typename G>
+    requires GraphImpl<G, typename G::weight_lt>
     generator<vertex_t> articulation_points(const G& graph) {
         if (graph.is_directed()) {
             throw error("Articulation_points works only on undirected graphs");
@@ -82,15 +83,17 @@ namespace grafology {
         }
     }
 
-    template<GraphImpl Impl, VertexKey Vertex>
-    generator<Vertex> articulation_points(const Graph<Impl, Vertex, false>& graph) {
+    template<typename Impl, VertexKey Vertex>
+    requires GraphImpl<Impl, typename Impl::weight_lt>
+    generator<Vertex> articulation_points(const Graph<Impl, Vertex, false, typename Impl::weight_lt>& graph) {
         for (auto vertex : articulation_points(graph.impl())) {
             co_yield graph.get_vertex_from_internal_index(vertex);
         }
     }
 
-    template<GraphImpl Impl, VertexKey Vertex>
-    generator<Vertex> articulation_points(const Graph<Impl, Vertex, true>& graph, const Vertex& start, const Vertex& end) {
+    template<typename Impl, VertexKey Vertex>
+    requires GraphImpl<Impl, typename Impl::weight_lt>
+    generator<Vertex> articulation_points(const Graph<Impl, Vertex, true, typename Impl::weight_lt>& graph) {
         static_assert(false, "Articulation_points works only on undirected graphs");
     }
 

@@ -11,7 +11,7 @@ namespace grafology {
   template <typename weight_t>
   struct ShortestPathsImpl {
     using edge_lt = edge_t<weight_t>;
-    using D_INFINITY = edge_lt::D_INFINITY;
+    static constexpr auto D_INFINITY = edge_lt::D_INFINITY;
     using step_lt = std::tuple<vertex_t, weight_t>;
 
     ShortestPathsImpl(size_t n_vertices, vertex_t end)

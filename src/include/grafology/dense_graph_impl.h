@@ -227,8 +227,6 @@ namespace grafology {
         unsigned _n_max_vertices;
         unsigned _n_vertices;
         std::vector<weight_t> _adjacency_matrix;
-
-        static_assert(GraphImpl<DenseGraphImpl, weight_t>);
     };
 
 } // namespace grafology
