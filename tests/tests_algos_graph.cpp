@@ -15,7 +15,14 @@ using namespace std::string_literals;
 #include <grafology/graph_traits.h>
 
 namespace g = grafology;
-using TestEdge = g::EdgeDefinition<TestVertex, int>;
+using weight_t = int;
+using TestEdge = g::EdgeDefinition<TestVertex, weight_t>;
+using DirectedDenseGraph = g::DirectedDenseGraph<TestVertex, weight_t>;
+using DirectedSparseGraph = g::DirectedSparseGraph<TestVertex, weight_t>;
+using UndirectedDenseGraph = g::UndirectedDenseGraph<TestVertex, weight_t>;
+using UndirectedSparseGraph = g::UndirectedSparseGraph<TestVertex, weight_t>;
+using Step = g::Step<TestVertex, weight_t>;
+static constexpr auto D_INFINITY = g::edge_t<weight_t>::D_INFINITY;
 
 namespace {
     std::vector<TestVertex> generate_test_vertices_list(int n_vertices) {
@@ -44,7 +51,7 @@ namespace {
     };
 }  // namespace
 
-TEMPLATE_TEST_CASE("Graphs - Topological sort", "[graphs-algos]", g::DirectedDenseGraph<TestVertex, int>, g::DirectedSparseGraph<TestVertex, int>) {
+TEMPLATE_TEST_CASE("Graphs - Topological sort", "[graphs-algos]", DirectedDenseGraph, DirectedSparseGraph) {
     const std::vector<std::unordered_set<TestVertex>> expected{
         {{0}, {6}}, {{2}}, {{4}, {5}}, {{8}}, {{3}, {7}, {9}}, {{1}, {10}},
     };
@@ -84,7 +91,7 @@ TEMPLATE_TEST_CASE("Graphs - Topological sort", "[graphs-algos]", g::DirectedDen
     }));
 }
 
-TEMPLATE_TEST_CASE("Graphs - DFS", "[graphs-algos]", g::DirectedDenseGraph<TestVertex>, g::DirectedSparseGraph<TestVertex>, g::UndirectedDenseGraph<TestVertex>, g::UndirectedSparseGraph<TestVertex>) {
+TEMPLATE_TEST_CASE("Graphs - DFS", "[graphs-algos]", DirectedDenseGraph, DirectedSparseGraph, UndirectedDenseGraph, UndirectedSparseGraph) {
     const std::vector<TestVertex> directed_expected{
         {0}, {2}, {5}, {8}, {9}, {7}, {3}, {10}, {1}, {4},
     };
@@ -102,7 +109,7 @@ TEMPLATE_TEST_CASE("Graphs - DFS", "[graphs-algos]", g::DirectedDenseGraph<TestV
     CHECK(visited == (graph.is_directed() ? directed_expected : undirected_expected));
 }
 
-TEMPLATE_TEST_CASE("Graphs - BFS", "[graphs-algos]", g::DirectedDenseGraph<TestVertex>, g::DirectedSparseGraph<TestVertex>, g::UndirectedDenseGraph<TestVertex>, g::UndirectedSparseGraph<TestVertex>) {
+TEMPLATE_TEST_CASE("Graphs - BFS", "[graphs-algos]", DirectedDenseGraph, DirectedSparseGraph, UndirectedDenseGraph, UndirectedSparseGraph) {
     const std::vector<TestVertex> directed_expected{
         {0}, {1}, {2}, {3}, {4}, {5}, {10}, {8}, {7}, {9},
     };
@@ -121,7 +128,7 @@ TEMPLATE_TEST_CASE("Graphs - BFS", "[graphs-algos]", g::DirectedDenseGraph<TestV
     CHECK(visited == (graph.is_directed() ? directed_expected : undirected_expected));
 }
 
-TEMPLATE_TEST_CASE("Graphs - NST", "[graphs-algos]", g::UndirectedDenseGraph<TestVertex>, g::UndirectedSparseGraph<TestVertex>) {
+TEMPLATE_TEST_CASE("Graphs - NST", "[graphs-algos]", UndirectedDenseGraph, UndirectedSparseGraph) {
     unsigned n_vertices = 15;
     std::vector<TestVertex> vertices_init{{generate_test_vertices_list(n_vertices)}};
 
@@ -151,7 +158,7 @@ TEMPLATE_TEST_CASE("Graphs - NST", "[graphs-algos]", g::UndirectedDenseGraph<Tes
     REQUIRE(mst == expected);
 }
 
-TEMPLATE_TEST_CASE("Graphs - Dijkstra", "[graphs-algos]", g::UndirectedDenseGraph<TestVertex>, g::UndirectedSparseGraph<TestVertex>) {
+TEMPLATE_TEST_CASE("Graphs - Dijkstra", "[graphs-algos]", UndirectedDenseGraph, UndirectedSparseGraph) {
     int n_vertices = 12;
 
     std::vector<TestVertex> vertices_init{{generate_test_vertices_list(n_vertices)}};
@@ -162,8 +169,8 @@ TEMPLATE_TEST_CASE("Graphs - Dijkstra", "[graphs-algos]", g::UndirectedDenseGrap
         {{9}, {11}, 2}, {{11}, {10}, 1},
     };
 
-    std::vector<g::weight_t> expected_distances = {
-        0, 4, 12, 19, 21, 11, 9, 8, 14, g::D_INFINITY, g::D_INFINITY, g::D_INFINITY
+    std::vector<weight_t> expected_distances = {
+        0, 4, 12, 19, 21, 11, 9, 8, 14, D_INFINITY, D_INFINITY, D_INFINITY
     };
     std::vector<TestVertex> expected_predecessors = {/* starting at node 1 */ {0},
                                                      {1},
@@ -176,10 +183,10 @@ TEMPLATE_TEST_CASE("Graphs - Dijkstra", "[graphs-algos]", g::UndirectedDenseGrap
                                                      {-1},
                                                      {-1},
                                                      {-1}};
-    std::vector<g::Step<TestVertex>> expected_path_to_8 = {
+    std::vector<Step> expected_path_to_8 = {
         {{0}, 0}, {{1}, 4}, {{2}, 12}, {{8}, 14}
     };
-    std::vector<g::Step<TestVertex>> expected_path_to_5 = {{{0}, 0}, {{7}, 8}, {{6}, 9}, {{5}, 11}};
+    std::vector<Step> expected_path_to_5 = {{{0}, 0}, {{7}, 8}, {{6}, 9}, {{5}, 11}};
     std::unordered_set<TestVertex> unreachable{{9}, {10}, {11}};
 
     TestType g(n_vertices);
@@ -210,7 +217,7 @@ TEMPLATE_TEST_CASE("Graphs - Dijkstra", "[graphs-algos]", g::UndirectedDenseGrap
     }
 }
 
-TEMPLATE_TEST_CASE("Graphs - A*", "[graphs-algos]", g::UndirectedDenseGraph<TestVertex>, g::UndirectedSparseGraph<TestVertex>) {
+TEMPLATE_TEST_CASE("Graphs - A*", "[graphs-algos]", UndirectedDenseGraph, UndirectedSparseGraph) {
     int n_vertices = 12;
 
     std::vector<TestVertex> vertices_init{{generate_test_vertices_list(n_vertices)}};
@@ -225,7 +232,7 @@ TEMPLATE_TEST_CASE("Graphs - A*", "[graphs-algos]", g::UndirectedDenseGraph<Test
     g.add_vertices(vertices_init);
     g.set_edges(edges_init);
 
-    using Path = std::vector<std::tuple<TestVertex, g::weight_t>>;
+    using Path = std::vector<std::tuple<TestVertex, weight_t>>;
 
     std::vector<std::tuple<
         // start
@@ -233,7 +240,7 @@ TEMPLATE_TEST_CASE("Graphs - A*", "[graphs-algos]", g::UndirectedDenseGraph<Test
         // end
         TestVertex,
         // path = vector<vertex, distance from start>
-        std::vector<std::tuple<TestVertex, g::weight_t>>>>
+        std::vector<std::tuple<TestVertex, weight_t>>>>
         expected = {
             {{0}, {8}, {{{0}, 0}, {{1}, 4}, {{2}, 12}, {{8}, 14}}},
             {{0}, {5}, {{{0}, 0}, {{7}, 8}, {{6}, 9}, {{5}, 11}}},
@@ -255,7 +262,7 @@ TEMPLATE_TEST_CASE("Graphs - A*", "[graphs-algos]", g::UndirectedDenseGraph<Test
     }
 }
 
-TEMPLATE_TEST_CASE("Graphs - Max Flow", "[graphs-algos]", g::DirectedDenseGraph<TestVertex>, g::DirectedSparseGraph<TestVertex>) {
+TEMPLATE_TEST_CASE("Graphs - Max Flow", "[graphs-algos]", DirectedDenseGraph, DirectedSparseGraph) {
     int n_vertices = 6;
     std::vector<TestVertex> vertices_init{{generate_test_vertices_list(n_vertices)}};
     std::vector<TestEdge> edges_init = {
@@ -272,7 +279,7 @@ TEMPLATE_TEST_CASE("Graphs - Max Flow", "[graphs-algos]", g::DirectedDenseGraph<
     CHECK(max_flow == 23);
 }
 
-TEMPLATE_TEST_CASE("Graphs - Bridges", "[graphs-algos]", g::UndirectedDenseGraph<TestVertex>, g::UndirectedSparseGraph<TestVertex>) {
+TEMPLATE_TEST_CASE("Graphs - Bridges", "[graphs-algos]", UndirectedDenseGraph, UndirectedSparseGraph) {
     int n_vertices = 13;
     std::vector<TestVertex> vertices_init{{generate_test_vertices_list(n_vertices)}};
     std::vector<TestEdge> edges_init = {
@@ -299,7 +306,7 @@ TEMPLATE_TEST_CASE("Graphs - Bridges", "[graphs-algos]", g::UndirectedDenseGraph
     CHECK(expected_bridges == result);
 }
 
-TEMPLATE_TEST_CASE("Graphs - Articulation Points", "[graphs-algos]", g::UndirectedDenseGraph<TestVertex>, g::UndirectedSparseGraph<TestVertex>) {
+TEMPLATE_TEST_CASE("Graphs - Articulation Points", "[graphs-algos]", UndirectedDenseGraph, UndirectedSparseGraph) {
     int n_vertices = 14;
     std::vector<TestVertex> vertices_init{{generate_test_vertices_list(n_vertices)}};
     std::vector<TestEdge> edges_init = {
@@ -325,7 +332,7 @@ TEMPLATE_TEST_CASE("Graphs - Articulation Points", "[graphs-algos]", g::Undirect
     CHECK(expected_articulation_points == result);
 }
 
-TEMPLATE_TEST_CASE("Graphs - Strongly connected components", "[graphs-algos]", g::DirectedDenseGraph<TestVertex>, g::DirectedSparseGraph<TestVertex>) {
+TEMPLATE_TEST_CASE("Graphs - Strongly connected components", "[graphs-algos]", DirectedDenseGraph, DirectedSparseGraph) {
     std::vector<std::tuple<
         int, 
         std::vector<TestEdge>, 

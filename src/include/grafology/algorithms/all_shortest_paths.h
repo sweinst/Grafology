@@ -153,7 +153,7 @@ namespace grafology {
   template <typename Impl, VertexKey Vertex>
   requires GraphImpl<Impl, typename Impl::weight_t>
   AllShortestPaths<Impl, Vertex, false>
-  all_shortest_paths(const Graph<Impl, Vertex, false, typename Impl::weight_t>& graph, const Vertex& start) {
+  all_shortest_paths2(const Graph<Impl, Vertex, false, typename Impl::weight_t>& graph, const Vertex& start) {
     assert(graph.get_internal_index(start) != INVALID_VERTEX);
     auto sp_impl = all_shortest_paths(graph.impl(), graph.get_internal_index(start));
     return AllShortestPaths<Impl, Vertex, false>(std::move(sp_impl), graph);
@@ -162,7 +162,7 @@ namespace grafology {
   template <typename Impl, VertexKey Vertex>
   requires GraphImpl<Impl, typename Impl::weight_t>
   AllShortestPaths<Impl, Vertex, true>
-  all_shortest_paths(const Graph<Impl, Vertex, true, typename Impl::weight_t>& graph, const Vertex& start) {
+  all_shortest_paths2(const Graph<Impl, Vertex, true, typename Impl::weight_t>& graph, const Vertex& start) {
     static_assert(false, "Shortest paths works only on undirected graphs");
   }
 }  // namespace grafology

@@ -26,6 +26,9 @@ using DenseGraphImpl = g::DenseGraphImpl<weight_t>;
 using SparseGraphImpl = g::SparseGraphImpl<weight_t>;
 static constexpr auto D_INFINITY = edge_t::D_INFINITY;
 
+static_assert(g::GraphImpl<DenseGraphImpl, weight_t>);
+static_assert(g::GraphImpl<SparseGraphImpl, weight_t>);
+
 namespace {
     constexpr unsigned max_vertices = 11;
     constexpr unsigned n_vertices = 11;
