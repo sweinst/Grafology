@@ -1,11 +1,18 @@
+#pragma once
+
 #include <limits>
 #include <utility>
 #include <concepts>
 
 namespace grafology {
+    /** @brief The requirements for a number type
+     */
     template <typename T>
     concept Number = std::integral<T> || std::floating_point<T>;
 
+    
+    /// @brief All the types and constants needed for a graph
+    /// @tparam weight_t the type used for the edge weights
     template <Number weight_t = int>
     struct traits {
         using vertex_t = unsigned;
@@ -34,4 +41,14 @@ namespace grafology {
         static constexpr auto NO_PREDECESSOR = edge_t::NO_PREDECESSOR;
         static constexpr weight_t D_INFINITY = std::numeric_limits<weight_t>::max();
     };
+
+    /*
+      // TODO: re-introduce 
+
+  struct EqualUndirectedEdges {
+    bool operator()(const edge_t& a, const edge_t& b) const {
+      return (a.start == b.start && a.end == b.end) || (a.start == b.end && a.end == b.start);
+    }
+  };
+*/
 }  // namespace grafology

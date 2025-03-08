@@ -1,8 +1,8 @@
 #pragma once
 #include <cassert>
-#include <concepts>
 #include <ranges>
 #include "utilities.h"
+#include "graph_traits.h"
 
 namespace grafology {
 
@@ -35,12 +35,6 @@ namespace grafology {
         return res;
       }
       return end <=> other.end;
-    }
-  };
-
-  struct EqualUndirectedEdges {
-    bool operator()(const edge_t& a, const edge_t& b) const {
-      return (a.start == b.start && a.end == b.end) || (a.start == b.end && a.end == b.start);
     }
   };
 }  // namespace grafology
