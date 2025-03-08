@@ -7,8 +7,12 @@ namespace grafology {
    * @brief This struct allows to process the results of the algorithm all_shortest_paths
    * @remark it allows to save the results of the algorithm and so avoid to use dangling references
    */
+
+  template <Number weight_t>
   struct AllShortestPathsImpl {
-    AllShortestPathsImpl(size_t n_vertices, vertex_t start)
+    static constexpr auto D_INFINITY = edge_t<weight_t>::D_INFINITY;
+
+    AllShortestPathsImpl(std::size_t n_vertices, vertex_t start)
         : _distances(n_vertices, D_INFINITY)
         , _predecessors(n_vertices, NO_PREDECESSOR)
         , _start(start) {}
@@ -28,7 +32,7 @@ namespace grafology {
       return _distances[end] != D_INFINITY; 
     }
 
-    std::vector<step_t> get_path(vertex_t end) const {
+    std::vector<step_t<weight_t>> get_path(vertex_t end) const {
       assert(end < _distances.size());
       std::vector<step_t> path;
       if (_distances[end] == D_INFINITY) {
@@ -50,8 +54,8 @@ namespace grafology {
    * graph
    * @remark this is based on the Dijkstra's algorithm
    */
-  template <GraphImpl G>
-  AllShortestPathsImpl all_shortest_paths(const G& graph, vertex_t start) {
+  template <GraphImpl G, typename weight_t>
+  AllShortestPathsImpl<weight_t> all_shortest_paths(const G& graph, vertex_t start) {
     assert(start < graph.size());
 
     if (graph.is_directed()) {
@@ -93,11 +97,11 @@ namespace grafology {
    * graph
    * @remark this is based on the Dijkstra's algorithm
    */
-  template <GraphImpl Impl, VertexKey Vertex, bool IsDirected>
+  template <GraphImpl Impl, VertexKey Vertex, bool IsDirected, Number weight_t>
   struct AllShortestPaths {
     AllShortestPaths(
-        AllShortestPathsImpl&& shortest_paths,
-        const Graph<Impl, Vertex, IsDirected>& graph
+        AllShortestPathsImpl<weight_t>&& shortest_paths,
+        const Graph<Impl, Vertex, IsDirected, weight_t>& graph
     )
         : _shortest_paths(std::move(shortest_paths))
         , graph(graph) {}
@@ -110,7 +114,7 @@ namespace grafology {
 
     bool is_reachable(const Vertex& v) const {
       assert(graph.get_internal_index(v) != INVALID_VERTEX);
-      return _shortest_paths._distances[graph.get_internal_index(v)] != D_INFINITY;
+      return _shortest_paths._distances[graph.get_internal_index(v)] != AllShortestPathsImpl<weight_t>::D_INFINITY;
     }
 
     weight_t get_distance(const Vertex& v) const {
@@ -125,7 +129,7 @@ namespace grafology {
       );
     }
 
-    generator<Step<Vertex>> get_path(const Vertex& v) const {
+    generator<Step<Vertex, weight_t>> get_path(const Vertex& v) const {
       assert(graph.get_internal_index(v) != INVALID_VERTEX);
       auto sp = _shortest_paths.get_path(graph.get_internal_index(v));
       for (const auto& [v, d] : sp) {
@@ -134,21 +138,21 @@ namespace grafology {
     }
 
    private:
-    const AllShortestPathsImpl _shortest_paths;
-    const Graph<Impl, Vertex, IsDirected>& graph;
+    const AllShortestPathsImpl<weight_t> _shortest_paths;
+    const Graph<Impl, Vertex, IsDirected,weight_t>& graph;
   };
 
-  template <GraphImpl Impl, VertexKey Vertex>
-  AllShortestPaths<Impl, Vertex, false>
-  all_shortest_paths(const Graph<Impl, Vertex, false>& graph, const Vertex& start) {
+  template <GraphImpl Impl, VertexKey Vertex, Number weight_t>
+  AllShortestPaths<Impl, Vertex, false, weight_t>
+  all_shortest_paths(const Graph<Impl, Vertex, false, weight_t>& graph, const Vertex& start) {
     assert(graph.get_internal_index(start) != INVALID_VERTEX);
     auto sp_impl = all_shortest_paths(graph.impl(), graph.get_internal_index(start));
     return AllShortestPaths<Impl, Vertex, false>(std::move(sp_impl), graph);
   }
 
-  template <GraphImpl Impl, VertexKey Vertex>
-  AllShortestPaths<Impl, Vertex, true>
-  all_shortest_paths(const Graph<Impl, Vertex, true>& graph, const Vertex& start) {
+  template <GraphImpl Impl, VertexKey Vertex, Number weight_t>
+  AllShortestPaths<Impl, Vertex, true, weight_t>
+  all_shortest_paths(const Graph<Impl, Vertex, true, weight_t>& graph, const Vertex& start) {
     static_assert(false, "Shortest paths works only on undirected graphs");
   }
 }  // namespace grafology

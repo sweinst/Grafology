@@ -100,8 +100,8 @@ namespace grafology {
      * @param graph The graph to search
      * @package start The vertex to start the search from
      */
-    template<GraphImpl Impl, VertexKey Vertex, bool IsDirected>
-    generator<Vertex> depth_first_search(const Graph<Impl, Vertex, IsDirected>& graph, const Vertex& start) {
+    template<GraphImpl Impl, VertexKey Vertex, bool IsDirected, Number weight_t>
+    generator<Vertex> depth_first_search(const Graph<Impl, Vertex, IsDirected, weight_t>& graph, const Vertex& start) {
         assert(graph.get_internal_index(start) != INVALID_VERTEX);
         const auto impl = graph.impl();
         auto idx_start = graph.get_internal_index(start);

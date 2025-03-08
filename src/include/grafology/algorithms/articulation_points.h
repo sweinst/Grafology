@@ -82,15 +82,15 @@ namespace grafology {
         }
     }
 
-    template<GraphImpl Impl, VertexKey Vertex>
-    generator<Vertex> articulation_points(const Graph<Impl, Vertex, false>& graph) {
+    template<GraphImpl Impl, VertexKey Vertex, Number weight_t>
+    generator<Vertex> articulation_points(const Graph<Impl, Vertex, false, weight_t>& graph) {
         for (auto vertex : articulation_points(graph.impl())) {
             co_yield graph.get_vertex_from_internal_index(vertex);
         }
     }
 
-    template<GraphImpl Impl, VertexKey Vertex>
-    generator<Vertex> articulation_points(const Graph<Impl, Vertex, true>& graph, const Vertex& start, const Vertex& end) {
+    template<GraphImpl Impl, VertexKey Vertex, Number weight_t>
+    generator<Vertex> articulation_points(const Graph<Impl, Vertex, true, weight_t>& graph, const Vertex& start, const Vertex& end) {
         static_assert(false, "Articulation_points works only on undirected graphs");
     }
 

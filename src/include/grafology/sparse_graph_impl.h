@@ -1,4 +1,5 @@
 #pragma once
+#include "graph_impl.h"
 #include "flat_index_map.h"
 
 namespace grafology {
@@ -6,6 +7,7 @@ namespace grafology {
      * @brief A sparse graph implementation which use an adjacency list
      * @warning Once built, the graph capacity cannot be changed.
      */
+    template <Number weight_t>
     class SparseGraphImpl {
     public:
         SparseGraphImpl(unsigned n_max_vertices, unsigned n_vertices, bool is_directed) :
@@ -40,7 +42,7 @@ namespace grafology {
              return _adjacency_list[i].get(j) != 0;
         }
 
-        edge_t get_edge(vertex_t i, vertex_t j) const { 
+        edge_t<weight_t> get_edge(vertex_t i, vertex_t j) const { 
             assert(i < _n_vertices && j < _n_vertices);
             return _adjacency_list[i].get_edge(i, j);
         }
@@ -81,24 +83,24 @@ namespace grafology {
             }
         }
 
-        void set_edge(const edge_t& edge) {
+        void set_edge(const edge_t<weight_t>& edge) {
             assert(edge.start < _n_vertices && edge.end < _n_vertices);
             set_edge(edge.start, edge.end, edge.weight);
         }
         
-        template<input_iterator_value<edge_t> I, std::sentinel_for<I> S>
+        template<input_iterator_value<edge_t<weight_t>> I, std::sentinel_for<I> S>
         void set_edges(I first, S last) {
             for (auto it = first; it != last; ++it) {
                 set_edge(it->start, it->end, it->weight);
             }
         }
 
-        template<input_range_value<edge_t> R>
+        template<input_range_value<edge_t<weight_t>> R>
         void set_edges(R &&r) {
             set_edges(std::begin(r), std::end(r));
         }
 
-        void set_edges(generator<edge_t>& g) {
+        void set_edges(generator<edge_t<weight_t>>& g) {
             for (const auto& edge : g) {
                 set_edge(edge);
             }
@@ -134,7 +136,7 @@ namespace grafology {
             }
         }
 
-        generator<edge_t> get_neighbors(vertex_t vertex) const {
+        generator<edge_t<weight_t>> get_neighbors(vertex_t vertex) const {
             assert(vertex < _n_vertices);
             for (const auto& edge : _adjacency_list[vertex])
             {
@@ -158,7 +160,7 @@ namespace grafology {
             }
         }
 
-        generator<edge_t> get_in_neighbors(vertex_t vertex) const {
+        generator<edge_t<weight_t>> get_in_neighbors(vertex_t vertex) const {
             assert(vertex < _n_vertices);
             for (unsigned i = 0; i < size(); ++i) {
                 if (i == vertex) {
@@ -182,7 +184,7 @@ namespace grafology {
             return inverted;
         }
 
-        generator<edge_t> get_all_edges() const {
+        generator<edge_t<weight_t>> get_all_edges() const {
             if (is_directed()) {
                 for (unsigned i = 0; i < _n_vertices; i++) {
                     for (const auto& edge : _adjacency_list[i]) {
@@ -206,8 +208,9 @@ namespace grafology {
         bool _is_directed;
         unsigned _n_max_vertices;
         unsigned _n_vertices;
-        std::vector<FlatIndexMap> _adjacency_list;
+        std::vector<FlatIndexMap<weight_t>> _adjacency_list;
+
+        static_assert(GraphImpl<SparseGraphImpl<weight_t>>);
     };
 
-    static_assert(GraphImpl<SparseGraphImpl>);
 } // namespace grafology
