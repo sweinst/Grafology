@@ -65,6 +65,8 @@ namespace grafology {
   template <typename Graph, PathCostFunctionImpl F>
   requires GraphImpl<Graph, typename Graph::weight_lt>
   ShortestPathsImpl<typename Graph::weight_lt> shortest_path(const Graph& graph, vertex_t start, vertex_t end, F& f) {
+    using weight_lt = typename Graph::weight_lt;
+
     assert(start < graph.size() && end < graph.size());
     if (graph.is_directed()) {
       throw error("Shortest path works only on undirected graphs");
@@ -72,7 +74,7 @@ namespace grafology {
     const auto n_vertices = graph.size();
     using cost_type = decltype(f(start, end));
     std::priority_queue<std::pair<cost_type, vertex_t>> pq;
-    ShortestPathsImpl res(n_vertices, end);
+    ShortestPathsImpl<weight_lt> res(n_vertices, end);
     std::vector<bool> visited(n_vertices, false);
 
     res._distances[start] = 0;

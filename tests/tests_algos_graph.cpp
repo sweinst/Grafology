@@ -44,7 +44,7 @@ namespace {
     };
 }  // namespace
 
-TEMPLATE_TEST_CASE("Graphs - Topological sort", "[graphs-algos]", g::DirectedDenseGraph<TestVertex>, g::DirectedSparseGraph<TestVertex>) {
+TEMPLATE_TEST_CASE("Graphs - Topological sort", "[graphs-algos]", g::DirectedDenseGraph<TestVertex, int>, g::DirectedSparseGraph<TestVertex, int>) {
     const std::vector<std::unordered_set<TestVertex>> expected{
         {{0}, {6}}, {{2}}, {{4}, {5}}, {{8}}, {{3}, {7}, {9}}, {{1}, {10}},
     };

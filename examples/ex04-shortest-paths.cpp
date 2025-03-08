@@ -13,7 +13,7 @@
 namespace g = grafology;
 namespace lt = LondonTube;
 using namespace std::string_literals;
-using Graph = g::UndirectedSparseGraph<lt::Station>;
+using Graph = g::UndirectedSparseGraph<lt::Station, double>;
 
 class Program {
  public:
@@ -25,12 +25,12 @@ class Program {
   void run_a_star() const;
 
  private:
-  void print_path(generator<g::Step<lt::Station>>& path) const;
+  void print_path(generator<g::Step<lt::Station, double>>& path) const;
 
   bool _ok = true;
   lt::Station _start;
   std::vector<lt::Station> _destinations;
-  g::UndirectedSparseGraph<lt::Station> _tube;
+  Graph _tube;
 };
 
 Program::Program(int argc, const char* argv[])
@@ -103,7 +103,7 @@ void Program::run_a_star() const {
   }
 }
 
-void Program::print_path(generator<g::Step<lt::Station>>& path) const {
+void Program::print_path(generator<g::Step<lt::Station, double>>& path) const {
   int prev_line = -1;
   g::vertex_t prev_station_id = _start._id;
   std::string initial_station = _start._name;

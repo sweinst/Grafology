@@ -5,13 +5,18 @@
 #include <set>
 
 namespace g = grafology;
+using weight_t = int;
+using edge_t = g::edge_t<weight_t>;
+using vertex_t = g::vertex_t;
+using DenseGraphImpl = g::DenseGraphImpl<weight_t>;
+using SparseGraphImpl = g::SparseGraphImpl<weight_t>;
 
 TEMPLATE_TEST_CASE("Graph implementations", "[graph-impl]", 
-    g::DenseGraphImpl , g::SparseGraphImpl)
+    DenseGraphImpl , SparseGraphImpl)
 {
     constexpr unsigned max_vertices = 11;
     constexpr unsigned n_vertices = 7;
-    const std::vector<g::edge_t> edges_init {
+    const std::vector<edge_t> edges_init {
         {0, 1, 1},
         {0, 2, 2},
         {2, 3, 5},
@@ -21,7 +26,7 @@ TEMPLATE_TEST_CASE("Graph implementations", "[graph-impl]",
         {5, 1, 6},
     };
     constexpr unsigned n_extra_vertices = 4;
-    const std::vector<g::edge_t> extra_edges_init {
+    const std::vector<edge_t> extra_edges_init {
         {3, 10, 13},
         {5, 8, 13},
         {6, 7, 13},
@@ -96,8 +101,8 @@ TEMPLATE_TEST_CASE("Graph implementations", "[graph-impl]",
         }
 
         // neighbors
-        std::vector<std::set<g::vertex_t>> neighbors(g.size());
-        std::vector<std::set<g::vertex_t>> in_neighbors(g.size());
+        std::vector<std::set<vertex_t>> neighbors(g.size());
+        std::vector<std::set<vertex_t>> in_neighbors(g.size());
         auto edges = {edges_init, extra_edges_init};
         for(const auto& edge: std::views::join(edges)) {
             if (edge.start != edge.end)
@@ -112,7 +117,7 @@ TEMPLATE_TEST_CASE("Graph implementations", "[graph-impl]",
             }
         }
 
-        for (g::vertex_t i = 0; i < g.size(); i++) {
+        for (vertex_t i = 0; i < g.size(); i++) {
             {
                 unsigned n_neighbors = 0;
                 for (const auto& neighbor: g.get_neighbors(i)) {
