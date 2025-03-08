@@ -45,29 +45,13 @@ namespace grafology {
     Number<weight_t>
   && requires(G g, vertex_t i, vertex_t j, weight_t w) {
     // TODO: vertex removal
-//    { g.add_vertex() } -> std::convertible_to<vertex_t>;
+    { g.add_vertex() } -> std::convertible_to<vertex_t>;
     { g.add_vertices(i) } -> std::convertible_to<generator<vertex_t>>;
-//    { g.set_edge(i, j, w) };
+    { g.set_edge(i, j, w) };
     // g.set_edges(std::declval<input_iterator_value<edge_t<weight_t>>>(),
     // std::declval<std::sentinel_for<input_iterator_edge>>());
     // g.set_edges(std::declval<input_range_value<edge_t<weight_t>>>());
-  } && requires(G g, vertex_t i, vertex_t j, weight_t w) {
-      // TODO: vertex removal
-      { g.add_vertex() } -> std::convertible_to<vertex_t>;
-//      { g.add_vertices(i) } -> std::convertible_to<generator<vertex_t>>;
-//      { g.set_edge(i, j, w) };
-      // g.set_edges(std::declval<input_iterator_value<edge_t<weight_t>>>(),
-      // std::declval<std::sentinel_for<input_iterator_edge>>());
-      // g.set_edges(std::declval<input_range_value<edge_t<weight_t>>>());
-  } && requires(G g, vertex_t i, vertex_t j, weight_t w) {
-        // TODO: vertex removal
-    //    { g.add_vertex() } -> std::convertible_to<vertex_t>;
-//        { g.add_vertices(i) } -> std::convertible_to<generator<vertex_t>>;
-        { g.set_edge(i, j, w) };
-        // g.set_edges(std::declval<input_iterator_value<edge_t<weight_t>>>(),
-        // std::declval<std::sentinel_for<input_iterator_edge>>());
-        // g.set_edges(std::declval<input_range_value<edge_t<weight_t>>>());
-        } && requires(const G g, vertex_t i, vertex_t j) {
+   } && requires(const G g, vertex_t i, vertex_t j) {
     { g.is_directed() } -> std::convertible_to<bool>;
     { g.size() } -> std::convertible_to<std::size_t>;
     { g.capacity() } -> std::convertible_to<std::size_t>;
@@ -83,7 +67,7 @@ namespace grafology {
     { g.get_raw_in_neighbors(i) } -> std::convertible_to<generator<vertex_t>>;
     { g.get_in_neighbors(i) } -> std::convertible_to<generator<edge_t<weight_t>>>;
     { g.get_all_edges() } -> std::convertible_to<generator<edge_t<weight_t>>>;
-    //{ g.invert() } -> std::convertible_to<G>;
+    { g.invert() } -> std::convertible_to<G>;
   } && requires(const G g1, const G g2) {
     { g1 == g2 } -> std::convertible_to<bool>;
   };
