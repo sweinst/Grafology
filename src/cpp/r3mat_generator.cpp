@@ -35,7 +35,7 @@ namespace grafology {
         _offset3 = (0.25 - pc) / depth;
         _offset4 = (0.25 - pd) / depth;
 
-        edge_t e;
+        base_edge_t e;
         for (unsigned i = 0; i < n_edges; i++) {
             do {
                 e = choose_edge(0, 0, n_vertices - 1, n_vertices - 1, pa, pb, pc, pd);
@@ -48,7 +48,7 @@ namespace grafology {
         }
     }
 
-    edge_t R3MatGenerator::choose_edge(
+    base_edge_t R3MatGenerator::choose_edge(
         unsigned x1,
         unsigned y1,
         unsigned xn,
@@ -113,7 +113,7 @@ namespace grafology {
         return choose_edge(half_x, half_y, xn, yn, new_a, new_b, new_c, new_d);
     }
     
-    generator<edge_t> R3MatGenerator::generate_directed_edges() {
+    generator<base_edge_t> R3MatGenerator::generate_directed_edges() {
         unsigned n_vertices = _degrees.size();
         for (vertex_t start = 0; start < n_vertices; ++start) {
             auto degree = _degrees[start];
@@ -133,7 +133,7 @@ namespace grafology {
         }
     }
     
-    generator<edge_t> R3MatGenerator::generate_undirected_edges(bool preserve_distribution) {
+    generator<base_edge_t> R3MatGenerator::generate_undirected_edges(bool preserve_distribution) {
         unsigned n_vertices = _degrees.size();
         std::vector<unsigned> degrees_copy;
         if (preserve_distribution) {

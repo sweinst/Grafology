@@ -3,11 +3,14 @@
 
 namespace g = grafology;
 
+using weight_t = int;
+using FlatIndexMap = g::FlatIndexMap<int>;
+
 TEST_CASE("Test FlatIndexMap", "[flatindexmap]")
 {
-    std::vector<g::FlatIndexMap::MapEntry> entries = {{2, 2}, {45, 45}, {33, 35}, {33, 33}, {3,3}};
-    std::vector<g::FlatIndexMap::MapEntry> expected = {{2, 2}, {3,3}, {33, 33}, {45, 45}};
-    g::FlatIndexMap map;
+    std::vector<FlatIndexMap::MapEntry> entries = {{2, 2}, {45, 45}, {33, 35}, {33, 33}, {3,3}};
+    std::vector<FlatIndexMap::MapEntry> expected = {{2, 2}, {3,3}, {33, 33}, {45, 45}};
+    FlatIndexMap map;
     for (const auto& entry : entries) {
         map.set(entry);
     }

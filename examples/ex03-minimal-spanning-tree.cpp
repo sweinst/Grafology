@@ -43,7 +43,7 @@ namespace std {
 static_assert(g::VertexKey<Vertex>);
 
 
-using Graph = g::UndirectedSparseGraph<Vertex>;
+using Graph = g::UndirectedSparseGraph<Vertex, int>;
 using Edge = Graph::Edge;
 
 std::vector <Vertex> vertices {

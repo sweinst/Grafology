@@ -3,7 +3,8 @@
 #include <queue>
 
 namespace grafology {
-    template <GraphImpl G>
+    template <typename G>
+    requires GraphImpl<G, typename G::weight_lt>
     generator<vertex_t> breath_first_search(const G& graph, vertex_t start) {
         assert(start < graph.size());
         std::vector<bool> visited(graph.size(), false);
@@ -22,8 +23,9 @@ namespace grafology {
         }
     }
 
-    template<GraphImpl Impl, VertexKey Vertex, bool IsDirected>
-    generator<Vertex> breath_first_search(const Graph<Impl, Vertex, IsDirected>& graph, const Vertex& start) {
+    template<typename Impl, VertexKey Vertex, bool IsDirected>
+    requires GraphImpl<Impl, typename Impl::weight_lt>
+    generator<Vertex> breath_first_search(const Graph<Impl, Vertex, IsDirected, typename Impl::weight_lt>& graph, const Vertex& start) {
         assert(graph.get_internal_index(start) != INVALID_VERTEX);
         const auto impl = graph.impl();
         auto idx_start = graph.get_internal_index(start);

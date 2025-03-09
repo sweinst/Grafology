@@ -2,6 +2,7 @@
 #include <catch2/catch_template_test_macros.hpp>
 
 namespace g = grafology;
+using weight_t = int;
 
 TEST_CASE("Test R3Mat", "[generators]") {
     // TODO: check the distribution of edges. It should be a power law with exponent -2
@@ -12,12 +13,12 @@ TEST_CASE("Test R3Mat", "[generators]") {
         for (auto size : {10, 100, 1'000, 10'000}) {
             {
                 CAPTURE(size, directed, "sparse");
-                auto gs = g::generate_r3mat_sparse_graph(size, size, directed, 0);
+                auto gs = g::generate_r3mat_sparse_graph<weight_t>(size, size, directed, 0);
                 REQUIRE(gs.size() == size);
             }
             {
                 CAPTURE(size, directed, "dense");
-                auto gs = g::generate_r3mat_dense_graph(size, size, directed, 0);
+                auto gs = g::generate_r3mat_dense_graph<weight_t>(size, size, directed, 0);
                 REQUIRE(gs.size() == size);
             }
         }

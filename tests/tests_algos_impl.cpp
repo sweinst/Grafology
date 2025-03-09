@@ -15,15 +15,23 @@
 #include <unordered_set>
 #include "test_vertex.h"
 
-#include <grafology/generators/r3mat_generator.h>
-
 namespace g = grafology;
+using weight_t = int;
+using edge_t = g::edge_t<weight_t>;
+using vertex_t = g::vertex_t;
+using step_t = g::step_t<weight_t>;
+using DenseGraphImpl = g::DenseGraphImpl<weight_t>;
+using SparseGraphImpl = g::SparseGraphImpl<weight_t>;
+static constexpr auto D_INFINITY = edge_t::D_INFINITY;
+
+static_assert(g::GraphImpl<DenseGraphImpl, weight_t>);
+static_assert(g::GraphImpl<SparseGraphImpl, weight_t>);
 
 namespace {
     constexpr unsigned max_vertices = 11;
     constexpr unsigned n_vertices = 11;
 
-    const std::vector<g::edge_t> edges_init{
+    const std::vector<edge_t> edges_init{
         {0, 1, 1},   {0, 2, 2},  {2, 3, 5},  {2, 4, 6},  {2, 5, 7},  {3, 1, 4},  {5, 1, 6},
         {3, 10, 13}, {5, 8, 13}, {6, 7, 13}, {8, 3, 11}, {8, 7, 15}, {8, 9, 17},
     };
@@ -33,10 +41,10 @@ namespace {
 TEMPLATE_TEST_CASE(
     "Impl - Topological sort",
     "[impl-algos]",
-    g::DenseGraphImpl,
-    g::SparseGraphImpl
+    DenseGraphImpl,
+    SparseGraphImpl
 ) {
-    const std::vector<std::set<g::vertex_t>> expected{
+    const std::vector<std::set<vertex_t>> expected{
         {0, 6}, {2}, {4, 5}, {8}, {3, 7, 9}, {1, 10},
     };
 
@@ -44,8 +52,8 @@ TEMPLATE_TEST_CASE(
     g.set_edges(edges_init);
 
     unsigned current_group = 0;
-    std::set<g::vertex_t> visited;
-    for (auto [group, vertex] : g::topological_sort(g)) {
+    std::set<vertex_t> visited;
+    for (auto [group, vertex] : topological_sort(g)) {
         if (group != current_group) {
             CHECK(expected[current_group] == visited);
             current_group = group;
@@ -59,7 +67,7 @@ TEMPLATE_TEST_CASE(
     CHECK(expected[current_group] == visited);
 
     // add a cycle
-    const std::vector<g::edge_t> edges_cycle{
+    const std::vector<edge_t> edges_cycle{
         {1, 7, 8},
         {7, 5, 12},
     };
@@ -70,9 +78,9 @@ TEMPLATE_TEST_CASE(
     }));
 }
 
-TEMPLATE_TEST_CASE("Impl - DFS", "[impl-algos]", g::DenseGraphImpl, g::SparseGraphImpl) {
-    const std::vector<g::vertex_t> expected_directed{0, 2, 5, 8, 9, 7, 3, 10, 1, 4};
-    const std::vector<g::vertex_t> expected_undirected{0, 2, 5, 8, 9, 7, 6, 3, 10, 1, 4};
+TEMPLATE_TEST_CASE("Impl - DFS", "[impl-algos]", DenseGraphImpl, SparseGraphImpl) {
+    const std::vector<vertex_t> expected_directed{0, 2, 5, 8, 9, 7, 3, 10, 1, 4};
+    const std::vector<vertex_t> expected_undirected{0, 2, 5, 8, 9, 7, 6, 3, 10, 1, 4};
 
     for (auto is_directed : {false, true}) {
         CAPTURE(is_directed);
@@ -81,7 +89,7 @@ TEMPLATE_TEST_CASE("Impl - DFS", "[impl-algos]", g::DenseGraphImpl, g::SparseGra
         g.set_edges(edges_init);
 
         unsigned current_group = 0;
-        std::vector<g::vertex_t> visited;
+        std::vector<vertex_t> visited;
         for (auto vertex : g::depth_first_search(g, 0)) {
             CAPTURE(vertex);
             CHECK(std::ranges::find(visited, vertex) == visited.end());
@@ -91,9 +99,9 @@ TEMPLATE_TEST_CASE("Impl - DFS", "[impl-algos]", g::DenseGraphImpl, g::SparseGra
     }
 }
 
-TEMPLATE_TEST_CASE("Impl - BFS", "[impl-algos]", g::DenseGraphImpl, g::SparseGraphImpl) {
-    const std::vector<g::vertex_t> expected_directed{0, 1, 2, 3, 4, 5, 10, 8, 7, 9};
-    const std::vector<g::vertex_t> expected_undirected{0, 1, 2, 3, 5, 4, 8, 10, 7, 9, 6};
+TEMPLATE_TEST_CASE("Impl - BFS", "[impl-algos]", DenseGraphImpl, SparseGraphImpl) {
+    const std::vector<vertex_t> expected_directed{0, 1, 2, 3, 4, 5, 10, 8, 7, 9};
+    const std::vector<vertex_t> expected_undirected{0, 1, 2, 3, 5, 4, 8, 10, 7, 9, 6};
 
     for (auto is_directed : {false, true}) {
         CAPTURE(is_directed);
@@ -102,7 +110,7 @@ TEMPLATE_TEST_CASE("Impl - BFS", "[impl-algos]", g::DenseGraphImpl, g::SparseGra
         g.set_edges(edges_init);
 
         unsigned current_group = 0;
-        std::vector<g::vertex_t> visited;
+        std::vector<vertex_t> visited;
         for (auto vertex : g::breath_first_search(g, 0)) {
             CAPTURE(vertex);
             CHECK(std::ranges::find(visited, vertex) == visited.end());
@@ -115,10 +123,10 @@ TEMPLATE_TEST_CASE("Impl - BFS", "[impl-algos]", g::DenseGraphImpl, g::SparseGra
 TEMPLATE_TEST_CASE(
     "Impl - Transitive closure directed",
     "[impl-algos]",
-    g::DenseGraphImpl,
-    g::SparseGraphImpl
+    DenseGraphImpl,
+    SparseGraphImpl
 ) {
-    const std::vector<g::edge_t> directed_extra_edges{
+    const std::vector<edge_t> directed_extra_edges{
         {0, 3}, {0, 4},  {0, 5}, {0, 7}, {0, 8}, {0, 9}, {0, 10}, {2, 1}, {2, 8},  {2, 7},
         {2, 9}, {2, 10}, {5, 1}, {5, 3}, {5, 7}, {5, 9}, {5, 10}, {8, 1}, {8, 10},
     };
@@ -131,8 +139,8 @@ TEMPLATE_TEST_CASE(
     expected.set_edges(edges_init);
     expected.set_edges(directed_extra_edges);
 
-    for (g::vertex_t i = 0; i < n_vertices; ++i) {
-        for (g::vertex_t j = 0; j < n_vertices; ++j) {
+    for (vertex_t i = 0; i < n_vertices; ++i) {
+        for (vertex_t j = 0; j < n_vertices; ++j) {
             CAPTURE(i, j);
             CHECK(g.has_edge(i, j) == expected.has_edge(i, j));
         }
@@ -142,30 +150,30 @@ TEMPLATE_TEST_CASE(
 TEMPLATE_TEST_CASE(
     "Impl - Transitive closure undirected",
     "[impl-algos]",
-    g::DenseGraphImpl,
-    g::SparseGraphImpl
+    DenseGraphImpl,
+    SparseGraphImpl
 ) {
     TestType g(max_vertices, n_vertices, false);
     g.set_edges(edges_init);
     g::transitive_closure(g);
 
     // all vertices should now be directly connected
-    for (g::vertex_t i = 0; i < n_vertices; ++i) {
-        for (g::vertex_t j = 0; j < n_vertices; ++j) {
+    for (vertex_t i = 0; i < n_vertices; ++i) {
+        for (vertex_t j = 0; j < n_vertices; ++j) {
             CAPTURE(i, j);
             CHECK(g.has_edge(i, j));
         }
     }
 }
 
-TEMPLATE_TEST_CASE("Impl - MST", "[impl-algos]", g::DenseGraphImpl, g::SparseGraphImpl) {
-    std::vector<g::edge_t> edges{
+TEMPLATE_TEST_CASE("Impl - MST", "[impl-algos]", DenseGraphImpl, SparseGraphImpl) {
+    std::vector<edge_t> edges{
         {0, 1, 5},   {0, 2, 3},   {3, 1, 2},   {4, 1, 6},   {5, 4, 2},
         {5, 3, 1},   {1, 2, 5},   {4, 6, 5},   {6, 7, 5},   {7, 8, 5},
         {10, 11, 5}, {10, 12, 2}, {12, 11, 2}, {11, 13, 5}, {14, 13, 5},
     };
 
-    std::vector<g::edge_t> expected_edges{
+    std::vector<edge_t> expected_edges{
         {0, 1, 5}, {0, 2, 3}, {3, 1, 2},   {5, 4, 2},   {5, 3, 1},   {4, 6, 5},
         {6, 7, 5}, {7, 8, 5}, {10, 12, 2}, {12, 11, 2}, {11, 13, 5}, {14, 13, 5},
     };
@@ -180,28 +188,28 @@ TEMPLATE_TEST_CASE("Impl - MST", "[impl-algos]", g::DenseGraphImpl, g::SparseGra
     REQUIRE(mst == expected);
 }
 
-TEMPLATE_TEST_CASE("Impl - Dijkstra", "[impl-algos]", g::DenseGraphImpl, g::SparseGraphImpl) {
+TEMPLATE_TEST_CASE("Impl - Dijkstra", "[impl-algos]", DenseGraphImpl, SparseGraphImpl) {
     int n_vertices = 12;
-    std::vector<g::edge_t> edges = {
+    std::vector<edge_t> edges = {
         {0, 1, 4}, {0, 7, 8}, {1, 2, 8},  {1, 7, 11}, {2, 3, 7},   {2, 5, 4},
         {2, 8, 2}, {3, 4, 9}, {3, 5, 14}, {4, 5, 10}, {5, 6, 2},   {6, 7, 1},
         {6, 8, 6}, {7, 8, 7}, {9, 10, 4}, {9, 11, 2}, {11, 10, 1},
     };
 
-    std::vector<g::weight_t> expected_distances = {
-        0, 4, 12, 19, 21, 11, 9, 8, 14, g::D_INFINITY, g::D_INFINITY, g::D_INFINITY
+    std::vector<weight_t> expected_distances = {
+        0, 4, 12, 19, 21, 11, 9, 8, 14, D_INFINITY, D_INFINITY, D_INFINITY
     };
-    std::vector<g::vertex_t> expected_predecessors = {
+    std::vector<vertex_t> expected_predecessors = {
         g::NO_PREDECESSOR, 0, 1, 2, 5, 6, 7, 0, 2, g::NO_PREDECESSOR, g::NO_PREDECESSOR,
         g::NO_PREDECESSOR
     };
-    std::vector<g::step_t> expected_path_to_8 = {{0, 0}, {1, 4}, {2, 12}, {8, 14}};
-    std::vector<g::step_t> expected_path_to_5 = {{0, 0}, {7, 8}, {6, 9}, {5, 11}};
-    const std::set<g::vertex_t> unreachable{9, 10, 11};
+    std::vector<step_t> expected_path_to_8 = {{0, 0}, {1, 4}, {2, 12}, {8, 14}};
+    std::vector<step_t> expected_path_to_5 = {{0, 0}, {7, 8}, {6, 9}, {5, 11}};
+    const std::set<vertex_t> unreachable{9, 10, 11};
 
     TestType g(n_vertices, n_vertices, false);
     g.set_edges(edges);
-    auto paths = g::all_shortest_paths(g, 0);
+    auto paths = g::all_shortest_paths(g, (vertex_t)0);
 
     CHECK(paths._distances == expected_distances);
     CHECK(paths._predecessors == expected_predecessors);
@@ -209,15 +217,15 @@ TEMPLATE_TEST_CASE("Impl - Dijkstra", "[impl-algos]", g::DenseGraphImpl, g::Spar
     CHECK(path_to_8 == expected_path_to_8);
     auto path_to_5 = paths.get_path(5);
     CHECK(path_to_5 == expected_path_to_5);
-    for (g::vertex_t i = 0; i < n_vertices; ++i) {
+    for (vertex_t i = 0; i < n_vertices; ++i) {
         CAPTURE(i);
         CHECK(paths.is_reachable(i) == !unreachable.contains(i));
     }
 }
 
-TEMPLATE_TEST_CASE("Impl - A*", "[impl-algos]", g::DenseGraphImpl, g::SparseGraphImpl) {
+TEMPLATE_TEST_CASE("Impl - A*", "[impl-algos]", DenseGraphImpl, SparseGraphImpl) {
     int n_vertices = 12;
-    std::vector<g::edge_t> edges = {
+    std::vector<edge_t> edges = {
         {0, 1, 4}, {0, 7, 8}, {1, 2, 8},  {1, 7, 11}, {2, 3, 7},   {2, 5, 4},
         {2, 8, 2}, {3, 4, 9}, {3, 5, 14}, {4, 5, 10}, {5, 6, 2},   {6, 7, 1},
         {6, 8, 6}, {7, 8, 7}, {9, 10, 4}, {9, 11, 2}, {11, 10, 1},
@@ -228,11 +236,11 @@ TEMPLATE_TEST_CASE("Impl - A*", "[impl-algos]", g::DenseGraphImpl, g::SparseGrap
 
     std::vector<std::tuple<
         // start
-        g::vertex_t,
+        vertex_t,
         // end
-        g::vertex_t,
+        vertex_t,
         // path = vector<vertex, distance from start>
-        std::vector<g::step_t>>>
+        std::vector<step_t>>>
         expected = {
             {0, 8, {{0, 0}, {1, 4}, {2, 12}, {8, 14}}},
             {0, 5, {{0, 0}, {7, 8}, {6, 9}, {5, 11}}},
@@ -244,7 +252,7 @@ TEMPLATE_TEST_CASE("Impl - A*", "[impl-algos]", g::DenseGraphImpl, g::SparseGrap
         CAPTURE(start, end);
         // build our cost function from the real distances
         auto paths_to_end = g::all_shortest_paths(g, end);
-        auto cost_function = [&paths_to_end](g::vertex_t i, g::vertex_t /* j */) {
+        auto cost_function = [&paths_to_end](vertex_t i, vertex_t /* j */) {
             return paths_to_end._distances[i];
         };
 
@@ -253,9 +261,9 @@ TEMPLATE_TEST_CASE("Impl - A*", "[impl-algos]", g::DenseGraphImpl, g::SparseGrap
     }
 }
 
-TEMPLATE_TEST_CASE("Impl - Max Flow", "[impl-algos]", g::DenseGraphImpl, g::SparseGraphImpl) {
+TEMPLATE_TEST_CASE("Impl - Max Flow", "[impl-algos]", DenseGraphImpl, SparseGraphImpl) {
     int n_vertices = 6;
-    std::vector<g::edge_t> edges = {
+    std::vector<edge_t> edges = {
         {0, 1, 16}, {0, 2, 13}, {1, 2, 10}, {1, 3, 12}, {2, 1, 4},
         {2, 4, 14}, {3, 2, 9},  {3, 5, 20}, {4, 3, 7},  {4, 5, 4},
     };
@@ -268,21 +276,21 @@ TEMPLATE_TEST_CASE("Impl - Max Flow", "[impl-algos]", g::DenseGraphImpl, g::Spar
     CHECK(max_flow == 23);
 }
 
-TEMPLATE_TEST_CASE("Impl - Bridges", "[impl-algos]", g::DenseGraphImpl, g::SparseGraphImpl) {
+TEMPLATE_TEST_CASE("Impl - Bridges", "[impl-algos]", DenseGraphImpl, SparseGraphImpl) {
     int n_vertices = 13;
-    std::vector<g::edge_t> edges = {
+    std::vector<edge_t> edges = {
         {0, 1}, {0, 2}, {1, 2}, {1, 4},  {2, 3},   {3, 7},  {4, 5},
         {5, 6}, {6, 4}, {7, 8}, {9, 10}, {10, 11}, {11, 9}, {11, 12},
     };
 
-    std::unordered_set<g::edge_t> expected_bridges = {
+    std::unordered_set<edge_t> expected_bridges = {
         {1, 4}, {4, 1}, {2, 3}, {3, 2}, {3, 7}, {7, 3}, {7, 8}, {8, 7}, {11, 12}, {12, 11},
     };
 
     TestType g(n_vertices, n_vertices, false);
     g.set_edges(edges);
 
-    std::unordered_set<g::edge_t> result;
+    std::unordered_set<edge_t> result;
     for (auto [start, end, _] : g::bridges(g)) {
         result.emplace(start, end);
         result.emplace(end, start);
@@ -295,23 +303,23 @@ TEMPLATE_TEST_CASE("Impl - Bridges", "[impl-algos]", g::DenseGraphImpl, g::Spars
 TEMPLATE_TEST_CASE(
     "Impl - Articulations Points",
     "[impl-algos]",
-    g::DenseGraphImpl,
-    g::SparseGraphImpl
+    DenseGraphImpl,
+    SparseGraphImpl
 ) {
     int n_vertices = 14;
-    std::vector<g::edge_t> edges = {
+    std::vector<edge_t> edges = {
         {0, 1},  {0, 2}, {1, 2}, {2, 3}, {2, 4},  {3, 4},   {4, 5},  {4, 6},   {4, 7},   {4, 9},
         {4, 10}, {5, 6}, {5, 6}, {7, 8}, {9, 10}, {10, 11}, {11, 9}, {11, 12}, {12, 13},
     };
 
-    std::unordered_set<g::vertex_t> expected_articulations_points = {
+    std::unordered_set<vertex_t> expected_articulations_points = {
         2, 4, 7, 11, 12,
     };
 
     TestType g(n_vertices, n_vertices, false);
     g.set_edges(edges);
 
-    std::unordered_set<g::vertex_t> result;
+    std::unordered_set<vertex_t> result;
     for (auto ap : g::articulation_points(g)) {
         result.emplace(ap);
     }
@@ -323,10 +331,10 @@ TEMPLATE_TEST_CASE(
 TEMPLATE_TEST_CASE(
     "Impl - Strongly Connected Components",
     "[impl-algos]",
-    g::DenseGraphImpl,
-    g::SparseGraphImpl
+    DenseGraphImpl,
+    SparseGraphImpl
 ) {
-    std::vector<std::tuple<int, std::vector<g::edge_t>, std::vector<std::set<g::vertex_t>>>>
+    std::vector<std::tuple<int, std::vector<edge_t>, std::vector<std::set<vertex_t>>>>
         graph_defs{
             {
                 // n vertices
@@ -362,7 +370,7 @@ TEMPLATE_TEST_CASE(
         TestType g(n_vertices, n_vertices, true);
         g.set_edges(edges);
 
-        std::vector<std::set<g::vertex_t>> sccs;
+        std::vector<std::set<vertex_t>> sccs;
         for (const auto& scc : g::strongly_connected_components(g)) {
             sccs.push_back(std::set(scc.begin(), scc.end()));
         }

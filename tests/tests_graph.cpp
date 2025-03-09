@@ -4,10 +4,17 @@
 #include <unordered_set>
 
 namespace g = grafology;
+using weight_t = int;
+using edge_t = g::edge_t<weight_t>;
+using vertex_t = g::vertex_t;
+using DirectedDenseGraph = g::DirectedDenseGraph<TestVertex, weight_t>;
+using DirectedSparseGraph = g::DirectedSparseGraph<TestVertex, weight_t>;
+using UndirectedDenseGraph = g::UndirectedDenseGraph<TestVertex, weight_t>;
+using UndirectedSparseGraph = g::UndirectedSparseGraph<TestVertex, weight_t>;
 
 TEMPLATE_TEST_CASE("Graphs", "[graphs]", 
-    g::DirectedDenseGraph<TestVertex> , g::DirectedSparseGraph<TestVertex>,
-    g::UndirectedDenseGraph<TestVertex> , g::UndirectedSparseGraph<TestVertex>) {
+    DirectedDenseGraph , DirectedSparseGraph,
+    UndirectedDenseGraph , UndirectedSparseGraph) {
 
     using Edge = TestType::Edge;
 

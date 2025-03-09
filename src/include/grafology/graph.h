@@ -7,14 +7,16 @@
 
 namespace grafology {
     /** @brief a step on a path:(Vertex, distance from start) */
-    template<VertexKey Vertex>
+    template<VertexKey Vertex, Number weight_t>
     using Step = std::tuple<Vertex, weight_t>;
 
     /**
      * @brief The definition of an edge
      */
-    template<VertexKey Vertex>
+    template<VertexKey Vertex, Number weight_t>
     struct EdgeDefinition {
+        using weight_lt = weight_t;
+
         Vertex start;
         Vertex end;
         weight_t weight = 1;
@@ -28,10 +30,10 @@ namespace std {
     /**
      *  @brief Specialization of std::hash for EdgeDefinition
      */
-    template <typename Vertex>
+    template <typename Vertex, grafology::Number weight_t>
         requires grafology::VertexKey<Vertex>
-    struct hash<grafology::EdgeDefinition<Vertex>> {
-        std::size_t operator() (const grafology::EdgeDefinition<Vertex>& e) const {
+    struct hash<grafology::EdgeDefinition<Vertex, weight_t>> {
+        std::size_t operator() (const grafology::EdgeDefinition<Vertex, weight_t>& e) const {
             auto h1 = std::hash<Vertex>{}(e.start);
             auto h2 = std::hash<Vertex>{}(e.end);
             return (h1 ^ (h2 << 1));
@@ -41,15 +43,15 @@ namespace std {
     /** 
      * @brief Specialization of std::format for EdgeDefinition<Vertex>
      */
-    template <grafology::VertexKey Vertex>
-    struct formatter<grafology::EdgeDefinition<Vertex>, char> {
+    template <grafology::VertexKey Vertex, grafology::Number weight_t>
+    struct formatter<grafology::EdgeDefinition<Vertex, weight_t>, char> {
         template <class ParseContext>
         constexpr ParseContext::iterator parse(ParseContext& ctx) {
             return ctx.begin();
         }
 
         template <class FormatContext>
-        auto format(const grafology::EdgeDefinition<Vertex>& v, FormatContext& ctx) const {
+        auto format(const grafology::EdgeDefinition<Vertex, weight_t>& v, FormatContext& ctx) const {
             return std::format_to(ctx.out(), "[start:{},end:{},weight:{}]", v.start, v.end, v.weight);
         }
     };
@@ -62,10 +64,12 @@ namespace grafology {
      * @tparam Vertex The class used for identifying vertices
      * @tparam IsDirected Whether the graph is directed or not
      */
-    template<GraphImpl Impl, VertexKey Vertex, bool IsDirected>
+    template<typename Impl, VertexKey Vertex, bool IsDirected, Number weight_t>
+    requires GraphImpl<Impl, weight_t>
     class Graph {
     public:
-        using Edge = EdgeDefinition<Vertex>;
+        using weight_lt = weight_t;
+        using Edge = EdgeDefinition<Vertex, weight_t>;
 
         Graph(unsigned capacity): 
             _impl(capacity, 0, IsDirected),
@@ -227,28 +231,28 @@ namespace grafology {
      * @brief A directed sparse graph
      * @tparam Vertex The class used for identifying vertices
      */
-    template<VertexKey Vertex>
-    using DirectedSparseGraph = Graph<SparseGraphImpl, Vertex, true>;
+    template<VertexKey Vertex, Number weight_t>
+    using DirectedSparseGraph = Graph<SparseGraphImpl<weight_t>, Vertex, true, weight_t>;
 
     /**
      * @brief An undirected sparse graph
      * @tparam Vertex The class used for identifying vertices
      */
-    template<VertexKey Vertex>
-    using UndirectedSparseGraph = Graph<SparseGraphImpl, Vertex, false>;
+    template<VertexKey Vertex, Number weight_t>
+    using UndirectedSparseGraph = Graph<SparseGraphImpl<weight_t>, Vertex, false, weight_t>;
     
     /**
      * @brief A directed dense graph
      * @tparam Vertex The class used for identifying vertices
      */
-    template<VertexKey Vertex>
-    using DirectedDenseGraph = Graph<DenseGraphImpl, Vertex, true>;
+    template<VertexKey Vertex, Number weight_t>
+    using DirectedDenseGraph = Graph<DenseGraphImpl<weight_t>, Vertex, true, weight_t>;
     
     /**
      * @brief An undirected dense graph
      * @tparam Vertex The class used for identifying vertices
      */
-    template<VertexKey Vertex>
-    using UndirectedDenseGraph = Graph<DenseGraphImpl, Vertex, false>;
+    template<VertexKey Vertex, Number weight_t>
+    using UndirectedDenseGraph = Graph<DenseGraphImpl<weight_t>, Vertex, false, weight_t>;
 
 } // namespace grafology

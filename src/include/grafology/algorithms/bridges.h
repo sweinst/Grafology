@@ -9,8 +9,11 @@
  * @tparam G the type of the graph implementation
  */
 namespace grafology {
-    template <GraphImpl G>
-    generator<edge_t> bridges(const G& graph) {
+    template <typename G>
+    requires GraphImpl<G, typename G::weight_lt>
+    generator<typename G::edge_lt> bridges(const G& graph) {
+        using edge_lt = typename G::edge_lt;
+
         if (graph.is_directed()) {
             throw error("Bridges works only on undirected graphs");
         }
@@ -58,7 +61,7 @@ namespace grafology {
                         if (p != NO_PREDECESSOR) {
                             lowest_time[p] = std::min(lowest_time[p], lowest_time[v]);
                             if (lowest_time[v] > discovery_time[p]) {
-                                co_yield edge_t{p, v};
+                                co_yield edge_lt{p, v};
                             }
                         }
                     }
@@ -67,15 +70,17 @@ namespace grafology {
         }
     }
 
-    template<GraphImpl Impl, VertexKey Vertex>
-    generator<EdgeDefinition<Vertex>> bridges(const Graph<Impl, Vertex, false>& graph) {
+    template<typename Impl, VertexKey Vertex>
+    requires GraphImpl<Impl, typename Impl::weight_lt>
+    generator<EdgeDefinition<Vertex, typename Impl::weight_lt>> bridges(const Graph<Impl, Vertex, false, typename Impl::weight_lt>& graph) {
         for (auto edge : bridges(graph.impl())) {
-            co_yield EdgeDefinition<Vertex>{graph.get_vertex_from_internal_index(edge.start), graph.get_vertex_from_internal_index(edge.end), edge.weight};
+            co_yield EdgeDefinition<Vertex, typename Impl::weight_lt>{graph.get_vertex_from_internal_index(edge.start), graph.get_vertex_from_internal_index(edge.end), edge.weight};
         }
     }
 
-    template<GraphImpl Impl, VertexKey Vertex>
-    generator<EdgeDefinition<Vertex>> bridges(const Graph<Impl, Vertex, true>& graph, const Vertex& start, const Vertex& end) {
+    template<typename Impl, VertexKey Vertex>
+    requires GraphImpl<Impl, typename Impl::weight_lt>
+    generator<EdgeDefinition<Vertex, typename Impl::weight_lt>> bridges(const Graph<Impl, Vertex, true, typename Impl::weight_lt>& graph) {
         static_assert(false, "Bridges works only on undirected graphs");
     }
 

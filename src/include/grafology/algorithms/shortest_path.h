@@ -8,7 +8,12 @@ namespace grafology {
    * @brief This struct allows to process the results of the algorithm all_shortest_paths
    * @remark it allows to save the results of the algorithm and so avoid to use dangling references
    */
+  template <typename weight_t>
   struct ShortestPathsImpl {
+    using edge_lt = edge_t<weight_t>;
+    static constexpr auto D_INFINITY = edge_lt::D_INFINITY;
+    using step_lt = std::tuple<vertex_t, weight_t>;
+
     ShortestPathsImpl(size_t n_vertices, vertex_t end)
         : _distances(n_vertices, D_INFINITY)
         , _predecessors(n_vertices, NO_PREDECESSOR)
@@ -28,8 +33,8 @@ namespace grafology {
 
     bool is_reachable() const { return _distances[_end] != D_INFINITY; }
 
-    std::vector<step_t> get_path() const {
-      std::vector<step_t> path;
+    std::vector<step_lt> get_path() const {
+      std::vector<step_lt> path;
       if (!is_reachable()) {
         return path;
       }
@@ -57,8 +62,11 @@ namespace grafology {
    * @param end The end vertex
    * @param f The cost function
    */
-  template <GraphImpl Graph, PathCostFunctionImpl F>
-  ShortestPathsImpl shortest_path(const Graph& graph, vertex_t start, vertex_t end, F& f) {
+  template <typename Graph, PathCostFunctionImpl F>
+  requires GraphImpl<Graph, typename Graph::weight_lt>
+  ShortestPathsImpl<typename Graph::weight_lt> shortest_path(const Graph& graph, vertex_t start, vertex_t end, F& f) {
+    using weight_lt = typename Graph::weight_lt;
+
     assert(start < graph.size() && end < graph.size());
     if (graph.is_directed()) {
       throw error("Shortest path works only on undirected graphs");
@@ -66,7 +74,7 @@ namespace grafology {
     const auto n_vertices = graph.size();
     using cost_type = decltype(f(start, end));
     std::priority_queue<std::pair<cost_type, vertex_t>> pq;
-    ShortestPathsImpl res(n_vertices, end);
+    ShortestPathsImpl<weight_lt> res(n_vertices, end);
     std::vector<bool> visited(n_vertices, false);
 
     res._distances[start] = 0;
@@ -101,11 +109,14 @@ namespace grafology {
    * @brief This struct allows to process the results of the algorithm all_shortest_paths
    * @remark it allows to save the results of the algorithm and so avoid to use dangling references
    */
-  template <GraphImpl Impl, VertexKey Vertex, bool IsDirected>
+  template <typename Impl, VertexKey Vertex, bool IsDirected>
+  requires GraphImpl<Impl, typename Impl::weight_lt>
   struct ShortestPaths {
+    using weight_lt = typename Impl::weight_lt;
+    using step_lt = Step<Vertex, weight_lt>;
     ShortestPaths(
-        ShortestPathsImpl&& shortest_paths,
-        const Graph<Impl, Vertex, IsDirected>& graph
+        ShortestPathsImpl<weight_lt>&& shortest_paths,
+        const Graph<Impl, Vertex, IsDirected, weight_lt>& graph
     )
         : _shortest_paths(std::move(shortest_paths))
         , graph(graph) {}
@@ -120,15 +131,15 @@ namespace grafology {
       return _shortest_paths.is_reachable();
     }
 
-    generator<Step<Vertex>> get_path() const {
+    generator<step_lt> get_path() const {
       for (const auto& [v, d]: _shortest_paths.get_path()) {
         co_yield std::make_tuple(graph.get_vertex_from_internal_index(v), d);
       }
     }
 
    private:
-    const ShortestPathsImpl _shortest_paths;
-    const Graph<Impl, Vertex, IsDirected>& graph;
+    const ShortestPathsImpl<typename Impl::weight_lt> _shortest_paths;
+    const Graph<Impl, Vertex, IsDirected, typename Impl::weight_lt>& graph;
   };
 
   /**
@@ -144,8 +155,9 @@ namespace grafology {
    * @param end The end vertex
    * @param f The cost function
    */
-  template <GraphImpl Impl, VertexKey Vertex, PathCostFunction<Vertex> F>
-  ShortestPaths<Impl, Vertex, false> shortest_path(const Graph<Impl, Vertex, false>& graph, const Vertex& start, const Vertex& end, F& f) {
+  template <typename Impl, VertexKey Vertex, PathCostFunction<Vertex> F>
+  requires GraphImpl<Impl, typename Impl::weight_lt>
+  ShortestPaths<Impl, Vertex, false> shortest_path(const Graph<Impl, Vertex, false, typename Impl::weight_lt>& graph, const Vertex& start, const Vertex& end, F& f) {
     auto cost_function = [&] (vertex_t u, vertex_t v) {
       assert(u < graph.size() && v < graph.size());
       return f(graph.get_vertex_from_internal_index(u), graph.get_vertex_from_internal_index(v));
@@ -155,8 +167,9 @@ namespace grafology {
     return ShortestPaths<Impl, Vertex, false>(std::move(sp_impl), graph);
   }
 
-  template <GraphImpl Impl, VertexKey Vertex, PathCostFunction<Vertex> F>
-  ShortestPaths<Impl, Vertex, true> shortest_path(const Graph<Impl, Vertex, true>& graph, const Vertex& start, const Vertex& end, F& f) {
+  template <typename Impl, VertexKey Vertex, PathCostFunction<Vertex> F>
+  requires GraphImpl<Impl, typename Impl::weight_lt>
+  ShortestPaths<Impl, Vertex, true> shortest_path(const Graph<Impl, Vertex, true, typename Impl::weight_lt>& graph, const Vertex& start, const Vertex& end, F& f) {
     static_assert(false, "Shortest paths works only on undirected graphs");
   }
 

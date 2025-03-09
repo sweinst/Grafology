@@ -8,8 +8,10 @@ namespace grafology {
      * @tparam G The graph implementation
      * @remark this is based on the Kruskal's algorithm
      */
-    template <GraphImpl G>
+    template <typename G>
+    requires GraphImpl<G, typename G::weight_lt>
     G minimum_spanning_tree(const G& graph) {
+        using edge_lt = typename G::edge_lt;
         if (graph.is_directed()) {
             throw error("Minimum spanning tree works only on undirected graphs");
         }
@@ -18,9 +20,9 @@ namespace grafology {
         
         // doesn't work with g++ 14.2, why ? 
         // auto g_edges = graph.get_all_edges();
-        // std::vector<edge_t> edges(g_edges.begin(), g_edges.end());
+        // std::vector<edge_lt> edges(g_edges.begin(), g_edges.end());
 
-        std::vector<edge_t> edges;
+        std::vector<edge_lt> edges;
         for (auto edge: graph.get_all_edges()) {
             edges.emplace_back(std::move(edge));
         }
@@ -45,14 +47,16 @@ namespace grafology {
      * @tparam Vertex The class used for identifying vertices
      * @remark this is based on the Kruskal's algorithm
      */
-    template<GraphImpl Impl, VertexKey Vertex>
-    Graph<Impl, Vertex, false> minimum_spanning_tree(const Graph<Impl, Vertex, false>& graph) {
+    template<typename Impl, VertexKey Vertex>
+    requires GraphImpl<Impl, typename Impl::weight_lt>
+    Graph<Impl, Vertex, false, typename Impl::weight_lt> minimum_spanning_tree(const Graph<Impl, Vertex, false, typename Impl::weight_lt>& graph) {
         auto new_impl = minimum_spanning_tree(graph.impl());
-        return Graph<Impl, Vertex, false>(graph, std::move(new_impl));
+        return Graph<Impl, Vertex, false, typename Impl::weight_lt>(graph, std::move(new_impl));
     }
 
-    template<GraphImpl Impl, VertexKey Vertex>
-    Graph<Impl, Vertex, true> minimum_spanning_tree(const Graph<Impl, Vertex, true>& graph) {
+    template<typename Impl, VertexKey Vertex>
+    requires GraphImpl<Impl, typename Impl::weight_lt>
+    Graph<Impl, Vertex, true, typename Impl::weight_lt> minimum_spanning_tree(const Graph<Impl, Vertex, true, typename Impl::weight_lt>& graph) {
         static_assert(false, "Minimum spanning tree works only on undirected graphs");
     }
 

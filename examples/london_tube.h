@@ -65,7 +65,7 @@ struct formatter<lt::Station, char> {
 }  // namespace std
 
 namespace LondonTube {
-struct Connection : public g::EdgeDefinition<Station> {
+struct Connection : public g::EdgeDefinition<Station, double> {
   // the weight os the distance in kms
   unsigned line = 0;
   double time_unimpeded_sec;
@@ -79,9 +79,9 @@ struct Connection : public g::EdgeDefinition<Station> {
              double u = 0,
              double p = 0,
              double i = 0)
-      : g::EdgeDefinition<Station>{{start},
+      : g::EdgeDefinition<Station, double>{{start},
                                    {end},
-                                   g::weight_t(distance_km * 1'000)},
+                                   weight_lt(distance_km * 1'000)},
         line{line},
         time_unimpeded_sec(u),
         time_peak_am_sec(p),

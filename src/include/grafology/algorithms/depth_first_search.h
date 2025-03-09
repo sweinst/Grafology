@@ -9,7 +9,8 @@ namespace grafology {
      * @param graph The graph to search
      * @package start The vertex to start the search from
      */
-    template <GraphImpl G>
+    template <typename G>
+    requires GraphImpl<G, typename G::weight_lt>
     generator<vertex_t> depth_first_search(const G& graph, vertex_t start) {
         assert(start < graph.size());
         std::vector<bool> visited(graph.size(), false);
@@ -32,9 +33,12 @@ namespace grafology {
      * @brief A class to repeatedly find a path between two vertices in a GraphImpl using depth-first search. 
      * All the containers used for the search are allocated only once.
      */
-    template <GraphImpl G>
+    template <typename G>
+    requires GraphImpl<G, typename G::weight_lt>
     class DFSPathFinder {
         public:
+            using edge_t = typename G::edge_lt;
+
             DFSPathFinder(G& graph) 
             : _graph(graph), 
               _visited(graph.size(), false), 
@@ -100,8 +104,9 @@ namespace grafology {
      * @param graph The graph to search
      * @package start The vertex to start the search from
      */
-    template<GraphImpl Impl, VertexKey Vertex, bool IsDirected>
-    generator<Vertex> depth_first_search(const Graph<Impl, Vertex, IsDirected>& graph, const Vertex& start) {
+    template<typename Impl, VertexKey Vertex, bool IsDirected>
+    requires GraphImpl<Impl, typename Impl::weight_lt>
+    generator<Vertex> depth_first_search(const Graph<Impl, Vertex, IsDirected, typename Impl::weight_lt>& graph, const Vertex& start) {
         assert(graph.get_internal_index(start) != INVALID_VERTEX);
         const auto impl = graph.impl();
         auto idx_start = graph.get_internal_index(start);

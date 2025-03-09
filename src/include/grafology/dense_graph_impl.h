@@ -10,8 +10,12 @@ namespace grafology {
      * If the weight is 0, then there is no edge.
      * @warning Once built, the graph capacity cannot be changed.
      */
+    template<Number weight_t>
     class DenseGraphImpl {
     public:
+        using edge_lt = edge_t<weight_t>;
+        using weight_lt = weight_t;
+
         DenseGraphImpl(unsigned n_max_vertices, unsigned n_vertices, bool is_directed) :
           _is_directed(is_directed),
           _n_max_vertices(n_max_vertices), 
@@ -43,7 +47,7 @@ namespace grafology {
             return _adjacency_matrix[i*_n_max_vertices+j] != 0;
         }
 
-        edge_t get_edge(vertex_t i, vertex_t j) const { 
+        edge_lt get_edge(vertex_t i, vertex_t j) const { 
             assert(i < _n_vertices && j < _n_vertices);
             return {.start = i, .end = j, .weight = _adjacency_matrix[i*_n_max_vertices+j]};
         }
@@ -84,7 +88,7 @@ namespace grafology {
             }
         }
 
-        void set_edge(const edge_t& edge) {
+        void set_edge(const edge_lt& edge) {
             assert(edge.start < _n_vertices && edge.end < _n_vertices);
             _adjacency_matrix[edge.start*_n_max_vertices+edge.end] = edge.weight;
             if (!_is_directed) {
@@ -92,7 +96,7 @@ namespace grafology {
             }
         }
 
-        template<input_iterator_value<edge_t> I, std::sentinel_for<I> S>
+        template<input_iterator_value<edge_lt> I, std::sentinel_for<I> S>
         void set_edges(I first, S last) {
             for (auto it = first; it != last; ++it) {
                 assert(it->start < _n_vertices && it->end < _n_vertices);
@@ -103,12 +107,12 @@ namespace grafology {
             }
         }
 
-        template<input_range_value<edge_t> R>
+        template<input_range_value<edge_lt> R>
         void set_edges(R &&r) {
             set_edges(std::begin(r), std::end(r));
         }
 
-        void set_edges(generator<edge_t>& g) {
+        void set_edges(generator<edge_lt>& g) {
             for (const auto& edge : g) {
                 set_edge(edge);
             }
@@ -150,7 +154,7 @@ namespace grafology {
             }
         }
 
-        generator<edge_t> get_neighbors(vertex_t vertex) const {
+        generator<edge_lt> get_neighbors(vertex_t vertex) const {
             assert(vertex < _n_vertices);
             auto rowStart = _adjacency_matrix.data() + vertex*_n_max_vertices;
             for (vertex_t i = 0; i < _n_vertices; ++i) {
@@ -175,7 +179,7 @@ namespace grafology {
             }
         }
         
-        generator<edge_t> get_in_neighbors(vertex_t vertex) const {
+        generator<edge_lt> get_in_neighbors(vertex_t vertex) const {
             assert(vertex < _n_vertices);
             for (vertex_t i = 0; i < _n_vertices; ++i) {
                 if (i != vertex) {
@@ -197,7 +201,7 @@ namespace grafology {
             return inverted;
         }
 
-        generator<edge_t> get_all_edges() const {
+        generator<edge_lt> get_all_edges() const {
             if (is_directed()) {
                 for (vertex_t i = 0; i < _n_vertices; ++i) {
                     for (vertex_t j = 0; j < _n_vertices; ++j) {
@@ -224,7 +228,5 @@ namespace grafology {
         unsigned _n_vertices;
         std::vector<weight_t> _adjacency_matrix;
     };
-
-    static_assert(GraphImpl<DenseGraphImpl>);
 
 } // namespace grafology
