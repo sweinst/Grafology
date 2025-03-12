@@ -18,7 +18,6 @@ The implementation is based on the [A<sup>*</sup> algorithm](https://en.wikipedi
 It requires a *cost function* which allows to estimate the distance from a vertex to the destination vertex
 
 ### Requirements
-- The graph must be undirected
 - All weights must be positive
 
 ### Usage

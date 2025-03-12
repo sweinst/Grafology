@@ -68,9 +68,6 @@ namespace grafology {
     using weight_lt = typename Graph::weight_lt;
 
     assert(start < graph.size() && end < graph.size());
-    if (graph.is_directed()) {
-      throw error("Shortest path works only on undirected graphs");
-    }
     const auto n_vertices = graph.size();
     using cost_type = decltype(f(start, end));
     std::priority_queue<std::pair<cost_type, vertex_t>> pq;
@@ -89,7 +86,7 @@ namespace grafology {
       visited[v] = true;
       for (const auto& edge : graph.get_neighbors(v)) {
         if (edge.weight <= 0) {
-          throw error("All shortest paths: negative weights are not allowed");
+          throw error("Shortest path: negative weights are not allowed");
         }
         if (visited[edge.end]) {
           continue;
@@ -155,22 +152,16 @@ namespace grafology {
    * @param end The end vertex
    * @param f The cost function
    */
-  template <typename Impl, VertexKey Vertex, PathCostFunction<Vertex> F>
+  template <typename Impl, VertexKey Vertex, bool directed, PathCostFunction<Vertex> F>
   requires GraphImpl<Impl, typename Impl::weight_lt>
-  ShortestPaths<Impl, Vertex, false> shortest_path(const Graph<Impl, Vertex, false, typename Impl::weight_lt>& graph, const Vertex& start, const Vertex& end, F& f) {
+  ShortestPaths<Impl, Vertex, directed> shortest_path(const Graph<Impl, Vertex, directed, typename Impl::weight_lt>& graph, const Vertex& start, const Vertex& end, F& f) {
     auto cost_function = [&] (vertex_t u, vertex_t v) {
       assert(u < graph.size() && v < graph.size());
       return f(graph.get_vertex_from_internal_index(u), graph.get_vertex_from_internal_index(v));
     };
     assert(graph.get_internal_index(start) != INVALID_VERTEX && graph.get_internal_index(end)  != INVALID_VERTEX);
     auto sp_impl = shortest_path(graph.impl(), graph.get_internal_index(start), graph.get_internal_index(end), cost_function);
-    return ShortestPaths<Impl, Vertex, false>(std::move(sp_impl), graph);
-  }
-
-  template <typename Impl, VertexKey Vertex, PathCostFunction<Vertex> F>
-  requires GraphImpl<Impl, typename Impl::weight_lt>
-  ShortestPaths<Impl, Vertex, true> shortest_path(const Graph<Impl, Vertex, true, typename Impl::weight_lt>& graph, const Vertex& start, const Vertex& end, F& f) {
-    static_assert(false, "Shortest paths works only on undirected graphs");
+    return ShortestPaths<Impl, Vertex, directed>(std::move(sp_impl), graph);
   }
 
 }  // namespace grafology

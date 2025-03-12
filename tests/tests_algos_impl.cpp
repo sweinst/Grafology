@@ -242,9 +242,6 @@ TEMPLATE_TEST_CASE("Impl - A*", "[impl-algos]", DenseGraphImpl, SparseGraphImpl)
         {6, 8, 6}, {7, 8, 7}, {9, 10, 4}, {9, 11, 2}, {11, 10, 1},
     };
 
-    TestType g(n_vertices, n_vertices, false);
-    g.set_edges(edges);
-
     std::vector<std::tuple<
         // start
         vertex_t,
@@ -252,24 +249,38 @@ TEMPLATE_TEST_CASE("Impl - A*", "[impl-algos]", DenseGraphImpl, SparseGraphImpl)
         vertex_t,
         // path = vector<vertex, distance from start>
         std::vector<step_t>>>
-        expected = {
-            {0, 8, {{0, 0}, {1, 4}, {2, 12}, {8, 14}}},
-            {0, 5, {{0, 0}, {7, 8}, {6, 9}, {5, 11}}},
-            {4, 2, {{4, 0}, {5, 10}, {2, 14}}},
-            {0, 11, {}},
+        expected[2] = {
+            {
+                {0, 8, {{0, 0}, {1, 4}, {2, 12}, {8, 14}}},
+                {0, 5, {{0, 0}, {7, 8}, {6, 9}, {5, 11}}},
+                {4, 2, {{4, 0}, {5, 10}, {2, 14}}},
+                {0, 11, {}},
+            },        
+            {
+                {0, 8, {{0, 0}, {1, 4}, {2, 12}, {8, 14}}},
+                {0, 5, {{0, 0}, {1, 4}, {2, 12}, {5, 16}}},
+                {4, 2, {}},
+                {0, 11, {}},
+            },        
         };
 
-    for (auto [start, end, expected_path] : expected) {
-        CAPTURE(start, end);
-        // build our cost function from the real distances
-        auto paths_to_end = g::all_shortest_paths(g, end);
-        auto cost_function = [&paths_to_end](vertex_t i, vertex_t /* j */) {
-            return paths_to_end._distances[i];
-        };
+        
 
-        auto path = g::shortest_path(g, start, end, cost_function);
-        CHECK(path.get_path() == expected_path);
+    for (auto directed: {true, false}){
+        TestType g(n_vertices, n_vertices, directed);
+        g.set_edges(edges);
+            for (auto [start, end, expected_path] : expected[directed]) {
+                CAPTURE(start, end, directed);
+                // build our cost function from the real distances
+                auto paths_to_end = g::all_shortest_paths(g, end);
+                auto cost_function = [&paths_to_end](vertex_t i, vertex_t /* j */) {
+                    return paths_to_end._distances[i];
+                };    
+                auto path = g::shortest_path(g, start, end, cost_function);
+                CHECK(path.get_path() == expected_path);
+        }
     }
+
 }
 
 TEMPLATE_TEST_CASE("Impl - Max Flow", "[impl-algos]", DenseGraphImpl, SparseGraphImpl) {

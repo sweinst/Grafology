@@ -217,7 +217,7 @@ TEMPLATE_TEST_CASE("Graphs - Dijkstra", "[graphs-algos]", UndirectedDenseGraph, 
     }
 }
 
-TEMPLATE_TEST_CASE("Graphs - A*", "[graphs-algos]", UndirectedDenseGraph, UndirectedSparseGraph) {
+TEMPLATE_TEST_CASE("Graphs - A*", "[graphs-algos]", UndirectedDenseGraph, UndirectedSparseGraph, DirectedDenseGraph, DirectedSparseGraph) {
     int n_vertices = 12;
 
     std::vector<TestVertex> vertices_init{{generate_test_vertices_list(n_vertices)}};
@@ -241,15 +241,24 @@ TEMPLATE_TEST_CASE("Graphs - A*", "[graphs-algos]", UndirectedDenseGraph, Undire
         TestVertex,
         // path = vector<vertex, distance from start>
         std::vector<std::tuple<TestVertex, weight_t>>>>
-        expected = {
-            {{0}, {8}, {{{0}, 0}, {{1}, 4}, {{2}, 12}, {{8}, 14}}},
-            {{0}, {5}, {{{0}, 0}, {{7}, 8}, {{6}, 9}, {{5}, 11}}},
-            {{4}, {2}, {{{4}, 0}, {{5}, 10}, {{2}, 14}}},
-            {{0}, {11}, {}},
+        expected[2] = {
+            {
+                {{0}, {8}, {{{0}, 0}, {{1}, 4}, {{2}, 12}, {{8}, 14}}},
+                {{0}, {5}, {{{0}, 0}, {{7}, 8}, {{6}, 9}, {{5}, 11}}},
+                {{4}, {2}, {{{4}, 0}, {{5}, 10}, {{2}, 14}}},
+                {{0}, {11}, {}},
+            },
+            {
+                {{0}, {8}, {{{0}, 0}, {{1}, 4}, {{2}, 12}, {{8}, 14}}},
+                {{0}, {5}, {{{0}, 0}, {{1}, 4}, {{2}, 12}, {{5}, 16}}},
+                {{4}, {2}, {}},
+                {{0}, {11}, {}},
+            }
         };
 
-    for (const auto& [start, end, expected_path] : expected) {
-        CAPTURE(start, end);
+    bool directed = g.is_directed();
+    for (const auto& [start, end, expected_path] : expected[directed]) {
+        CAPTURE(start, end, directed);
         // build our cost function from the real distances
         auto paths_to_end = g::all_shortest_paths(g, end);
         auto cost_function = [&paths_to_end](const TestVertex& i, const TestVertex& /* j */) {
