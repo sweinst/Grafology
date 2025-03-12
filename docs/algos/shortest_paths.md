@@ -58,7 +58,6 @@ This algorithm find the shortest paths from one vertex to all the other vertices
 The implementation is based on the [Dijkstra's algorithm](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm).
 
 ### Requirements
-- The graph must be undirected
 - All weights must be positive
 
 ### Complexity

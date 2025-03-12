@@ -27,7 +27,7 @@ static constexpr auto D_INFINITY = g::edge_t<weight_t>::D_INFINITY;
 namespace {
     std::vector<TestVertex> generate_test_vertices_list(int n_vertices) {
         std::vector<TestVertex> vertices_init;
-        for (int i = 0; i < n_vertices; ++i) {
+        for (unsigned i = 0; i < n_vertices; ++i) {
             TestVertex v{i, std::to_string(i)};
             vertices_init.push_back(v);
         }
@@ -158,7 +158,7 @@ TEMPLATE_TEST_CASE("Graphs - NST", "[graphs-algos]", UndirectedDenseGraph, Undir
     REQUIRE(mst == expected);
 }
 
-TEMPLATE_TEST_CASE("Graphs - Dijkstra", "[graphs-algos]", UndirectedDenseGraph, UndirectedSparseGraph) {
+TEMPLATE_TEST_CASE("Graphs - Dijkstra", "[graphs-algos]", UndirectedDenseGraph, UndirectedSparseGraph, DirectedDenseGraph, DirectedSparseGraph) {
     int n_vertices = 12;
 
     std::vector<TestVertex> vertices_init{{generate_test_vertices_list(n_vertices)}};
@@ -169,27 +169,27 @@ TEMPLATE_TEST_CASE("Graphs - Dijkstra", "[graphs-algos]", UndirectedDenseGraph, 
         {{9}, {11}, 2}, {{11}, {10}, 1},
     };
 
-    std::vector<weight_t> expected_distances = {
-        0, 4, 12, 19, 21, 11, 9, 8, 14, D_INFINITY, D_INFINITY, D_INFINITY
+    std::vector<weight_t> expected_distances[2] {
+        {0, 4, 12, 19, 21, 11, 9, 8, 14, D_INFINITY, D_INFINITY, D_INFINITY},
+        {0, 4, 12, 19, 28, 16, 18, 8, 14, D_INFINITY, D_INFINITY, D_INFINITY},
     };
-    std::vector<TestVertex> expected_predecessors = {/* starting at node 1 */ {0},
-                                                     {1},
-                                                     {2},
-                                                     {5},
-                                                     {6},
-                                                     {7},
-                                                     {0},
-                                                     {2},
-                                                     {-1},
-                                                     {-1},
-                                                     {-1}};
-    std::vector<Step> expected_path_to_8 = {
-        {{0}, 0}, {{1}, 4}, {{2}, 12}, {{8}, 14}
+    std::vector<TestVertex> expected_predecessors[2] = {
+        {{g::NO_PREDECESSOR}, {0}, {1}, {2}, {5}, {6}, {7}, {0}, {2}, {g::NO_PREDECESSOR}, {g::NO_PREDECESSOR}, {g::NO_PREDECESSOR}},
+        {{g::NO_PREDECESSOR}, {0}, {1}, {2}, {3}, {2}, {5}, {0}, {2}, {g::NO_PREDECESSOR}, {g::NO_PREDECESSOR}, {g::NO_PREDECESSOR}},
     };
-    std::vector<Step> expected_path_to_5 = {{{0}, 0}, {{7}, 8}, {{6}, 9}, {{5}, 11}};
+    std::vector<Step> expected_path_to_8[2] = {
+        {{{0}, 0}, {{1}, 4}, {{2}, 12}, {{8}, 14}},
+        {{{0}, 0}, {{1}, 4}, {{2}, 12}, {{8}, 14}},
+    };
+    std::vector<Step> expected_path_to_5[2] = {
+        {{{0}, 0}, {{7}, 8}, {{6}, 9}, {{5}, 11}},
+        {{{0}, 0}, {{1}, 4}, {{2}, 12}, {{5}, 16}},
+    };
+
     std::unordered_set<TestVertex> unreachable{{9}, {10}, {11}};
 
     TestType g(n_vertices);
+    auto directed = g.is_directed();
     g.add_vertices(vertices_init);
     g.set_edges(edges_init);
 
@@ -197,23 +197,23 @@ TEMPLATE_TEST_CASE("Graphs - Dijkstra", "[graphs-algos]", UndirectedDenseGraph, 
 
     for (int i = 0; i < n_vertices; ++i) {
         CAPTURE(i);
-        CHECK(paths.get_distance(vertices_init[i]) == expected_distances[i]);
+        CHECK(paths.get_distance(vertices_init[i]) == expected_distances[directed][i]);
         CHECK(paths.is_reachable(vertices_init[i]) == !unreachable.contains(vertices_init[i]));
         if (i != 0) {
             if (paths.is_reachable(vertices_init[i])) {
-                CHECK(paths.get_predecessor(vertices_init[i]) == expected_predecessors[i - 1]);
+                CHECK(paths.get_predecessor(vertices_init[i]) == expected_predecessors[directed][i]);
             }
         }
     }
 
     for (const auto& [idx, v] : std::views::enumerate(paths.get_path(vertices_init[8]))) {
-        CAPTURE(idx, v, expected_path_to_8[idx]);
-        CHECK((v == expected_path_to_8[idx]));
+        CAPTURE(idx, v, expected_path_to_8[directed][idx]);
+        CHECK((v == expected_path_to_8[directed][idx]));
     }
 
     for (const auto& [idx, v] : std::views::enumerate(paths.get_path(vertices_init[5]))) {
-        CAPTURE(idx, v, expected_path_to_8[idx]);
-        CHECK((v == expected_path_to_5[idx]));
+        CAPTURE(idx, v, expected_path_to_8[directed][idx]);
+        CHECK((v == expected_path_to_5[directed][idx]));
     }
 }
 
@@ -395,7 +395,7 @@ TEMPLATE_TEST_CASE("Graphs - Strongly connected components", "[graphs-algos]", D
             TestType g(n_vertices);
             g.set_edges(edges, true);
             // add vertices without edges
-            for (int i = g.size(); i < n_vertices; ++i) {
+            for (unsigned i = g.size(); i < n_vertices; ++i) {
                 g.add_vertex({{i}});
             }
             

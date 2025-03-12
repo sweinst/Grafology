@@ -3,6 +3,10 @@
 #include "../graph.h"
 
 namespace grafology {
+  //==============================================================================
+  // Implementation Graphs
+  //==============================================================================
+
   /**
    * @brief This struct allows to process the results of the algorithm all_shortest_paths
    * @remark it allows to save the results of the algorithm and so avoid to use dangling references
@@ -50,8 +54,7 @@ namespace grafology {
   };
 
   /**
-   * @brief Compute the shortest paths from a vertex to all other vertices in a
-   * graph
+   * @brief Compute the shortest paths from a vertex to all other vertices in a graph
    * @remark this is based on the Dijkstra's algorithm
    */
   template <typename G>
@@ -60,10 +63,6 @@ namespace grafology {
     using weight_lt = typename G::weight_lt;
 
     assert(start < graph.size());
-
-    if (graph.is_directed()) {
-      throw error("Shortest paths works only on undirected graphs");
-    }
 
     const auto n_vertices = graph.size();
     AllShortestPathsImpl<weight_lt> res(n_vertices, start);
@@ -94,6 +93,34 @@ namespace grafology {
     }
     return res;
   }
+
+  /**
+   * @brief Compute the shortest paths from a vertex to all other vertices in a graph
+   * @remark this is based on the Bellman-Ford algorithm
+   */
+  template <typename G>
+  requires GraphImpl<G, typename G::weight_lt>
+  AllShortestPathsImpl<typename G::weight_lt> all_shortest_paths_BF(const G& graph, vertex_t start) {
+    using weight_lt = typename G::weight_lt;
+
+    assert(start < graph.size());
+
+    if (graph.is_directed()) {
+      throw error("Shortest paths works only on undirected graphs");
+    }
+
+    const auto n_vertices = graph.size();
+    AllShortestPathsImpl<weight_lt> res(n_vertices, start);
+    res._distances[start] = 0;
+
+    
+
+    return res;
+  }
+
+  //==============================================================================
+  // Graphs
+  //==============================================================================
 
   /**
    * @brief Compute the shortest paths from a vertex to all other vertices in a
@@ -150,19 +177,13 @@ namespace grafology {
     const Graph<Impl, Vertex, IsDirected, weight_lt>& graph;
   };
 
-  template <typename Impl, VertexKey Vertex>
+  template <typename Impl, VertexKey Vertex, bool directed>
   requires GraphImpl<Impl, typename Impl::weight_lt>
-  AllShortestPaths<Impl, Vertex, false>
-  all_shortest_paths(const Graph<Impl, Vertex, false, typename Impl::weight_lt>& graph, const Vertex& start) {
+  AllShortestPaths<Impl, Vertex, directed>
+  all_shortest_paths(const Graph<Impl, Vertex, directed, typename Impl::weight_lt>& graph, const Vertex& start) {
     assert(graph.get_internal_index(start) != INVALID_VERTEX);
     auto sp_impl = all_shortest_paths(graph.impl(), graph.get_internal_index(start));
-    return AllShortestPaths<Impl, Vertex, false>(std::move(sp_impl), graph);
+    return AllShortestPaths<Impl, Vertex, directed>(std::move(sp_impl), graph);
   }
 
-  template <typename Impl, VertexKey Vertex>
-  requires GraphImpl<Impl, typename Impl::weight_lt>
-  AllShortestPaths<Impl, Vertex, true>
-  all_shortest_paths(const Graph<Impl, Vertex, true, typename Impl::weight_lt>& graph, const Vertex& start) {
-    static_assert(false, "Shortest paths works only on undirected graphs");
-  }
 }  // namespace grafology

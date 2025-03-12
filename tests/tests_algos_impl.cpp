@@ -196,30 +196,41 @@ TEMPLATE_TEST_CASE("Impl - Dijkstra", "[impl-algos]", DenseGraphImpl, SparseGrap
         {6, 8, 6}, {7, 8, 7}, {9, 10, 4}, {9, 11, 2}, {11, 10, 1},
     };
 
-    std::vector<weight_t> expected_distances = {
-        0, 4, 12, 19, 21, 11, 9, 8, 14, D_INFINITY, D_INFINITY, D_INFINITY
+    std::vector<weight_t> expected_distances[2] {
+        {0, 4, 12, 19, 21, 11, 9, 8, 14, D_INFINITY, D_INFINITY, D_INFINITY},
+        {0, 4, 12, 19, 28, 16, 18, 8, 14, D_INFINITY, D_INFINITY, D_INFINITY},
     };
-    std::vector<vertex_t> expected_predecessors = {
-        g::NO_PREDECESSOR, 0, 1, 2, 5, 6, 7, 0, 2, g::NO_PREDECESSOR, g::NO_PREDECESSOR,
-        g::NO_PREDECESSOR
+    std::vector<vertex_t> expected_predecessors[2] = {
+        {g::NO_PREDECESSOR, 0, 1, 2, 5, 6, 7, 0, 2, g::NO_PREDECESSOR, g::NO_PREDECESSOR, g::NO_PREDECESSOR},
+        {g::NO_PREDECESSOR, 0, 1, 2, 3, 2, 5, 0, 2, g::NO_PREDECESSOR, g::NO_PREDECESSOR, g::NO_PREDECESSOR},
     };
-    std::vector<step_t> expected_path_to_8 = {{0, 0}, {1, 4}, {2, 12}, {8, 14}};
-    std::vector<step_t> expected_path_to_5 = {{0, 0}, {7, 8}, {6, 9}, {5, 11}};
+    std::vector<step_t> expected_path_to_8[2] = {
+        {{0, 0}, {1, 4}, {2, 12}, {8, 14}},
+        {{0, 0}, {1, 4}, {2, 12}, {8, 14}},
+    };
+    std::vector<step_t> expected_path_to_5[2] = {
+        {{0, 0}, {7, 8}, {6, 9}, {5, 11}},
+        {{0, 0}, {1, 4}, {2, 12}, {5, 16}},
+    };
     const std::set<vertex_t> unreachable{9, 10, 11};
 
-    TestType g(n_vertices, n_vertices, false);
-    g.set_edges(edges);
-    auto paths = g::all_shortest_paths(g, (vertex_t)0);
+    for (auto directed: {true, false}) {
+        CAPTURE(directed);
+        TestType g(n_vertices, n_vertices, directed);
+        g.set_edges(edges);
+        auto paths = g::all_shortest_paths(g, (vertex_t)0);
+    
+        CHECK(paths._distances == expected_distances[directed]);
+        CHECK(paths._predecessors == expected_predecessors[directed]);
+        auto path_to_8 = paths.get_path(8);
+        CHECK(path_to_8 == expected_path_to_8[directed]);
+        auto path_to_5 = paths.get_path(5);
+        CHECK(path_to_5 == expected_path_to_5[directed]);
 
-    CHECK(paths._distances == expected_distances);
-    CHECK(paths._predecessors == expected_predecessors);
-    auto path_to_8 = paths.get_path(8);
-    CHECK(path_to_8 == expected_path_to_8);
-    auto path_to_5 = paths.get_path(5);
-    CHECK(path_to_5 == expected_path_to_5);
-    for (vertex_t i = 0; i < n_vertices; ++i) {
-        CAPTURE(i);
-        CHECK(paths.is_reachable(i) == !unreachable.contains(i));
+        for (vertex_t i = 0; i < n_vertices; ++i) {
+            CAPTURE(i);
+            CHECK(paths.is_reachable(i) == !unreachable.contains(i));
+        }
     }
 }
 

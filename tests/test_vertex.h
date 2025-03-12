@@ -4,7 +4,7 @@
 namespace g = grafology;
 
 struct TestVertex{
-    int _id;
+    unsigned _id;
     std::string _label {};
 
     bool operator == (const TestVertex& v) const noexcept {
