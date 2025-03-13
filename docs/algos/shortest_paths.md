@@ -52,6 +52,8 @@ for (const auto& [vertex, weight] : result.get_path()) {
 - The work case performance is $O(\lVert E \rVert \log{(\lVert V \rVert)})$
 
 ## Shortest paths from one vertex to all other vertices
+
+### Dijkstra's algorithm
 This algorithm find the shortest paths from one vertex to all the other vertices. The path distance is the sum of all the edge weights along the path.
 
 The implementation is based on the [Dijkstra's algorithm](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm).
@@ -63,11 +65,10 @@ The implementation is based on the [Dijkstra's algorithm](https://en.wikipedia.o
 - The work case performance is  $O(\lVert E \rVert + \lVert V \rVert \log{(\lVert V \rVert)})$
 
 ### Usage
-The algorithm returns a *AllShortestPaths* instance which allows to:
+The algorithm returns an *AllShortestPaths* instance which allows to:
 - check if another vertex is reachable (*is_reachable*)
 - get the distance to another vertex (*get_distance*). If the vertex is unreachable, it will return *graphology::D_INFINITY*
 - get an iterator for the path leading to another vertex (*get_path*)
-
 
 ```C++
 #include <grafology/all_shortest_paths.h>
@@ -80,6 +81,39 @@ Vertex another_vertex;
 // ....
 
 auto result = g::all_shortest_paths(g, start));
+for (const auto& [vertex, weight] : result.get_path(another_vertex)) {
+    // ....
+}
+```
+
+### Bellman-Ford algorithm
+This [Bellman-Ford algorithm](=https://en.wikipedia.org/wiki/Bellman%E2%80%93Ford_algorithm) is slower than the Dijkstra's algorithm but it allows to use negative weights.
+
+It  is also used for detecting negative cycles
+
+### Requirements
+- The graph must be directed
+
+### Complexity
+- O$(\lVert V \rVert \lVert E \rVert)$
+
+### Usage
+The algorithm returns an *AllShortestPaths* instance which allows to:
+- check if another vertex is reachable (*is_reachable*)
+- get the distance to another vertex (*get_distance*). If the vertex is unreachable, it will return *graphology::D_INFINITY*
+- get an iterator for the path leading to another vertex (*get_path*)
+
+```C++
+#include <grafology/all_shortest_paths.h>
+namespace g = grafology;
+
+g::SparseDirectedGraph graph(20);
+Vertex start;
+Vertex another_vertex;
+
+// ....
+
+auto result = g::all_shortest_paths_BF(g, start));
 for (const auto& [vertex, weight] : result.get_path(another_vertex)) {
     // ....
 }

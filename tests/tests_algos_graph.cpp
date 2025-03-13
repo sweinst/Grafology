@@ -51,7 +51,12 @@ namespace {
     };
 }  // namespace
 
-TEMPLATE_TEST_CASE("Graphs - Topological sort", "[graphs-algos]", DirectedDenseGraph, DirectedSparseGraph) {
+TEMPLATE_TEST_CASE(
+    "Graphs - Topological sort",
+    "[graphs-algos]",
+    DirectedDenseGraph,
+    DirectedSparseGraph
+) {
     const std::vector<std::unordered_set<TestVertex>> expected{
         {{0}, {6}}, {{2}}, {{4}, {5}}, {{8}}, {{3}, {7}, {9}}, {{1}, {10}},
     };
@@ -91,7 +96,14 @@ TEMPLATE_TEST_CASE("Graphs - Topological sort", "[graphs-algos]", DirectedDenseG
     }));
 }
 
-TEMPLATE_TEST_CASE("Graphs - DFS", "[graphs-algos]", DirectedDenseGraph, DirectedSparseGraph, UndirectedDenseGraph, UndirectedSparseGraph) {
+TEMPLATE_TEST_CASE(
+    "Graphs - DFS",
+    "[graphs-algos]",
+    DirectedDenseGraph,
+    DirectedSparseGraph,
+    UndirectedDenseGraph,
+    UndirectedSparseGraph
+) {
     const std::vector<TestVertex> directed_expected{
         {0}, {2}, {5}, {8}, {9}, {7}, {3}, {10}, {1}, {4},
     };
@@ -109,7 +121,14 @@ TEMPLATE_TEST_CASE("Graphs - DFS", "[graphs-algos]", DirectedDenseGraph, Directe
     CHECK(visited == (graph.is_directed() ? directed_expected : undirected_expected));
 }
 
-TEMPLATE_TEST_CASE("Graphs - BFS", "[graphs-algos]", DirectedDenseGraph, DirectedSparseGraph, UndirectedDenseGraph, UndirectedSparseGraph) {
+TEMPLATE_TEST_CASE(
+    "Graphs - BFS",
+    "[graphs-algos]",
+    DirectedDenseGraph,
+    DirectedSparseGraph,
+    UndirectedDenseGraph,
+    UndirectedSparseGraph
+) {
     const std::vector<TestVertex> directed_expected{
         {0}, {1}, {2}, {3}, {4}, {5}, {10}, {8}, {7}, {9},
     };
@@ -158,7 +177,14 @@ TEMPLATE_TEST_CASE("Graphs - NST", "[graphs-algos]", UndirectedDenseGraph, Undir
     REQUIRE(mst == expected);
 }
 
-TEMPLATE_TEST_CASE("Graphs - Dijkstra", "[graphs-algos]", UndirectedDenseGraph, UndirectedSparseGraph, DirectedDenseGraph, DirectedSparseGraph) {
+TEMPLATE_TEST_CASE(
+    "Graphs - Dijkstra",
+    "[graphs-algos]",
+    UndirectedDenseGraph,
+    UndirectedSparseGraph,
+    DirectedDenseGraph,
+    DirectedSparseGraph
+) {
     int n_vertices = 12;
 
     std::vector<TestVertex> vertices_init{{generate_test_vertices_list(n_vertices)}};
@@ -169,13 +195,35 @@ TEMPLATE_TEST_CASE("Graphs - Dijkstra", "[graphs-algos]", UndirectedDenseGraph, 
         {{9}, {11}, 2}, {{11}, {10}, 1},
     };
 
-    std::vector<weight_t> expected_distances[2] {
+    std::vector<weight_t> expected_distances[2]{
         {0, 4, 12, 19, 21, 11, 9, 8, 14, D_INFINITY, D_INFINITY, D_INFINITY},
         {0, 4, 12, 19, 28, 16, 18, 8, 14, D_INFINITY, D_INFINITY, D_INFINITY},
     };
     std::vector<TestVertex> expected_predecessors[2] = {
-        {{g::NO_PREDECESSOR}, {0}, {1}, {2}, {5}, {6}, {7}, {0}, {2}, {g::NO_PREDECESSOR}, {g::NO_PREDECESSOR}, {g::NO_PREDECESSOR}},
-        {{g::NO_PREDECESSOR}, {0}, {1}, {2}, {3}, {2}, {5}, {0}, {2}, {g::NO_PREDECESSOR}, {g::NO_PREDECESSOR}, {g::NO_PREDECESSOR}},
+        {{g::NO_PREDECESSOR},
+         {0},
+         {1},
+         {2},
+         {5},
+         {6},
+         {7},
+         {0},
+         {2},
+         {g::NO_PREDECESSOR},
+         {g::NO_PREDECESSOR},
+         {g::NO_PREDECESSOR}},
+        {{g::NO_PREDECESSOR},
+         {0},
+         {1},
+         {2},
+         {3},
+         {2},
+         {5},
+         {0},
+         {2},
+         {g::NO_PREDECESSOR},
+         {g::NO_PREDECESSOR},
+         {g::NO_PREDECESSOR}},
     };
     std::vector<Step> expected_path_to_8[2] = {
         {{{0}, 0}, {{1}, 4}, {{2}, 12}, {{8}, 14}},
@@ -193,31 +241,47 @@ TEMPLATE_TEST_CASE("Graphs - Dijkstra", "[graphs-algos]", UndirectedDenseGraph, 
     g.add_vertices(vertices_init);
     g.set_edges(edges_init);
 
-    auto paths = g::all_shortest_paths(g, {0});
+    for (auto use_dijkstra_algo : {true, false}) {
+        CAPTURE(use_dijkstra_algo);
+        if (!use_dijkstra_algo and !directed) {
+            // Bellman-Ford only works with directed graphs
+            continue;
+        }
+        auto paths = g::all_shortest_paths(g, {0});
+        for (int i = 0; i < n_vertices; ++i) {
+            CAPTURE(i);
+            CHECK(paths.get_distance(vertices_init[i]) == expected_distances[directed][i]);
+            CHECK(paths.is_reachable(vertices_init[i]) == !unreachable.contains(vertices_init[i]));
+            if (i != 0) {
+                if (paths.is_reachable(vertices_init[i])) {
+                    CHECK(
+                        paths.get_predecessor(vertices_init[i]) ==
+                        expected_predecessors[directed][i]
+                    );
+                }
+            }
 
-    for (int i = 0; i < n_vertices; ++i) {
-        CAPTURE(i);
-        CHECK(paths.get_distance(vertices_init[i]) == expected_distances[directed][i]);
-        CHECK(paths.is_reachable(vertices_init[i]) == !unreachable.contains(vertices_init[i]));
-        if (i != 0) {
-            if (paths.is_reachable(vertices_init[i])) {
-                CHECK(paths.get_predecessor(vertices_init[i]) == expected_predecessors[directed][i]);
+            for (const auto& [idx, v] : std::views::enumerate(paths.get_path(vertices_init[8]))) {
+                CAPTURE(idx, v, expected_path_to_8[directed][idx]);
+                CHECK((v == expected_path_to_8[directed][idx]));
+            }
+
+            for (const auto& [idx, v] : std::views::enumerate(paths.get_path(vertices_init[5]))) {
+                CAPTURE(idx, v, expected_path_to_8[directed][idx]);
+                CHECK((v == expected_path_to_5[directed][idx]));
             }
         }
     }
-
-    for (const auto& [idx, v] : std::views::enumerate(paths.get_path(vertices_init[8]))) {
-        CAPTURE(idx, v, expected_path_to_8[directed][idx]);
-        CHECK((v == expected_path_to_8[directed][idx]));
-    }
-
-    for (const auto& [idx, v] : std::views::enumerate(paths.get_path(vertices_init[5]))) {
-        CAPTURE(idx, v, expected_path_to_8[directed][idx]);
-        CHECK((v == expected_path_to_5[directed][idx]));
-    }
 }
 
-TEMPLATE_TEST_CASE("Graphs - A*", "[graphs-algos]", UndirectedDenseGraph, UndirectedSparseGraph, DirectedDenseGraph, DirectedSparseGraph) {
+TEMPLATE_TEST_CASE(
+    "Graphs - A*",
+    "[graphs-algos]",
+    UndirectedDenseGraph,
+    UndirectedSparseGraph,
+    DirectedDenseGraph,
+    DirectedSparseGraph
+) {
     int n_vertices = 12;
 
     std::vector<TestVertex> vertices_init{{generate_test_vertices_list(n_vertices)}};
@@ -288,7 +352,12 @@ TEMPLATE_TEST_CASE("Graphs - Max Flow", "[graphs-algos]", DirectedDenseGraph, Di
     CHECK(max_flow == 23);
 }
 
-TEMPLATE_TEST_CASE("Graphs - Bridges", "[graphs-algos]", UndirectedDenseGraph, UndirectedSparseGraph) {
+TEMPLATE_TEST_CASE(
+    "Graphs - Bridges",
+    "[graphs-algos]",
+    UndirectedDenseGraph,
+    UndirectedSparseGraph
+) {
     int n_vertices = 13;
     std::vector<TestVertex> vertices_init{{generate_test_vertices_list(n_vertices)}};
     std::vector<TestEdge> edges_init = {
@@ -315,7 +384,12 @@ TEMPLATE_TEST_CASE("Graphs - Bridges", "[graphs-algos]", UndirectedDenseGraph, U
     CHECK(expected_bridges == result);
 }
 
-TEMPLATE_TEST_CASE("Graphs - Articulation Points", "[graphs-algos]", UndirectedDenseGraph, UndirectedSparseGraph) {
+TEMPLATE_TEST_CASE(
+    "Graphs - Articulation Points",
+    "[graphs-algos]",
+    UndirectedDenseGraph,
+    UndirectedSparseGraph
+) {
     int n_vertices = 14;
     std::vector<TestVertex> vertices_init{{generate_test_vertices_list(n_vertices)}};
     std::vector<TestEdge> edges_init = {
@@ -341,12 +415,13 @@ TEMPLATE_TEST_CASE("Graphs - Articulation Points", "[graphs-algos]", UndirectedD
     CHECK(expected_articulation_points == result);
 }
 
-TEMPLATE_TEST_CASE("Graphs - Strongly connected components", "[graphs-algos]", DirectedDenseGraph, DirectedSparseGraph) {
-    std::vector<std::tuple<
-        int, 
-        std::vector<TestEdge>, 
-        std::vector<std::unordered_set<TestVertex>>
-        >>
+TEMPLATE_TEST_CASE(
+    "Graphs - Strongly connected components",
+    "[graphs-algos]",
+    DirectedDenseGraph,
+    DirectedSparseGraph
+) {
+    std::vector<std::tuple<int, std::vector<TestEdge>, std::vector<std::unordered_set<TestVertex>>>>
         graph_defs{
             {
                 // n vertices
@@ -400,18 +475,18 @@ TEMPLATE_TEST_CASE("Graphs - Strongly connected components", "[graphs-algos]", D
                 {{{4}, {3}, {2}, {1}, {0}}},
             },
         };
-        for (const auto& [n_vertices, edges, expected] : graph_defs) {
-            TestType g(n_vertices);
-            g.set_edges(edges, true);
-            // add vertices without edges
-            for (unsigned i = g.size(); i < n_vertices; ++i) {
-                g.add_vertex({{i}});
-            }
-            
-            std::vector<std::unordered_set<TestVertex>> sccs;
-            for (const auto& scc : g::strongly_connected_components(g)) {
-                sccs.push_back(std::unordered_set(scc.begin(), scc.end()));
-            }
+    for (const auto& [n_vertices, edges, expected] : graph_defs) {
+        TestType g(n_vertices);
+        g.set_edges(edges, true);
+        // add vertices without edges
+        for (unsigned i = g.size(); i < n_vertices; ++i) {
+            g.add_vertex({{i}});
+        }
+
+        std::vector<std::unordered_set<TestVertex>> sccs;
+        for (const auto& scc : g::strongly_connected_components(g)) {
+            sccs.push_back(std::unordered_set(scc.begin(), scc.end()));
+        }
         CAPTURE(n_vertices);
         CAPTURE(sccs, expected);
         REQUIRE(sccs.size() == expected.size());
@@ -420,5 +495,4 @@ TEMPLATE_TEST_CASE("Graphs - Strongly connected components", "[graphs-algos]", D
             CHECK(std::ranges::find(expected, scc) != expected.end());
         }
     }
-
 }

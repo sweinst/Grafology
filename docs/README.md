@@ -28,10 +28,10 @@ In the following documentation:
         1. Breath first search
         2. Depth first search
         3. [Transitive closure](algos/transitive_closure.md)
+        4. [Shortest paths](algos/shortest_paths.md)
     2.  Undirected graphs
         1. [Bridges & Articulation Points](algos/bridges_and_AP.md)
         2. [Minimal spanning trees](algos/minimum_spanning_tree.md)
-        3. [Shortest paths](algos/shortest_paths.md)
     3.  Directed graphs
         1. [Maximal flow](algos/maximum_flow.md)
         2. [Strongly Connected Components](algos/strongly_connected_components.md)

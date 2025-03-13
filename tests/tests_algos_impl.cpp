@@ -38,12 +38,7 @@ namespace {
 
 }  // namespace
 
-TEMPLATE_TEST_CASE(
-    "Impl - Topological sort",
-    "[impl-algos]",
-    DenseGraphImpl,
-    SparseGraphImpl
-) {
+TEMPLATE_TEST_CASE("Impl - Topological sort", "[impl-algos]", DenseGraphImpl, SparseGraphImpl) {
     const std::vector<std::set<vertex_t>> expected{
         {0, 6}, {2}, {4, 5}, {8}, {3, 7, 9}, {1, 10},
     };
@@ -188,7 +183,7 @@ TEMPLATE_TEST_CASE("Impl - MST", "[impl-algos]", DenseGraphImpl, SparseGraphImpl
     REQUIRE(mst == expected);
 }
 
-TEMPLATE_TEST_CASE("Impl - Dijkstra", "[impl-algos]", DenseGraphImpl, SparseGraphImpl) {
+TEMPLATE_TEST_CASE("Impl - Dijkstra/BellMan-Ford", "[impl-algos]", DenseGraphImpl, SparseGraphImpl) {
     int n_vertices = 12;
     std::vector<edge_t> edges = {
         {0, 1, 4}, {0, 7, 8}, {1, 2, 8},  {1, 7, 11}, {2, 3, 7},   {2, 5, 4},
@@ -196,13 +191,15 @@ TEMPLATE_TEST_CASE("Impl - Dijkstra", "[impl-algos]", DenseGraphImpl, SparseGrap
         {6, 8, 6}, {7, 8, 7}, {9, 10, 4}, {9, 11, 2}, {11, 10, 1},
     };
 
-    std::vector<weight_t> expected_distances[2] {
+    std::vector<weight_t> expected_distances[2]{
         {0, 4, 12, 19, 21, 11, 9, 8, 14, D_INFINITY, D_INFINITY, D_INFINITY},
         {0, 4, 12, 19, 28, 16, 18, 8, 14, D_INFINITY, D_INFINITY, D_INFINITY},
     };
     std::vector<vertex_t> expected_predecessors[2] = {
-        {g::NO_PREDECESSOR, 0, 1, 2, 5, 6, 7, 0, 2, g::NO_PREDECESSOR, g::NO_PREDECESSOR, g::NO_PREDECESSOR},
-        {g::NO_PREDECESSOR, 0, 1, 2, 3, 2, 5, 0, 2, g::NO_PREDECESSOR, g::NO_PREDECESSOR, g::NO_PREDECESSOR},
+        {g::NO_PREDECESSOR, 0, 1, 2, 5, 6, 7, 0, 2, g::NO_PREDECESSOR, g::NO_PREDECESSOR,
+         g::NO_PREDECESSOR},
+        {g::NO_PREDECESSOR, 0, 1, 2, 3, 2, 5, 0, 2, g::NO_PREDECESSOR, g::NO_PREDECESSOR,
+         g::NO_PREDECESSOR},
     };
     std::vector<step_t> expected_path_to_8[2] = {
         {{0, 0}, {1, 4}, {2, 12}, {8, 14}},
@@ -214,22 +211,28 @@ TEMPLATE_TEST_CASE("Impl - Dijkstra", "[impl-algos]", DenseGraphImpl, SparseGrap
     };
     const std::set<vertex_t> unreachable{9, 10, 11};
 
-    for (auto directed: {true, false}) {
-        CAPTURE(directed);
-        TestType g(n_vertices, n_vertices, directed);
-        g.set_edges(edges);
-        auto paths = g::all_shortest_paths(g, (vertex_t)0);
-    
-        CHECK(paths._distances == expected_distances[directed]);
-        CHECK(paths._predecessors == expected_predecessors[directed]);
-        auto path_to_8 = paths.get_path(8);
-        CHECK(path_to_8 == expected_path_to_8[directed]);
-        auto path_to_5 = paths.get_path(5);
-        CHECK(path_to_5 == expected_path_to_5[directed]);
+    for (auto use_dijkstra_algo: {true, false}) {
+        for (auto directed : {true, false}) {
+            if (!use_dijkstra_algo && !directed) {
+                // Bellman-Ford only works with directed graphs
+                continue;
+            }
+            CAPTURE(directed);
+            TestType g(n_vertices, n_vertices, directed);
+            g.set_edges(edges);
+            auto paths = use_dijkstra_algo ? g::all_shortest_paths(g, (vertex_t)0) : g::all_shortest_paths_BF(g, (vertex_t)0);
 
-        for (vertex_t i = 0; i < n_vertices; ++i) {
-            CAPTURE(i);
-            CHECK(paths.is_reachable(i) == !unreachable.contains(i));
+            CHECK(paths._distances == expected_distances[directed]);
+            CHECK(paths._predecessors == expected_predecessors[directed]);
+            auto path_to_8 = paths.get_path(8);
+            CHECK(path_to_8 == expected_path_to_8[directed]);
+            auto path_to_5 = paths.get_path(5);
+            CHECK(path_to_5 == expected_path_to_5[directed]);
+
+            for (vertex_t i = 0; i < n_vertices; ++i) {
+                CAPTURE(i);
+                CHECK(paths.is_reachable(i) == !unreachable.contains(i));
+            }
         }
     }
 }
@@ -255,32 +258,29 @@ TEMPLATE_TEST_CASE("Impl - A*", "[impl-algos]", DenseGraphImpl, SparseGraphImpl)
                 {0, 5, {{0, 0}, {7, 8}, {6, 9}, {5, 11}}},
                 {4, 2, {{4, 0}, {5, 10}, {2, 14}}},
                 {0, 11, {}},
-            },        
+            },
             {
                 {0, 8, {{0, 0}, {1, 4}, {2, 12}, {8, 14}}},
                 {0, 5, {{0, 0}, {1, 4}, {2, 12}, {5, 16}}},
                 {4, 2, {}},
                 {0, 11, {}},
-            },        
+            },
         };
 
-        
-
-    for (auto directed: {true, false}){
+    for (auto directed : {true, false}) {
         TestType g(n_vertices, n_vertices, directed);
         g.set_edges(edges);
-            for (auto [start, end, expected_path] : expected[directed]) {
-                CAPTURE(start, end, directed);
-                // build our cost function from the real distances
-                auto paths_to_end = g::all_shortest_paths(g, end);
-                auto cost_function = [&paths_to_end](vertex_t i, vertex_t /* j */) {
-                    return paths_to_end._distances[i];
-                };    
-                auto path = g::shortest_path(g, start, end, cost_function);
-                CHECK(path.get_path() == expected_path);
+        for (auto [start, end, expected_path] : expected[directed]) {
+            CAPTURE(start, end, directed);
+            // build our cost function from the real distances
+            auto paths_to_end = g::all_shortest_paths(g, end);
+            auto cost_function = [&paths_to_end](vertex_t i, vertex_t /* j */) {
+                return paths_to_end._distances[i];
+            };
+            auto path = g::shortest_path(g, start, end, cost_function);
+            CHECK(path.get_path() == expected_path);
         }
     }
-
 }
 
 TEMPLATE_TEST_CASE("Impl - Max Flow", "[impl-algos]", DenseGraphImpl, SparseGraphImpl) {
@@ -322,12 +322,7 @@ TEMPLATE_TEST_CASE("Impl - Bridges", "[impl-algos]", DenseGraphImpl, SparseGraph
     CHECK(expected_bridges == result);
 }
 
-TEMPLATE_TEST_CASE(
-    "Impl - Articulations Points",
-    "[impl-algos]",
-    DenseGraphImpl,
-    SparseGraphImpl
-) {
+TEMPLATE_TEST_CASE("Impl - Articulations Points", "[impl-algos]", DenseGraphImpl, SparseGraphImpl) {
     int n_vertices = 14;
     std::vector<edge_t> edges = {
         {0, 1},  {0, 2}, {1, 2}, {2, 3}, {2, 4},  {3, 4},   {4, 5},  {4, 6},   {4, 7},   {4, 9},
@@ -356,37 +351,52 @@ TEMPLATE_TEST_CASE(
     DenseGraphImpl,
     SparseGraphImpl
 ) {
-    std::vector<std::tuple<int, std::vector<edge_t>, std::vector<std::set<vertex_t>>>>
-        graph_defs{
-            {
-                // n vertices
-                5,
-                // edges
-                {{1, 0}, {0, 2}, {2, 1}, {0, 3}, {3, 4}},
-                // expected SCCs
-                {{4}, {3}, {1, 2, 0}},
-            },
-            {
-                4,
-                {{0, 1}, {1, 2}, {2, 3}},
-                {{0}, {1}, {2}, {3}},
-            },
-            {
-                7,
-                {{0, 1}, {1, 2}, {2, 0}, {1, 3}, {1, 4}, {1, 6}, {3, 5}, {4, 5}},
-                {{5}, {4}, {3}, {6}, {2, 1, 0}},
-            },
-            {
-                11,
-                {{0, 1}, {0, 3}, {1, 2}, {1, 4}, {2, 0}, {2, 6}, {3, 2}, {4, 5}, {4, 6}, {5, 6}, {5, 7}, {5, 8}, {5, 9}, {6, 4}, {7, 9}, {8, 9}, {9, 8}},
-                {{8, 9}, {7}, {5, 4, 6}, {3, 2, 1, 0}, {10}},
-            },
-            {
-                5,
-                {{0, 1}, {1, 2}, {2, 3}, {2, 4}, {3, 0}, {4, 2}},
-                {{4, 3, 2, 1, 0}},
-            },
-        };
+    std::vector<std::tuple<int, std::vector<edge_t>, std::vector<std::set<vertex_t>>>> graph_defs{
+        {
+            // n vertices
+            5,
+            // edges
+            {{1, 0}, {0, 2}, {2, 1}, {0, 3}, {3, 4}},
+            // expected SCCs
+            {{4}, {3}, {1, 2, 0}},
+        },
+        {
+            4,
+            {{0, 1}, {1, 2}, {2, 3}},
+            {{0}, {1}, {2}, {3}},
+        },
+        {
+            7,
+            {{0, 1}, {1, 2}, {2, 0}, {1, 3}, {1, 4}, {1, 6}, {3, 5}, {4, 5}},
+            {{5}, {4}, {3}, {6}, {2, 1, 0}},
+        },
+        {
+            11,
+            {{0, 1},
+             {0, 3},
+             {1, 2},
+             {1, 4},
+             {2, 0},
+             {2, 6},
+             {3, 2},
+             {4, 5},
+             {4, 6},
+             {5, 6},
+             {5, 7},
+             {5, 8},
+             {5, 9},
+             {6, 4},
+             {7, 9},
+             {8, 9},
+             {9, 8}},
+            {{8, 9}, {7}, {5, 4, 6}, {3, 2, 1, 0}, {10}},
+        },
+        {
+            5,
+            {{0, 1}, {1, 2}, {2, 3}, {2, 4}, {3, 0}, {4, 2}},
+            {{4, 3, 2, 1, 0}},
+        },
+    };
 
     for (const auto& [n_vertices, edges, expected] : graph_defs) {
         TestType g(n_vertices, n_vertices, true);
