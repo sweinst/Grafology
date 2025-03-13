@@ -29,18 +29,21 @@ jobs:
             compiler: cl
             c_compiler: cl
             cpp_compiler: cl
+            python: python
             output_dir: bin/windows/Release
           - os: macos-15
             preset: osx-arm64-Release
             compiler: gcc
             c_compiler: gcc-14
             cpp_compiler: g++-14
+            python: python3
             output_dir: bin/osx/Release
           - os: ubuntu-24.04
             preset: linux-x64-Release
             compiler: gcc
             c_compiler: gcc-14
             cpp_compiler: g++-14
+            python: python3
             output_dir: bin/linux/Release
           # requires clang-19 which is not currently available on the GitHub images
           # - os: ubuntu-24.04
@@ -72,6 +75,7 @@ jobs:
           $VCPKG_ROOT="${{ github.workspace }}/tmp/vcpkg"
           git clone https://github.com/microsoft/vcpkg $VCPKG_ROOT
         }
+        ${{ matrix.python }} -m pip install 
 
     - name: Build
       run: |
