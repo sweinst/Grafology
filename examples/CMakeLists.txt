@@ -17,7 +17,28 @@ set (examples
     ex04-shortest-paths
 )
 
+if(WIN32)
+	set(PYTHON3 python)
+else()
+	set(PYTHON3 python3)
+endif(WIN32)
+
+add_custom_command(
+		OUTPUT  "${CMAKE_CURRENT_SOURCE_DIR}/fx_rates.h"
+		COMMAND ${PYTHON3}
+			"${CMAKE_CURRENT_SOURCE_DIR}/get_fx_rates.py"
+            "-o" "${CMAKE_CURRENT_SOURCE_DIR}/fx_rates.h"
+)
+
 foreach(example ${examples})
     add_executable(${example} ${example}.cpp ${common_src})
     target_link_libraries(${example} PRIVATE grafology) 
 endforeach()
+
+set (FX_ARBITRAGE_SRCS
+    "${CMAKE_CURRENT_SOURCE_DIR}/fx_rates.h"
+    fx_arbitrage.cpp
+)
+
+add_executable(fx_arbitrage ${FX_ARBITRAGE_SRCS})
+target_link_libraries(fx_arbitrage PRIVATE grafology) 

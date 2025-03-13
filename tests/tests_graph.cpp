@@ -75,7 +75,7 @@ TEMPLATE_TEST_CASE("Graphs", "[graphs]",
         2 };
 
     for (const auto [idx, degree]: std::views::enumerate(degrees)) {
-        TestVertex v {static_cast<int>(idx), ""};
+        TestVertex v {static_cast<unsigned>(idx), ""};
         CAPTURE(idx, degree, graph.degree(v));
         CHECK(graph.degree(v) == degree);
     }
@@ -104,13 +104,13 @@ TEMPLATE_TEST_CASE("Graphs", "[graphs]",
     REQUIRE(graph.size() == n_vertices + n_extra_vertices);
 
     for (const auto [idx, degree]: std::views::enumerate(extra_degrees)) {
-        TestVertex v {static_cast<int>(idx), ""};
+        TestVertex v {static_cast<unsigned>(idx), ""};
         CAPTURE(idx, degree, graph.degree(v));
         CHECK(graph.degree(v) == degree);
     }
 
     for (const auto [idx, in_degree]: std::views::enumerate(extra_in_degrees)) {
-        TestVertex v {static_cast<int>(idx), ""};
+        TestVertex v {static_cast<unsigned>(idx), ""};
         CAPTURE(idx, in_degree, graph.in_degree(v));
         CHECK(graph.in_degree(v) == in_degree);
     }
