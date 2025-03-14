@@ -36,6 +36,7 @@ In the following documentation:
         1. [Maximal flow](algos/maximum_flow.md)
         2. [Strongly Connected Components](algos/strongly_connected_components.md)
         3. [Topological sorting](algos/topological_sorting.md)
+        4. [Cycle detection](algos/cycles.md)
 4. Graph generators
     1. [R3Mat](generators/R3Mat.md)
 5. Parallel algorithms

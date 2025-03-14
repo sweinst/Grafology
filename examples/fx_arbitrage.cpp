@@ -22,7 +22,8 @@ using CycleId = std::set<vertex_t>;
 
 
 int main() {
-
+    // the currencies matrix is built with the help of the fx_rates.py Python script
+    // running the script will generate the fx_rates.h file
     auto n_ccys = currencies.size();
     // build the graph
     Graph graph(n_ccys, n_ccys, true);
@@ -63,6 +64,7 @@ int main() {
     // let sort them by decreasing profit
     std::sort(cycles.begin(), cycles.end(), std::greater<>());
 
+    // display the results
     for (const auto& [profit, cycle] : cycles) {
         std::print("Profit: {:.4f} % => ", profit);
         for (int idx = 0; idx < cycle.size() - 1; ++idx) {
