@@ -21,7 +21,7 @@ The implementation use the [Bellman-For algorithm](https://en.wikipedia.org/wiki
 - The graph must directed
 
 ### Complexity
-- O$(\lVert V \rVert \lVert E \rVert)$
+- O($\lVert V \rVert \lVert E \rVert$)
 
 ## Example
 
