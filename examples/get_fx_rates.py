@@ -47,7 +47,7 @@ def generate_code(currencies: list[str], rates: list[list[float]], output: typin
 
 if __name__ == '__main__':
     parser = optparse.OptionParser()
-    parser.add_option("-c", "--currencies", dest="currencies", default="USD,EUR,GBP,JPY,CHF",
+    parser.add_option("-c", "--currencies", dest="currencies", default="USD,EUR,GBP,JPY,CHF,CNY,BRL,KRW,INR",
                       help="Comma separated list of currencies to get rates for [default: %default]")
     parser.add_option("-o", "--output", dest="output", default=None,
                       help="Output file for the rates [default: stdout]")

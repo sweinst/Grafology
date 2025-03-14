@@ -75,7 +75,7 @@ jobs:
           $VCPKG_ROOT="${{ github.workspace }}/tmp/vcpkg"
           git clone https://github.com/microsoft/vcpkg $VCPKG_ROOT
         }
-        # --break-system-packages is required to install requests on the MacOS GitHub images
+        # --break-system-packages is required to install python modules on the MacOS GitHub images
         ${{ matrix.python }} -m pip install --break-system-packages requests
 
     - name: Build

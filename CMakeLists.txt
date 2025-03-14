@@ -53,6 +53,7 @@ set(GRAFOLOGY_HDRS
     src/include/grafology/algorithms/articulation_points.h
     src/include/grafology/algorithms/breath_first_search.h
     src/include/grafology/algorithms/bridges.h
+    src/include/grafology/algorithms/cycles.h
     src/include/grafology/algorithms/depth_first_search.h
     src/include/grafology/algorithms/maximum_flow.h
     src/include/grafology/algorithms/minimum_spanning_tree.h

@@ -52,6 +52,28 @@ namespace grafology {
             std::ranges::reverse(path);
             return path;
         }
+
+        std::vector<vertex_t> get_raw_path(vertex_t end) const {
+            assert(end < _distances.size());
+            std::vector<vertex_t> path;
+            if (_distances[end] == D_INFINITY) {
+                return path;
+            }
+            auto current = end;
+            while (current != _start) {
+                path.push_back(current);
+                current = _predecessors[current];
+            }
+            path.push_back(_start);
+            std::ranges::reverse(path);
+            return path;
+        }
+
+        void reset(vertex_t start) {
+            _start = start;
+            std::fill(_distances.begin(), _distances.end(), D_INFINITY);
+            std::fill(_predecessors.begin(), _predecessors.end(), NO_PREDECESSOR);
+        }
     };
 
     /**
