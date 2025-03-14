@@ -17,12 +17,11 @@ namespace g = grafology;
 using weight_t = double;
 using vertex_t = g::vertex_t;
 using Graph = g::DenseGraphImpl<weight_t>;
+using Cycle = std::vector<vertex_t>;
 using CycleId = std::set<vertex_t>;
-using CycleCheck = std::set<CycleId>;
 
 
 int main() {
-    CycleCheck found;
 
     auto n_ccys = currencies.size();
     // build the graph
@@ -35,27 +34,42 @@ int main() {
             }
         }
     }
-    for (auto source = 0; source < n_ccys; ++source) {
-        for (auto cycle : g::find_all_negative_cycles(graph, source)) {
+
+    // vector of profit -> cycle
+    std::vector<std::tuple<double, Cycle>> cycles;
+    // avoid duplicates
+    std::set<CycleId> found;
+
+    for (auto ccy_source = 0; ccy_source < n_ccys; ++ccy_source) {
+        for (auto cycle : g::find_all_negative_cycles(graph, ccy_source)) {
+            // already seen ?
             CycleId cycle_id(cycle.begin(), cycle.end());
             if (found.contains(cycle_id)) {
                 continue;
             }
             found.insert(cycle_id);
 
-            std::print("Arbitrage opportunity: ");
-            std::string pred;
+            // now compute the profit
             double final_rate = 1;
             int n = cycle.size();
             for (int idx = 0; idx < n -1; ++idx) {
                 auto u = cycle[idx];
                 auto v = cycle[idx+1];
-                auto r = rates[u][v];
-                final_rate *= r;
-                std::print(" '{}' -> ", currencies[u]);
+                final_rate *= rates[u][v];
             }
-            std::println(" '{}' => {}", currencies[cycle.back()], final_rate);
+            cycles.push_back({(final_rate-1) * 100, cycle});
         }
     }
+    // let sort them by decreasing profit
+    std::sort(cycles.begin(), cycles.end(), std::greater<>());
+
+    for (const auto& [profit, cycle] : cycles) {
+        std::print("Profit: {:.4f} % => ", profit);
+        for (int idx = 0; idx < cycle.size() - 1; ++idx) {
+            std::print("{} -> ", currencies[cycle[idx]]);
+        }
+        std::println("{}", currencies[cycle.back()]);
+    }
+    
     return 0;
 }
