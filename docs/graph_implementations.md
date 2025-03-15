@@ -34,6 +34,7 @@ The "implementation" classes:
  There are 2 types of implementations:
  - ```SparseGraphImpl``` which uses an *adjacency list* for representing the graph
  - ```DenseGraphImpl``` which uses an *adjacency matrix* for representing the graph
+ - ```CSRGraphImpl``` which uses *compressed sparse rows* (CSR) for representing the graph
 
 Implementations can be used directly. They are lighter (all identifiers are integers and no extra information is stored), faster (no translation needed between the user code identifiers amd the graph internal ids).
 
@@ -59,6 +60,21 @@ Dense graphs use a square matrix for representing edges. The matrix size is set 
 There is an edge from vertex $i$ to vertex $j$ if the value of the adjacency matrix at row $i$ and column $j$ is not zero. This value is the edge weight.
 
 When dealing with an **undirected graph**, the adjacency matrix is symmetrical.
+
+### CSR graphs
+<img src="imgs/adjacency-csr.svg" height="180"/>
+
+CSR (**C**ompressed **S**parse **R**ow) graphs allow to represent **large** graphs in a memory efficient way.
+
+It's composed of two arrays:
+- the first one contains for each end the index of the edge end vertex
+- the second array contains for each vertex the index of the first edge and of the last edge in the edge array
+
+In the example above:
+- vertex 0 has the edges (0,3), (0,11) and (0,2)
+- vertex 1 has the edges (1,1), (1,0) and (1,9)
+- vertex 1 has the edge (7, 0)
+- the cell 3 in the edge array is unused.
 
 ## Graph types
 
