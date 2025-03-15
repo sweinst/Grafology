@@ -45,10 +45,9 @@ int main() {
         for (auto cycle : g::find_all_negative_cycles(graph, ccy_source)) {
             // already seen ?
             CycleId cycle_id(cycle.begin(), cycle.end());
-            if (found.contains(cycle_id)) {
+            if (!found.insert(std::move(cycle_id)).second) {
                 continue;
             }
-            found.insert(cycle_id);
             // now compute the profit
             double final_rate = 1;
             int n = cycle.size();
