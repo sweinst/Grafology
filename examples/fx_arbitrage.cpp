@@ -49,7 +49,6 @@ int main() {
                 continue;
             }
             found.insert(cycle_id);
-
             // now compute the profit
             double final_rate = 1;
             int n = cycle.size();
@@ -65,6 +64,7 @@ int main() {
     std::sort(cycles.begin(), cycles.end(), std::greater<>());
 
     // display the results
+    std::println("Arbitrage opportunities found at {}:", rates_date);
     for (const auto& [profit, cycle] : cycles) {
         std::print("Profit: {:.4f} % => ", profit);
         for (int idx = 0; idx < cycle.size() - 1; ++idx) {

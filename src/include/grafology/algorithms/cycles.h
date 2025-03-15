@@ -21,9 +21,8 @@ namespace grafology {
 
         std::vector<bool> in_cycle(n, false);
         res._distances[source] = 0;
-        // try to find a negative cycle starting from source
+        // do n-1 relaxations
         for (auto step = 0; step != n - 1; ++step) {
-            // do n-1 relaxations
             for (const auto edge : graph.get_all_edges()) {
                 if (res._distances[edge.start] != D_INFINITY) {
                     auto new_d = res._distances[edge.start] + edge.weight;
@@ -40,19 +39,22 @@ namespace grafology {
                 auto new_d = res._distances[edge.start] + edge.weight;
                 if (new_d < res._distances[edge.end]) {
                     std::vector<bool> visited(n, false);
+                    visited[edge.start] = true;
                     visited[edge.end] = true;
-                    std::vector<vertex_t> cycle{ edge.end };
-                    auto u = edge.start;
+                    std::vector<vertex_t> cycle{ edge.end, edge.start };
+                    auto u = res._predecessors[edge.start];
                     while (!visited[u]) {
                         visited[u] = true;
                         cycle.push_back(u);
                         u = res._predecessors[u];
                     }
+                    if (cycle.size() <= 2) {
+                        continue;
+                    }
                     cycle.push_back(edge.end);
                     std::ranges::reverse(cycle);
                     
                     co_yield cycle;
-                    //break;
                 }
             }
         }

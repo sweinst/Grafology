@@ -28,6 +28,7 @@ add_custom_command(
 		COMMAND ${PYTHON3}
 			"${CMAKE_CURRENT_SOURCE_DIR}/get_fx_rates.py"
             "-o" "${CMAKE_CURRENT_SOURCE_DIR}/fx_rates.h"
+        DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/get_fx_rates.py"
 )
 
 foreach(example ${examples})
@@ -38,6 +39,7 @@ endforeach()
 set (FX_ARBITRAGE_SRCS
     "${CMAKE_CURRENT_SOURCE_DIR}/fx_rates.h"
     fx_arbitrage.cpp
+    fx_rates.h
 )
 
 add_executable(fx_arbitrage ${FX_ARBITRAGE_SRCS})
