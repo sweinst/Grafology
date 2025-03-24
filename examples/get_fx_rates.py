@@ -30,7 +30,8 @@ def get_fx_rates(currencies: list[str]) -> list[list[float]]:
 def generate_code(currencies: list[str], rates: list[list[float]], output: typing.IO):
     import datetime as d
     now = d.datetime.now();
-    milliseconds_since_epoch = int(now.timestamp() * 1000)
+    microseconds_since_epoch = int(now.timestamp() * 1_000_000)
+    
     print(f"// FX rates from Exchange Rate API", file=output)
     print(f"// generated at {now.isoformat()}", file=output)
     print(f"#pragma once", file=output)
@@ -41,7 +42,7 @@ def generate_code(currencies: list[str], rates: list[list[float]], output: typin
     print(file=output)
     print(f"namespace {{", file=output)
     
-    print(f"  const std::chrono::system_clock::time_point rates_date(std::chrono::milliseconds({milliseconds_since_epoch}LL));", file=output)
+    print(f"  const std::chrono::system_clock::time_point rates_date(std::chrono::microseconds({microseconds_since_epoch}LL));", file=output)
 
     n = len(currencies)
     ccy_list = '", "'.join(currencies)

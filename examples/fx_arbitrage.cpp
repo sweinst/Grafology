@@ -13,6 +13,9 @@
 #include <print>
 #include <set>
 
+// threshold = 0.01 %
+constexpr double threshold = 1.0001;
+
 namespace g = grafology;
 using weight_t = double;
 using vertex_t = g::vertex_t;
@@ -55,6 +58,9 @@ int main() {
                 auto u = cycle[idx];
                 auto v = cycle[idx+1];
                 final_rate *= rates[u][v];
+            }
+            if (final_rate < threshold) {
+                continue;
             }
             cycles.push_back({(final_rate-1) * 100, cycle});
         }
